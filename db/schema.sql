@@ -10,3 +10,14 @@ CREATE TABLE user (
     password VARCHAR(100) NOT NULL,
     location VARCHAR(100) NOT NULL
 );
+
+CREATE TABLE category (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    color VARCHAR(100),
+    flexible BOOL NOT NULL DEFAULT FALSE,
+    parent_category INT,
+    FOREIGN KEY (parent_category) REFERENCES cateogry(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
