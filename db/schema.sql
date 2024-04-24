@@ -50,3 +50,10 @@ CREATE TABLE budget (
 -- Insert a total monthly budget
 -- INSERT INTO budget (date, total_monthly)
 -- VALUES ('2024-04-01', TRUE);
+
+CREATE TABLE income (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    date DATE NOT NULL,
+    description VARCHAR(200) NOT NULL,
+    amount DECIMAL(20, 2) NOT NULL
+);
