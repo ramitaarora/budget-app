@@ -21,3 +21,13 @@ CREATE TABLE category (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+CREATE TABLE expenses (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    description VARCHAR(200) NOT NULL,
+    amount DECIMAL(20, 2) NOT NULL,
+    category_id INT,
+    FOREIGN KEY (category_id) REFERENCES category(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
