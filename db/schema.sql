@@ -17,7 +17,7 @@ CREATE TABLE category (
     color VARCHAR(100),
     flexible BOOL NOT NULL DEFAULT FALSE,
     parent_category INT,
-    FOREIGN KEY (parent_category) REFERENCES cateogry(id)
+    FOREIGN KEY (parent_category) REFERENCES category(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
