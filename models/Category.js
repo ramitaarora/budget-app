@@ -17,7 +17,7 @@ Category.init(
         },
         color: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         flexible: {
             type: DataTypes.BOOLEAN,
