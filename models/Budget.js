@@ -15,21 +15,38 @@ Budget.init(
             type: DataTypes.DATEONLY,
             allowNull: false
         },
-        category_id: {
+        amount: {
+            type: DataTypes.DECIMAL,
+            allowNull: false,
+            validate: {
+                isDecimal: true
+            }
+        },
+        account_id: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
             references: {
-                model: 'category',
-                key: 'id'
+                model: 'account',
+                key: 'id',
             },
             onDelete: 'SET NULL',
             onUpdate: 'CASCADE'
-        },
-        total_monthly: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
         }
+        // category_id: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: true,
+        //     references: {
+        //         model: 'category',
+        //         key: 'id'
+        //     },
+        //     onDelete: 'SET NULL',
+        //     onUpdate: 'CASCADE'
+        // },
+        // total_monthly: {
+        //     type: DataTypes.BOOLEAN,
+        //     allowNull: true,
+        //     defaultValue: false
+        // }
     },
     {
         sequelize,

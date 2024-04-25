@@ -35,6 +35,16 @@ Expenses.init(
             },
             onDelete: 'SET NULL',
             onUpdate: 'CASCADE'
+        },
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            },
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE'
         }
     },
     {
