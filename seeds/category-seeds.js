@@ -1,3 +1,4 @@
+const sequelize = require('../config/connection');
 const { Category } = require('../models');
 
 const categoryData = [
@@ -27,6 +28,15 @@ const categoryData = [
     }
 ];
 
-const seedCategories = () => Category.bulkCreate(categoryData);
+const seedCategories = async () => {
+    await sequelize.sync({ force: true });
+    return Category.bulkCreate(categoryData);
+};
 
-module.exports = seedCategories;
+seedCategories().then(() => {
+    console.log('Categories seeded!');
+    sequelize.close();
+}).catch(error => {
+    console.error('Failed to seed categories:', error);
+    sequelize.close();
+});
