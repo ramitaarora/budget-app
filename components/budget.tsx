@@ -4,4 +4,4 @@ export default function Budget() {
             <h2>Budget</h2>
         </section>
     );
-};
+}

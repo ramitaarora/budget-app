@@ -4,4 +4,4 @@ export default function Expenses() {
             <h2>Expenses</h2>
         </section>
     );
-};
+}
