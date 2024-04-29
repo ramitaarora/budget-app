@@ -1,7 +1,7 @@
-import Budget from "../ui/dashboard/budget";
-import Categories from "../ui/dashboard/categories";
-import Expenses from "../ui/dashboard/expenses";
-import SpendingChart from "../ui/dashboard/spending-chart";
+import Budget from '../../components/budget';
+import Categories from '../../components/categories';
+import Expenses from '../../components/expenses';
+import SpendingChart from '../../components/spending-chart';
 
 export default function Dashboard() {
     return (
