@@ -1,6 +1,8 @@
 import '../styles/globals.css';
 
-export default function MyApp({ ActivePage, pageProps }) {
+function MyApp({ Component, pageProps }) {
   
-  return <ActivePage {...pageProps} />;
+  return <Component {...pageProps} />;
 }
+
+export default MyApp;
