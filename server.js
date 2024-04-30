@@ -1,10 +1,11 @@
 const express = require('express');
 const path = require('path');
-const sequelize = require('./config/connection');
 const routes = require('./api');
-require('dotenv').config();
 const sequelize = require('./config/connection');
+const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -12,7 +13,9 @@ const PORT = process.env.PORT || 3001;
 const sess = {
     secret: 'shhhhhhhhhhhh', // Store in env variable later
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000
+        maxAge: 24 * 60 * 60 * 1000,
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true
     },
     resave: false,
     saveUninitialized: true,
@@ -23,12 +26,23 @@ const sess = {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 
 if (process.env.NODE_ENV !== 'production') {
     app.use(express.static(path.join(__dirname, 'public')));
 }
 
-app.use(routes);
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
+app.use(session(sess));
+
+app.use('/api', routes);
 
 if (process.env.NODE_ENV === 'production') {
     // Adjust later for NextJS build location
