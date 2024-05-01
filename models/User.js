@@ -46,11 +46,19 @@ User.init(
                         throw new Error("Password must contain at least one special character");
                     }
                 }
-            },
-            location: {
-                type: DataTypes.STRING,
-                allowNull: false
             }
+        },
+        location: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        account_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'account',
+                key: 'id'
+            },
+            allowNull: true
         }
     },
     {

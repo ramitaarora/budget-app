@@ -26,7 +26,7 @@ Category.init(
         },
         budget: {
             type: DataTypes.DECIMAL,
-            allowNull: false,
+            allowNull: true,
             validate: {
                 isDecimal: true
             }

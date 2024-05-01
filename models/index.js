@@ -6,13 +6,13 @@ const User = require('./User');
 const Account = require('./Account');
 
 Account.hasMany(User, {
-    foreignKey: 'users',
+    foreignKey: 'account_id',
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE'
 });
 
 User.belongsTo(Account, {
-    foreignKey: 'users'
+    foreignKey: 'account_id'
 });
 
 Category.hasMany(Category, {
