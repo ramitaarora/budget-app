@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { signIn } from 'next-auth/react';
 
 export default function Signup() {
 
-    const [formState, setFormState] = useState({ firstName: '', lastName: '', email: '', password: '', location: '' });
+    const [formState, setFormState] = useState({ first_name: '', last_name: '', email: '', password: '', location: '' });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -15,39 +16,19 @@ export default function Signup() {
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
-        console.log('Signing up');
-    
-        const { firstName, lastName, email, password, location } = formState;
-    
-        if (firstName && lastName && email && password && location) {
-            try {
-                const response = await fetch('/api/user/signup', {
-                    method: 'POST',
-                    body: JSON.stringify({ firstName, lastName, email, password, location }),
-                    headers: { 'Content-Type': 'application/json' },
-                });
-    
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Signup successful:', data);
-                    document.location.replace('/');
-                    setFormState({
-                        firstName: '',
-                        lastName: '',
-                        email: '',
-                        password: '',
-                        location: '',
-                    });
-                } else {
-                    const errorData = await response.json();
-                    alert(errorData.message || "Signup failed");
-                }
-            } catch (error) {
-                console.error('Signup failed:', error);
-                alert('Network error or no server response');
-            }
-        } else {
-            alert('All fields are required');
+
+        const { first_name, last_name, email, password, location } = formState;
+
+        const res = await fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ first_name, last_name, email, password, location })
+        });
+
+        if (res.ok) {
+            signIn('credentials', { email, password });
         }
     };
 
@@ -58,16 +39,16 @@ export default function Signup() {
                 <div>
                     <input
                         placeholder="First Name"
-                        name="firstName"
+                        name="first_name"
                         type="text"
-                        value={formState.firstName}
+                        value={formState.first_name}
                         onChange={handleChange}
                     />
                     <input
                         placeholder="Last Name"
-                        name="lastName"
+                        name="last_name"
                         type="text"
-                        value={formState.lastName}
+                        value={formState.last_name}
                         onChange={handleChange}
                     />
                     <input

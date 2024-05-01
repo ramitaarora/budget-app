@@ -10,16 +10,6 @@ Account.init(
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
-        },
-        users: {
-            type: DataTypes.ARRAY(DataTypes.INTEGER),
-            allowNull: false,
-            references: {
-                model: 'user',
-                key: 'id',
-            },
-            onDelete: 'SET NULL',
-            onUpdate: 'CASCADE'
         }
     },
     {
