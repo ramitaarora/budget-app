@@ -32,21 +32,6 @@ Budget.init(
             onDelete: 'SET NULL',
             onUpdate: 'CASCADE'
         }
-        // category_id: {
-        //     type: DataTypes.INTEGER,
-        //     allowNull: true,
-        //     references: {
-        //         model: 'category',
-        //         key: 'id'
-        //     },
-        //     onDelete: 'SET NULL',
-        //     onUpdate: 'CASCADE'
-        // },
-        // total_monthly: {
-        //     type: DataTypes.BOOLEAN,
-        //     allowNull: true,
-        //     defaultValue: false
-        // }
     },
     {
         sequelize,

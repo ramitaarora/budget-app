@@ -1,14 +1,6 @@
 import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { authCheck } from '../middleware/auth';
 
-export async function getServerSideProps(context) {
-    return authCheck(context.req)
-}
-
-export default function Signup() {
-
-    const router = useRouter();
+export default function AddUser() {
 
     const [formState, setFormState] = useState({ first_name: '', last_name: '', email: '', password: '', location: '' });
 
@@ -22,27 +14,24 @@ export default function Signup() {
     };
 
     const handleFormSubmit = async (event) => {
+
         event.preventDefault();
 
         const { first_name, last_name, email, password, location } = formState;
 
-        const res = await fetch('/api/signup', {
+        const res = await fetch('/api/adduser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ first_name, last_name, email, password, location })
         });
-
-        if (res.ok) {
-            router.push('/dashboard');
-        };
     };
 
     return (
         <div>
             <form onSubmit={handleFormSubmit}>
-                <p>Create New Account</p>
+                <p>Add Additional User</p>
                 <div>
                     <input
                         placeholder="First Name"
@@ -80,7 +69,7 @@ export default function Signup() {
                         onChange={handleChange}
                     />
                 </div>
-                <button type="submit">Sign Me Up!</button>
+                <button type="submit">Save</button>
             </form>
         </div>
     )

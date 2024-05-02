@@ -6,11 +6,11 @@ export async function getServerSideProps(context) {
     return authCheck(context.req)
 }
 
-export default function Signup() {
+export default function Login() {
 
     const router = useRouter();
 
-    const [formState, setFormState] = useState({ first_name: '', last_name: '', email: '', password: '', location: '' });
+    const [formState, setFormState] = useState({ email: '', password: '' });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -24,40 +24,36 @@ export default function Signup() {
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
-        const { first_name, last_name, email, password, location } = formState;
+        const { email, password } = formState;
 
-        const res = await fetch('/api/signup', {
+        const res = await fetch('/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ first_name, last_name, email, password, location })
+            body: JSON.stringify({ email, password })
         });
 
         if (res.ok) {
+            setFormState({
+                email: '',
+                password: ''
+            });
             router.push('/dashboard');
+        } else if (!res.ok) {
+            setFormState({
+                ...formState,
+                password: ''
+            });
+            alert('Failed to login. Please try again.');
         };
     };
 
     return (
         <div>
             <form onSubmit={handleFormSubmit}>
-                <p>Create New Account</p>
+                <p>Log In</p>
                 <div>
-                    <input
-                        placeholder="First Name"
-                        name="first_name"
-                        type="text"
-                        value={formState.first_name}
-                        onChange={handleChange}
-                    />
-                    <input
-                        placeholder="Last Name"
-                        name="last_name"
-                        type="text"
-                        value={formState.last_name}
-                        onChange={handleChange}
-                    />
                     <input
                         placeholder="Email"
                         name="email"
@@ -72,15 +68,8 @@ export default function Signup() {
                         value={formState.password}
                         onChange={handleChange}
                     />
-                    <input
-                        placeholder="Location"
-                        name="location"
-                        type="text"
-                        value={formState.location}
-                        onChange={handleChange}
-                    />
                 </div>
-                <button type="submit">Sign Me Up!</button>
+                <button type="submit">Submit</button>
             </form>
         </div>
     )
