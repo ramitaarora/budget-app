@@ -32,7 +32,7 @@ export default async function addUser(req, res) {
                 account_id: accountID
             });
 
-            res.status(201).json({ message: 'User created successfully', userId: newUser.id });
+            res.status(201).json({ message: 'User added successfully', userId: newUser.id });
         } catch (error) {
             console.error('Error creating user:', error);
             if (error.name === 'SequelizeUniqueConstraintError') {
