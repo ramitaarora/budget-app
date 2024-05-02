@@ -2,6 +2,7 @@ import Budget from '../../components/budget';
 import Categories from '../../components/categories';
 import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
+import AddUser from '../../components/addUser';
 
 export default function Dashboard() {
     return (
@@ -18,6 +19,7 @@ export default function Dashboard() {
                     <Expenses />
                 </div>
                 <SpendingChart />
+                <AddUser />
             </main>
         </div>
     )
