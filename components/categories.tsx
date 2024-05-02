@@ -11,6 +11,14 @@ interface Category {
     account_id: number,
 }
 
+interface Budget {
+    id: number,
+    account_id: number,
+    amount: number,
+    date: string,
+    savings_goal: number,
+}
+
 const categoryData: Category[] = [
     {
         id: 1,
@@ -174,6 +182,16 @@ const categoryData: Category[] = [
     }
 ]
 
+const budgetData: Budget[] = [
+    {
+        id: 1,
+        account_id: 1,
+        amount: 6000,
+        date: "05-2024",
+        savings_goal: 200,
+    }
+]
+
 export default function Categories() {
     const [parentCategory, setParentCategory] = useState<Category[]>([]);
     const [childCategory, setChildCategory] = useState<Category[]>([]);
@@ -201,7 +219,7 @@ export default function Categories() {
                     <div className="flex w-100 justify-between items-center">
                         <p className="font-bold mr-5">{parentItem.name}</p>
                         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                            <div className="bg-blue-600 h-2.5 rounded-full" style={{ "width": `${(parentItem.budget_amount/totalBudget) * 100}%` }}></div>
+                            <div className="bg-blue-900 h-2.5 rounded-full" style={{ "width": `${(parentItem.budget_amount/totalBudget) * 100}%` }}></div>
                         </div>
                     </div>
                     {childCategory
@@ -210,7 +228,7 @@ export default function Categories() {
                             <div key={childIndex} className="ml-3 flex w-100 justify-between items-center">
                                 <p className="mr-5">{filteredChildItem.name}</p>
                                 <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                    <div className="bg-blue-600 h-2.5 rounded-full" style={{ "width": `${(filteredChildItem.budget_amount / parentItem.budget_amount) * 100}%` }}></div>
+                                    <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(filteredChildItem.budget_amount / parentItem.budget_amount) * 100}%` }}></div>
                                 </div>
                             </div>
                         ))
