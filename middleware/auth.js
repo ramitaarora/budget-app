@@ -1,19 +1,42 @@
 import jwt from 'jsonwebtoken';
+import cookie from 'cookie';
 
-export function authenticate(req, res, next) {
-    const token = req.cookies.auth_token;
-
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided.' });
+export async function authenticate(req) {
+    if (!req.headers.cookie) {
+        return { redirect: { destination: '/login', permanent: false } };
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: 'Invalid token.' });
-        }
+    const cookies = cookie.parse(req.headers.cookie);
+    const token = cookies.auth_token;
 
-        console.log(decoded);
-        req.user = decoded;
-        next();
-    });
+    if (!token) {
+        return { redirect: { destination: '/login', permanent: false } };
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        return { props: { user: decoded } };
+    } catch (err) {
+        return { redirect: { destination: '/login', permanent: false } };
+    }
+}
+
+export async function authCheck(req) {
+    const cookieHeader = req.headers.cookie;
+
+    if (cookieHeader) {
+        const cookies = cookie.parse(cookieHeader);
+        const token = cookies.auth_token;
+
+        if (token) {
+            try {
+                jwt.verify(token, process.env.JWT_SECRET);
+                return { redirect: { destination: '/dashboard', permanent: false } };
+            } catch (err) {
+                console.error('Token verification failed:', err);
+            }
+        }
+    }
+
+    return { props: {} };
 }

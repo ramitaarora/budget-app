@@ -3,6 +3,11 @@ import Categories from '../../components/categories';
 import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
 import AddUser from '../../components/addUser';
+import { authenticate } from '../../middleware/auth';
+
+export async function getServerSideProps(context) {
+    return authenticate(context.req)
+}
 
 export default function Dashboard() {
     return (

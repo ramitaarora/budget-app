@@ -1,5 +1,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { authCheck } from '../middleware/auth';
+
+export async function getServerSideProps(context) {
+    return authCheck(context.req)
+}
 
 export default function Signup() {
 
