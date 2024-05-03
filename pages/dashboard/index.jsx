@@ -5,9 +5,9 @@ import SpendingChart from '../../components/spending-chart';
 import AddUser from '../../components/addUser';
 import { authenticate } from '../../middleware/auth';
 
-export async function getServerSideProps(context) {
-    return authenticate(context.req)
-}
+// export async function getServerSideProps(context) {
+//     return authenticate(context.req)
+// }
 
 export default function Dashboard() {
     return (

@@ -1,8 +1,28 @@
 import { useState } from 'react';
+import { authenticate } from '../middleware/auth';
 
-export default function AddCategory() {
+export async function getServerSideProps(context) {
+    return authenticate(context.req)
+}
 
-    const [formState, setFormState] = useState({ first_name: '', last_name: '', email: '', password: '', location: '' });
+// export async function getServerSideProps(context) {
+//     const result = await authenticate(context.req);
+//     if (result.redirect) {
+//         return result;
+//     }
+//     return {
+//         props: {
+//             user: result
+//         }
+//     }
+// }
+
+export default function AddCategory({ user }) {
+
+    // Get account_id from logged in user's token
+    console.log(user);
+
+    const [formState, setFormState] = useState({ name: '', parent_category: '', color: '', flexible: false, account_id: '' });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -17,57 +37,52 @@ export default function AddCategory() {
 
         event.preventDefault();
 
-        const { first_name, last_name, email, password, location } = formState;
+        const { name, parent_category, color, flexible, account_id } = formState;
 
-        const res = await fetch('/api/adduser', {
+        const res = await fetch('/api/category', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ first_name, last_name, email, password, location })
+            body: JSON.stringify({ name, parent_category, color, flexible, account_id })
         });
     };
 
     return (
         <div>
             <form onSubmit={handleFormSubmit}>
-                <p>Add Additional User</p>
+                <p>Add Category</p>
                 <div>
                     <input
-                        placeholder="First Name"
-                        name="first_name"
+                        placeholder="Name"
+                        name="name"
                         type="text"
-                        value={formState.first_name}
+                        value={formState.name}
                         onChange={handleChange}
                     />
                     <input
-                        placeholder="Last Name"
-                        name="last_name"
+                        placeholder="Parent Category"
+                        name="parent_category"
+                        type="number"
+                        value={formState.parent_category}
+                        onChange={handleChange}
+                    />
+                    <input
+                        placeholder="Color"
+                        name="color"
                         type="text"
-                        value={formState.last_name}
+                        value={formState.color}
                         onChange={handleChange}
                     />
-                    <input
-                        placeholder="Email"
-                        name="email"
-                        type="email"
-                        value={formState.email}
-                        onChange={handleChange}
-                    />
-                    <input
-                        placeholder="Password"
-                        name="password"
-                        type="password"
-                        value={formState.password}
-                        onChange={handleChange}
-                    />
-                    <input
-                        placeholder="Location"
-                        name="location"
-                        type="text"
-                        value={formState.location}
-                        onChange={handleChange}
-                    />
+                    <label>
+                        Flexible:
+                        <input
+                            name="flexible"
+                            type="checkbox"
+                            value={formState.flexible}
+                            onChange={handleChange}
+                        />
+                    </label>
                 </div>
                 <button type="submit">Save</button>
             </form>

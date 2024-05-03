@@ -3,7 +3,7 @@ import Category from '../../models/Category';
 export default async function categories(req, res) {
     switch (req.method) {
         case 'GET':
-            return getAllCategories(req, res);
+            return getCategories(req, res);
         case 'POST':
             return createCategory(req, res);
         case 'PUT':
@@ -16,13 +16,32 @@ export default async function categories(req, res) {
     }
 }
 
-export async function getAllCategories(req, res) {
-    try {
-        const categories = await Category.findAll();
-        res.status(200).json(categories);
-    } catch (error) {
-        console.error('Failed to fetch categories:', error);
-        res.status(500).json({ message: "Failed to retrieve categories." });
+export async function getCategories(req, res) {
+    const { id } = req.query;
+    if (id) {
+        try {
+            const category = await Category.findByPk(id);
+            if (category) {
+                res.status(200).json(category);
+            } else {
+                res.status(404).json({ message: 'Category not found.' });
+            }
+        } catch (error) {
+            console.error('Failed to fetch category:', error);
+            res.status(500).json({ message: 'Failed to retrieve category.' });
+        }
+    } else {
+        try {
+            const categories = await Category.findAll();
+            if (categories) {
+                res.status(200).json(categories);
+            } else {
+                res.status(404).json({ message: 'Categories not found.' })
+            }
+        } catch (error) {
+            console.error('Failed to fetch categories:', error);
+            res.status(500).json({ message: 'Failed to retrieve categories.' });
+        }
     }
 }
 
