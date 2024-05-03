@@ -1,6 +1,6 @@
 import Category from '../../models/Category';
 
-export default async function categories(req, res) {
+export default async function category(req, res) {
     switch (req.method) {
         case 'GET':
             return getCategories(req, res);

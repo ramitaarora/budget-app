@@ -1,28 +1,8 @@
 import { useState } from 'react';
-import { authenticate } from '../middleware/auth';
 
-export async function getServerSideProps(context) {
-    return authenticate(context.req)
-}
+export default function AddCategory({ accountID }) {
 
-// export async function getServerSideProps(context) {
-//     const result = await authenticate(context.req);
-//     if (result.redirect) {
-//         return result;
-//     }
-//     return {
-//         props: {
-//             user: result
-//         }
-//     }
-// }
-
-export default function AddCategory({ user }) {
-
-    // Get account_id from logged in user's token
-    console.log(user);
-
-    const [formState, setFormState] = useState({ name: '', parent_category: '', color: '', flexible: false, account_id: '' });
+    const [formState, setFormState] = useState({ name: '', parent_category: '', color: '', budget: '', flexible: false, account_id: accountID });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -37,15 +17,27 @@ export default function AddCategory({ user }) {
 
         event.preventDefault();
 
-        const { name, parent_category, color, flexible, account_id } = formState;
+        const { name, parent_category, color, budget, flexible, account_id } = formState;
 
         const res = await fetch('/api/category', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, parent_category, color, flexible, account_id })
+            body: JSON.stringify({ name, parent_category, color, budget, flexible, account_id })
         });
+
+        if (res.ok) {
+            setFormState({
+                name: '',
+                parent_category: '',
+                color: '',
+                budget: '',
+                flexible: ''
+            });
+            // Change later
+            alert('New category created!');
+        }
     };
 
     return (
@@ -60,18 +52,34 @@ export default function AddCategory({ user }) {
                         value={formState.name}
                         onChange={handleChange}
                     />
-                    <input
-                        placeholder="Parent Category"
+                    <label>Type:</label>
+                    <select
                         name="parent_category"
-                        type="number"
                         value={formState.parent_category}
                         onChange={handleChange}
-                    />
+                    >
+                        <option value="1">Food</option>
+                        <option value="4">Rent</option>
+                        <option value="5">Bills</option>
+                        <option value="9">Transporation</option>
+                        <option value="12">Necessities</option>
+                        <option value="13">Entertainment</option>
+                        <option value="14">Holiday/Gifts</option>
+                        <option value="15">Medical</option>
+                        <option value="16">Misc.</option>
+                    </select>
                     <input
                         placeholder="Color"
                         name="color"
                         type="text"
                         value={formState.color}
+                        onChange={handleChange}
+                    />
+                    <input
+                        placeholder="Budget"
+                        name="budget"
+                        type="number"
+                        value={formState.budget}
                         onChange={handleChange}
                     />
                     <label>

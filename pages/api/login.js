@@ -26,7 +26,7 @@ export default async function login(req, res) {
             }
 
             const token = jwt.sign(
-                { userId: user.id, email: user.email },
+                { userId: user.id, first_name: user.first_name, last_name: user.last_name, email: user.email, location: user.location, account_id: user.account_id },
                 process.env.JWT_SECRET,
                 { expiresIn: '1h' }
             );
