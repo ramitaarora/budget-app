@@ -3,28 +3,116 @@ const { Category } = require('../models');
 
 const categoryData = [
     {
-        name: 'Food'
+        name: "Food",
+        parent_category: null,
+        color: "blue",
+        flexible: true,
+        budget: 1000
     },
     {
-        name: 'Rent'
+        name: "Groceries",
+        parent_category: 1,
+        color: "blue",
+        flexible: true,
+        budget: 600
     },
     {
-        name: 'Bills'
+        name: "Restaurants",
+        parent_category: 1,
+        color: "blue",
+        flexible: true,
+        budget: 400
     },
     {
-        name: 'Transporation'
+        name: "Rent",
+        parent_category: null,
+        color: "red",
+        flexible: false,
+        budget: 2500
     },
     {
-        name: 'Necessities'
+        name: "Bills",
+        parent_category: null,
+        color: "green",
+        flexible: true,
+        budget: 500
     },
     {
-        name: 'Entertainment'
+        name: "Phone",
+        parent_category: 5,
+        color: "green",
+        flexible: true,
+        budget: 100
     },
     {
-        name: 'Holiday/Gifts'
+        name: "Water/Electricity",
+        parent_category: 5,
+        color: "green",
+        flexible: true,
+        budget: 200
     },
     {
-        name: 'Medical'
+        name: "Gas",
+        parent_category: 5,
+        color: "green",
+        flexible: true,
+        budget: 30
+    },
+    {
+        name: "Transportation",
+        parent_category: null,
+        color: "yellow",
+        flexible: true,
+        budget: 700
+    },
+    {
+        name: "Gas",
+        parent_category: 9,
+        color: "yellow",
+        flexible: true,
+        budget: 300
+    },
+    {
+        name: "Car Payment",
+        parent_category: 9,
+        color: "yellow",
+        flexible: true,
+        budget: 400
+    },
+    {
+        name: "Necessities",
+        parent_category: null,
+        color: "pink",
+        flexible: true,
+        budget: 500
+    },
+    {
+        name: "Entertainment",
+        parent_category: null,
+        color: "black",
+        flexible: true,
+        budget: 100
+    },
+    {
+        name: "Holidays/Gifts",
+        parent_category: null,
+        color: "orange",
+        flexible: true,
+        budget: 300
+    },
+    {
+        name: "Medical",
+        parent_category: null,
+        color: "pink",
+        flexible: true,
+        budget: 100
+    },
+    {
+        name: "Misc",
+        parent_category: null,
+        color: "purple",
+        flexible: true,
+        budget: 100
     }
 ];
 

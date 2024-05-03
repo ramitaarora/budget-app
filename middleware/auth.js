@@ -40,3 +40,23 @@ export async function authCheck(req) {
 
     return { props: {} };
 }
+
+export async function apiAuth(handler) {
+    return async (req, res) => {
+        try {
+            const { auth_token } = cookie.parse(req.headers.cookie || '');
+
+            if (!auth_token) {
+                return res.status(401).json({ message: "Not authenticated." });
+            }
+
+            const decoded = jwt.verify(auth_token, process.env.JWT_SECRET);
+            req.user = decoded;
+
+            return handler(req, res);
+        } catch (err) {
+            console.error(err);
+            return res.status(401).json({ message: "Authentication failed." });
+        }
+    };
+}
