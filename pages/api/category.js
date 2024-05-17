@@ -1,20 +1,41 @@
 import Category from '../../models/Category';
+import { apiAuthenticate } from '../../middleware/auth';
+
+// USE IN PRODUCTION TO PROTECT API ROUTES
 
 export default async function category(req, res) {
-    switch (req.method) {
-        case 'GET':
-            return getCategories(req, res);
-        case 'POST':
-            return createCategory(req, res);
-        case 'PUT':
-            return updateCategory(req, res);
-        case 'DELETE':
-            return deleteCategory(req, res);
-        default:
-            res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
-            res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
+    apiAuthenticate(req, res, async () => {
+        switch (req.method) {
+            case 'GET':
+                return getCategories(req, res);
+            case 'POST':
+                return createCategory(req, res);
+            case 'PUT':
+                return updateCategory(req, res);
+            case 'DELETE':
+                return deleteCategory(req, res);
+            default:
+                res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
+                res.status(405).end(`Method ${req.method} Not Allowed`);
+        }
+    });
 }
+
+// export default async function category(req, res) {
+//     switch (req.method) {
+//         case 'GET':
+//             return getCategories(req, res);
+//         case 'POST':
+//             return createCategory(req, res);
+//         case 'PUT':
+//             return updateCategory(req, res);
+//         case 'DELETE':
+//             return deleteCategory(req, res);
+//         default:
+//             res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
+//             res.status(405).end(`Method ${req.method} Not Allowed`);
+//     }
+// }
 
 export async function getCategories(req, res) {
     const { id } = req.query;
@@ -53,7 +74,7 @@ export async function createCategory(req, res) {
             color: req.body.color,
             flexible: req.body.flexible,
             budget: req.body.budget,
-            account_id: req.body.account_id
+            account_id: req.user.account_id
         });
         res.status(201).json(newCategory);
     } catch (error) {

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-export default function AddCategory() {
+export default function AddExpense() {
 
-    const [formState, setFormState] = useState({ name: '', parent_category: '', color: '', budget: '', flexible: false });
+    const [formState, setFormState] = useState({ description: '', date: '', amount: '', category_id: '' });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -17,45 +17,44 @@ export default function AddCategory() {
 
         event.preventDefault();
 
-        const { name, parent_category, color, budget, flexible } = formState;
+        const { description, date, amount, category_id } = formState;
 
-        const res = await fetch('/api/category', {
+        const res = await fetch('/api/expenses', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, parent_category, color, budget, flexible })
+            body: JSON.stringify({ description, date, amount, category_id })
         });
 
         if (res.ok) {
             setFormState({
-                name: '',
-                parent_category: '',
-                color: '',
-                budget: '',
-                flexible: ''
+                description: '',
+                date: '',
+                amount: '',
+                category_id: ''
             });
             // Change later
-            alert('New category created!');
+            alert('New expense created!');
         }
     };
 
     return (
         <div>
             <form onSubmit={handleFormSubmit}>
-                <p>Add Category</p>
+                <p>Add Expense</p>
                 <div>
                     <input
-                        placeholder="Name"
-                        name="name"
+                        placeholder="Description"
+                        name="description"
                         type="text"
-                        value={formState.name}
+                        value={formState.description}
                         onChange={handleChange}
                     />
-                    <label>Type:</label>
+                    <label>Category:</label>
                     <select
-                        name="parent_category"
-                        value={formState.parent_category}
+                        name="category_id"
+                        value={formState.category_id}
                         onChange={handleChange}
                     >
                         <option value="1">Food</option>
@@ -69,28 +68,19 @@ export default function AddCategory() {
                         <option value="16">Misc.</option>
                     </select>
                     <input
-                        placeholder="Color"
-                        name="color"
+                        placeholder="Date"
+                        name="date"
                         type="text"
-                        value={formState.color}
+                        value={formState.date}
                         onChange={handleChange}
                     />
                     <input
-                        placeholder="Budget"
-                        name="budget"
+                        placeholder="Amount"
+                        name="amount"
                         type="number"
-                        value={formState.budget}
+                        value={formState.amount}
                         onChange={handleChange}
                     />
-                    <label>
-                        Flexible:
-                        <input
-                            name="flexible"
-                            type="checkbox"
-                            value={formState.flexible}
-                            onChange={handleChange}
-                        />
-                    </label>
                 </div>
                 <button type="submit">Save</button>
             </form>

@@ -2,7 +2,7 @@ import Budget from '../../components/budget';
 import Categories from '../../components/categories';
 import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
-import AddUser from '../../components/addUser';
+import AddUser from '../../components/add-user';
 import { authenticate } from '../../middleware/auth';
 
 // export async function getServerSideProps(context) {

@@ -41,22 +41,19 @@ export async function authCheck(req) {
     return { props: {} };
 }
 
-export async function apiAuth(handler) {
-    return async (req, res) => {
-        try {
-            const { auth_token } = cookie.parse(req.headers.cookie || '');
+export function apiAuthenticate(req, res, next) {
+    const cookies = cookie.parse(req.headers.cookie || '');
+    const token = cookies.auth_token;
 
-            if (!auth_token) {
-                return res.status(401).json({ message: "Not authenticated." });
-            }
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
+    }
 
-            const decoded = jwt.verify(auth_token, process.env.JWT_SECRET);
-            req.user = decoded;
-
-            return handler(req, res);
-        } catch (err) {
-            console.error(err);
-            return res.status(401).json({ message: "Authentication failed." });
-        }
-    };
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(403).json({ message: 'Invalid token' });
+    }
 }

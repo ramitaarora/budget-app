@@ -27,7 +27,7 @@ export default async function signup(req, res) {
         });
 
         const token = jwt.sign(
-            { userId: newUser.id, first_name: newUser.first_name, last_name: newUser.last_name, email: newUser.email, location: newUser.location, account_id: newUser.account_id },
+            { user_id: newUser.id, first_name: newUser.first_name, last_name: newUser.last_name, email: newUser.email, location: newUser.location, account_id: newUser.account_id },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
