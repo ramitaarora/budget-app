@@ -3,7 +3,7 @@ export interface Expenses {
     user_id: number,
     category_id: number,
     description: string,
-    date: string,
+    date: Date,
     amount: number,
 }
 
@@ -13,7 +13,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 2,
         description: "Trader Joe's",
-        date: "05-20-2024",
+        date: new Date(new Date("05-20-2024")),
         amount: 50.75,
     },
     {
@@ -21,7 +21,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 2,
         description: "Whole Foods",
-        date: "05-10-2024",
+        date: new Date(new Date("05-10-2024")),
         amount: 103.99,
     },
     {
@@ -29,7 +29,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 3,
         description: "Taco Bell",
-        date: "05-04-2024",
+        date: new Date(new Date("05-04-2024")),
         amount: 12.50,
     },
     {
@@ -37,7 +37,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 3,
         description: "Cheesecake Factory",
-        date: "05-14-2024",
+        date: new Date("05-14-2024"),
         amount: 112.30,
     },
     {
@@ -45,7 +45,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 4,
         description: "Rent",
-        date: "05-01-2024",
+        date: new Date("05-01-2024"),
         amount: 2500,
     },
     {
@@ -53,7 +53,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 5,
         description: "Phone",
-        date: "05-01-2024",
+        date: new Date("05-01-2024"),
         amount: 200,
     },
     {
@@ -61,7 +61,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 5,
         description: "Gas",
-        date: "05-01-2024",
+        date: new Date("05-01-2024"),
         amount: 20,
     },
     {
@@ -69,7 +69,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 5,
         description: "Electricity",
-        date: "05-01-2024",
+        date: new Date("05-01-2024"),
         amount: 200,
     },
     {
@@ -77,7 +77,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 5,
         description: "Internet",
-        date: "05-01-2024",
+        date: new Date("05-01-2024"),
         amount: 80,
     },
     {
@@ -85,7 +85,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 7,
         description: "Gas",
-        date: "05-01-2024",
+        date: new Date("05-01-2024"),
         amount: 30.01,
     },
     {
@@ -93,7 +93,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 7,
         description: "Gas",
-        date: "05-15-2024",
+        date: new Date("05-15-2024"),
         amount: 42.60,
     },
     {
@@ -101,7 +101,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 7,
         description: "Gas",
-        date: "05-25-2024",
+        date: new Date("05-25-2024"),
         amount: 33.33,
     },
     {
@@ -109,7 +109,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 8,
         description: "Car Payment",
-        date: "05-01-2024",
+        date: new Date("05-01-2024"),
         amount: 400,
     },
     {
@@ -117,7 +117,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 9,
         description: "Jacket",
-        date: "05-27-2024",
+        date: new Date("05-27-2024"),
         amount: 80,
     },
     {
@@ -125,7 +125,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 9,
         description: "Shoes",
-        date: "05-27-2024",
+        date: new Date("05-27-2024"),
         amount: 50,
     },
     {
@@ -133,7 +133,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 10,
         description: "Netflix",
-        date: "05-01-2024",
+        date: new Date("05-01-2024"),
         amount: 20,
     },
     {
@@ -141,7 +141,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 10,
         description: "Spotify",
-        date: "05-01-2024",
+        date: new Date("05-01-2024"),
         amount: 20,
-    },
+    }
 ]
