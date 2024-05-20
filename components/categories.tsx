@@ -1,23 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Category, categoryData } from '../frontend-test-data/categories';
-import { Budget, budgetData } from '../frontend-test-data/budget';
+import { budgetData } from '../frontend-test-data/budget';
 
 export default function Categories() {
     const [parentCategory, setParentCategory] = useState<Category[]>([]);
     const [childCategory, setChildCategory] = useState<Category[]>([]);
-    const [totalBudget, setTotalBudget] = useState<number>(0);
+    const [totalBudget, setTotalBudget] = useState<number>(budgetData[0].amount);
 
     useEffect(() => {
-        setTotalBudget(0);
-
         const parentCategories = categoryData.filter((category) => category.parent_id === null);
         const childCategories = categoryData.filter((category) => category.parent_id !== null);
-        
-        const budgetAmount = categoryData.forEach((category) => {
-            if (category.parent_id === null) {
-                setTotalBudget((pre) => pre + category.budget_amount);
-            }
-        })
 
         setParentCategory(parentCategories);
         setChildCategory(childCategories);

@@ -62,36 +62,6 @@ export const categoryData: Category[] = [
     },
     {
         id: 6,
-        name: "Phone",
-        parent_id: 5,
-        color: "green",
-        flexible: true,
-        budget_amount: 100,
-        date: "05-2024",
-        account_id: 1
-    },
-    {
-        id: 7,
-        name: "Water/Electricity",
-        parent_id: 5,
-        color: "green",
-        flexible: true,
-        budget_amount: 200,
-        date: "05-2024",
-        account_id: 1
-    },
-    {
-        id: 8,
-        name: "Gas",
-        parent_id: 5,
-        color: "green",
-        flexible: true,
-        budget_amount: 30,
-        date: "05-2024",
-        account_id: 1
-    },
-    {
-        id: 9,
         name: "Transportation",
         parent_id: null,
         color: "yellow",
@@ -101,9 +71,9 @@ export const categoryData: Category[] = [
         account_id: 1
     },
     {
-        id: 10,
+        id: 7,
         name: "Gas",
-        parent_id: 9,
+        parent_id: 6,
         color: "yellow",
         flexible: true,
         budget_amount: 300,
@@ -111,9 +81,9 @@ export const categoryData: Category[] = [
         account_id: 1
     },
     {
-        id: 11,
+        id: 8,
         name: "Car Payment",
-        parent_id: 9,
+        parent_id: 7,
         color: "yellow",
         flexible: true,
         budget_amount: 400,
@@ -121,7 +91,7 @@ export const categoryData: Category[] = [
         account_id: 1
     },
     {
-        id: 12,
+        id: 9,
         name: "Necessities",
         parent_id: null,
         color: "pink",
@@ -131,7 +101,7 @@ export const categoryData: Category[] = [
         account_id: 1
     },
     {
-        id: 13,
+        id: 10,
         name: "Entertainment",
         parent_id: null,
         color: "black",
@@ -141,7 +111,7 @@ export const categoryData: Category[] = [
         account_id: 1
     },
     {
-        id: 14,
+        id: 11,
         name: "Holidays/Gifts",
         parent_id: null,
         color: "orange",
@@ -151,7 +121,7 @@ export const categoryData: Category[] = [
         account_id: 1
     },
     {
-        id: 15,
+        id: 12,
         name: "Medical",
         parent_id: null,
         color: "pink",
@@ -161,7 +131,7 @@ export const categoryData: Category[] = [
         account_id: 1
     },
     {
-        id: 16,
+        id: 13,
         name: "Misc",
         parent_id: null,
         color: "purple",
