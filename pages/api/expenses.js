@@ -81,33 +81,33 @@ export async function createExpense(req, res) {
     }
 }
 
-// export async function updateExpense(req, res) {
-//     try {
-//         const { id } = req.query;
-//         const updateData = req.body;
-//         const result = await Expenses.update(updateData, {
-//             where: { id: id }
-//         });
-//         res.status(200).json(result);
-//     } catch (error) {
-//         console.error('Failed to update expense:', error);
-//         res.status(500).json({ message: 'Failed to update expense.' });
-//     }
-// }
+export async function updateExpense(req, res) {
+    try {
+        const { id } = req.query;
+        const updateData = req.body;
+        const result = await Expenses.update(updateData, {
+            where: { id: id }
+        });
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Failed to update expense:', error);
+        res.status(500).json({ message: 'Failed to update expense.' });
+    }
+}
 
-// export async function deleteExpense(req, res) {
-//     try {
-//         const { id } = req.query;
-//         const result = await Expenses.destroy({
-//             where: { id: id }
-//         });
-//         if (result > 0) {
-//             res.status(204).json({ message: 'Successfully deleted expense.' });
-//         } else {
-//             res.status(404).json({ message: 'Expense not found.' });
-//         }
-//     } catch (error) {
-//         console.error('Failed to delete expense:', error);
-//         res.status(500).json({ message: 'Failed to delete expense.' });
-//     }
-// }
+export async function deleteExpense(req, res) {
+    try {
+        const { id } = req.query;
+        const result = await Expenses.destroy({
+            where: { id: id }
+        });
+        if (result > 0) {
+            res.status(204).json({ message: 'Successfully deleted expense.' });
+        } else {
+            res.status(404).json({ message: 'Expense not found.' });
+        }
+    } catch (error) {
+        console.error('Failed to delete expense:', error);
+        res.status(500).json({ message: 'Failed to delete expense.' });
+    }
+}
