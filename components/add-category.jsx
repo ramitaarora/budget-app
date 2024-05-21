@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export default function AddCategory() {
 
-    const [formState, setFormState] = useState({ name: '', parent_category: '', color: '', budget: '', flexible: false });
+    const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -17,21 +17,20 @@ export default function AddCategory() {
 
         event.preventDefault();
 
-        const { name, parent_category, color, budget, flexible } = formState;
+        const { name, parent_category, budget, flexible } = formState;
 
         const res = await fetch('/api/category', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, parent_category, color, budget, flexible })
+            body: JSON.stringify({ name, parent_category, budget, flexible })
         });
 
         if (res.ok) {
             setFormState({
                 name: '',
                 parent_category: '',
-                color: '',
                 budget: '',
                 flexible: ''
             });
@@ -68,13 +67,6 @@ export default function AddCategory() {
                         <option value="15">Medical</option>
                         <option value="16">Misc.</option>
                     </select>
-                    <input
-                        placeholder="Color"
-                        name="color"
-                        type="text"
-                        value={formState.color}
-                        onChange={handleChange}
-                    />
                     <input
                         placeholder="Budget"
                         name="budget"

@@ -42,9 +42,7 @@ export default async function expenses(req, res) {
 export async function getExpenses(req, res) {
 
     const { id, date, category_id } = req.query;
-
     const userID = req.user.user_id;
-
     let query = { where: {} };
 
     if (userID) query.where.user_id = userID;

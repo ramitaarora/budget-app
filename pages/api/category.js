@@ -38,31 +38,24 @@ export default async function category(req, res) {
 // }
 
 export async function getCategories(req, res) {
+
     const { id } = req.query;
-    if (id) {
-        try {
-            const category = await Category.findByPk(id);
-            if (category) {
-                res.status(200).json(category);
-            } else {
-                res.status(404).json({ message: 'Category not found.' });
-            }
-        } catch (error) {
-            console.error('Failed to fetch category:', error);
-            res.status(500).json({ message: 'Failed to retrieve category.' });
+    const accountID = req.user.account_id;
+    let query = { where: {} };
+
+    if (accountID) query.where.account_id = accountID;
+    if (id) query.where.id = id;
+
+    try {
+        const category = await Category.findAll(query);
+        if (category) {
+            res.status(200).json(category);
+        } else {
+            res.status(404).json({ message: 'Category not found.' });
         }
-    } else {
-        try {
-            const categories = await Category.findAll();
-            if (categories) {
-                res.status(200).json(categories);
-            } else {
-                res.status(404).json({ message: 'Categories not found.' })
-            }
-        } catch (error) {
-            console.error('Failed to fetch categories:', error);
-            res.status(500).json({ message: 'Failed to retrieve categories.' });
-        }
+    } catch (error) {
+        console.error('Failed to fetch category:', error);
+        res.status(500).json({ message: 'Failed to retrieve category.' });
     }
 }
 
