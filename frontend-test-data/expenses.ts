@@ -54,7 +54,7 @@ export const expensesData: Expenses[] = [
         category_id: 5,
         description: "Phone",
         date: new Date("05-01-2024"),
-        amount: 200,
+        amount: 50,
     },
     {
         id: 1,

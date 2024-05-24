@@ -6,7 +6,6 @@ import { expensesData } from '../frontend-test-data/expenses';
 export default function Categories() {
     const [parentCategory, setParentCategory] = useState<Category[]>([]);
     const [childCategory, setChildCategory] = useState<Category[]>([]);
-    const [totalBudget, setTotalBudget] = useState<number>(budgetData[0].amount);
 
     useEffect(() => {
         const parentCategories = categoryData.filter((category) => category.parent_id === null);
@@ -14,14 +13,10 @@ export default function Categories() {
 
         setParentCategory(parentCategories);
         setChildCategory(childCategories);
-        setTotalBudget(budgetData[0].amount)
-    }, [categoryData, budgetData])
+        console.log(expensesData);
+    }, [categoryData])
 
     const getChildExpenses = (inputID: number) => {
-        // input an id (parent vs. child id?)
-        // get all expenses that match that id
-        // for parent categories (where parent id is null), get all expenses that also match the parent_id
-        // add up all the expenses and return that number
         let total: number = 0;
 
         for (let i = 0; i < expensesData.length; i++) {
@@ -29,9 +24,23 @@ export default function Categories() {
                 total += expensesData[i].amount;
             }
         }
-        console.log(total, inputID);
         return total;
+    }
+
+    const getParentExpenses = (inputID: number) => {
+        let total: number = 0;
+        const allCategories = categoryData.filter((category) => category.id === inputID || category.parent_id === inputID);
         
+
+        for (let i = 0; i < expensesData.length; i++) {       
+            for (let j = 0; j < allCategories.length; j++) {
+                if (expensesData[i].category_id === allCategories[j].id) {
+                    total += expensesData[i].amount;
+                }
+            }
+        }
+
+        return total;
     }
 
     return (
@@ -42,16 +51,16 @@ export default function Categories() {
                     <div className="flex w-100 justify-between items-center">
                         <p className="font-bold mr-5">{parentItem.name}</p>
                         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                            <div className="bg-blue-900 h-2.5 rounded-full" style={{ "width": `${(parentItem.budget_amount/totalBudget) * 100}%` }}></div>
+                            <div className="bg-blue-900 h-2.5 rounded-full" style={{ "width": `${(getParentExpenses(parentItem.id) / parentItem.budget_amount) * 100}%` }}></div>
                         </div>
                     </div>
                     {childCategory
                         .filter((childItem) => childItem.parent_id === parentItem.id)
-                        .map((filteredChildItem, childIndex) => (
+                        .map((filteredChildCategory, childIndex) => (
                             <div key={childIndex} className="ml-3 flex w-100 justify-between items-center">
-                                <p className="mr-5">{filteredChildItem.name}</p>
+                                <p className="mr-5">{filteredChildCategory.name}</p>
                                 <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                    <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildItem.id) / parentItem.budget_amount) * 100}%` }}></div>
+                                    <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget_amount) * 100}%` }}></div>
                                 </div>
                             </div>
                         ))

@@ -3,10 +3,11 @@ import { Expenses, expensesData } from "../frontend-test-data/expenses";
 
 export default function Expenses() {
     const [sortedExpenses, setSortedExpenses] = useState<Expenses[]>(expensesData);
+    const sortedExpensesData = expensesData.sort((a, b) => b.date.getTime() - a.date.getTime());
 
     useEffect(() => {
-        setSortedExpenses(expensesData.sort((a, b) => b.date.getTime() - a.date.getTime()));
-    }, [])
+        setSortedExpenses(sortedExpensesData);
+    }, [sortedExpensesData])
 
     return (
         <section id="expenses">
