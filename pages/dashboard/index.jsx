@@ -24,7 +24,7 @@ export default function Dashboard() {
                     <Expenses />
                 </div>
                 <SpendingChart />
-                <AddUser />
+                {/* <AddUser /> */}
             </main>
         </div>
     )
