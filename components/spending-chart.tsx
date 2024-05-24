@@ -52,11 +52,11 @@ export default function SpendingChart() {
     return (
         <section id="spending-chart">
             <h2>Spending Chart</h2>
-            <div id="chart">
+            <div id="chart" className="overflow-hidden">
                 <Chart
                     chartType="PieChart"
-                    width="100%"
-                    height="500px"
+                    width="400px"
+                    height="300px"
                     data={[
                         [data.columns[0].label, data.columns[1].label],
                         ...data.data,

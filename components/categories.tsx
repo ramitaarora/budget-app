@@ -13,7 +13,15 @@ export default function Categories() {
 
         setParentCategory(parentCategories);
         setChildCategory(childCategories);
-    }, [categoryData])
+        setTotalBudget(budgetData[0].amount)
+    }, [categoryData, budgetData])
+
+    const getTotalExpenses = () => {
+        // input an id (parent vs. child id)
+        // get all expenses that match that id
+        // for parent categories (where parent id is null), get all expenses that also match the parent_id
+        // add up all the expenses and return that number
+    }
 
     return (
         <section id="categories">
