@@ -13,7 +13,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 2,
         description: "Trader Joe's",
-        date: new Date(new Date("05-20-2024")),
+        date: new Date("05-20-2024"),
         amount: 50.75,
     },
     {
@@ -21,7 +21,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 2,
         description: "Whole Foods",
-        date: new Date(new Date("05-10-2024")),
+        date: new Date("05-10-2024"),
         amount: 103.99,
     },
     {
@@ -29,7 +29,7 @@ export const expensesData: Expenses[] = [
         user_id: 1,
         category_id: 3,
         description: "Taco Bell",
-        date: new Date(new Date("05-04-2024")),
+        date: new Date("05-04-2024"),
         amount: 12.50,
     },
     {

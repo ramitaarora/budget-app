@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Category, categoryData } from '../frontend-test-data/categories';
 import { budgetData } from '../frontend-test-data/budget';
+import { expensesData } from '../frontend-test-data/expenses';
 
 export default function Categories() {
     const [parentCategory, setParentCategory] = useState<Category[]>([]);
@@ -16,11 +17,21 @@ export default function Categories() {
         setTotalBudget(budgetData[0].amount)
     }, [categoryData, budgetData])
 
-    const getTotalExpenses = () => {
-        // input an id (parent vs. child id)
+    const getChildExpenses = (inputID: number) => {
+        // input an id (parent vs. child id?)
         // get all expenses that match that id
         // for parent categories (where parent id is null), get all expenses that also match the parent_id
         // add up all the expenses and return that number
+        let total: number = 0;
+
+        for (let i = 0; i < expensesData.length; i++) {
+            if (expensesData[i].category_id === inputID) {
+                total += expensesData[i].amount;
+            }
+        }
+        console.log(total, inputID);
+        return total;
+        
     }
 
     return (
@@ -40,7 +51,7 @@ export default function Categories() {
                             <div key={childIndex} className="ml-3 flex w-100 justify-between items-center">
                                 <p className="mr-5">{filteredChildItem.name}</p>
                                 <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                                    <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(filteredChildItem.budget_amount / parentItem.budget_amount) * 100}%` }}></div>
+                                    <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildItem.id) / parentItem.budget_amount) * 100}%` }}></div>
                                 </div>
                             </div>
                         ))
