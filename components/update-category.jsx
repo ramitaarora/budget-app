@@ -30,7 +30,8 @@ export default function UpdateCategory() {
                     setFormState({
                         name: data[0].name,
                         parent_category: data[0].parent_category,
-                        budget: data[0].budget
+                        budget: data[0].budget,
+                        flexible: data[0].flexible
                     })
                 } else {
                     const res = await fetch('/api/category', {
@@ -45,7 +46,6 @@ export default function UpdateCategory() {
                     };
 
                     const data = await res.json();
-                    console.log(data);
                     setCategories(data);
                 }
             } catch (err) {
@@ -143,12 +143,14 @@ export default function UpdateCategory() {
                     />
                     <label>
                         Flexible:
-                        <input
+                        <select
                             name="flexible"
-                            type="checkbox"
                             value={formState.flexible}
                             onChange={handleChange}
-                        />
+                        >
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
                     </label>
                 </div>
                 <button type="submit">Save</button>
