@@ -5,11 +5,13 @@ export default function AddCategory() {
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const { name, value, type } = event.target;
+
+        const checkedValue = type === 'radio' ? (value === 'true') : value;
 
         setFormState({
             ...formState,
-            [name]: value,
+            [name]: checkedValue,
         });
     };
 
@@ -74,14 +76,26 @@ export default function AddCategory() {
                         value={formState.budget}
                         onChange={handleChange}
                     />
+                    <p>Flexible?</p>
                     <label>
-                        Flexible:
                         <input
+                            type="radio"
                             name="flexible"
-                            type="checkbox"
-                            value={formState.flexible}
+                            value="true"
                             onChange={handleChange}
+                            checked={formState.flexible === true}
                         />
+                        True
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="flexible"
+                            value="false"
+                            onChange={handleChange}
+                            checked={formState.flexible === false}
+                        />
+                        False
                     </label>
                 </div>
                 <button type="submit">Save</button>
