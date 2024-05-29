@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "sync": "node sync.js",
-    "seed": "node seeds/category-seeds.js"
+    "seed": "node seeds/seeds.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

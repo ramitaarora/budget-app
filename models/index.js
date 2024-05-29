@@ -17,12 +17,12 @@ User.belongsTo(Account, {
 
 Category.hasMany(Category, {
     as: 'children',
-    foreignKey: 'parent_category'
+    foreignKey: 'parent_id'
 });
 
 Category.belongsTo(Category, {
     as: 'parent',
-    foreignKey: 'parent_category'
+    foreignKey: 'parent_id'
 });
 
 // Category.hasMany(Budget, {
