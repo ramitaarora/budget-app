@@ -15,10 +15,6 @@ Category.init(
             type: DataTypes.STRING,
             allowNull: false
         },
-        color: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
         flexible: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
@@ -31,7 +27,7 @@ Category.init(
                 isDecimal: true
             }
         },
-        parent_category: {
+        parent_id: {
             type: DataTypes.INTEGER,
             allowNull: true,
             references: {

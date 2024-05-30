@@ -5,7 +5,15 @@ export default function Expenses() {
     const [sortedExpenses, setSortedExpenses] = useState<Expenses[]>(expensesData);
     const sortedExpensesData = expensesData.sort((a, b) => b.date.getTime() - a.date.getTime());
 
+    const getExpenses = async() => {
+        const response = await fetch('/api/expenses');
+        if (response) {
+            console.log(response.json());
+        }
+    }
+
     useEffect(() => {
+        getExpenses();
         setSortedExpenses(sortedExpensesData);
     }, [sortedExpensesData])
 

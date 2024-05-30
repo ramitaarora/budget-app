@@ -13,7 +13,7 @@ export default function Categories() {
 
         setParentCategory(parentCategories);
         setChildCategory(childCategories);
-        console.log(expensesData);
+        
     }, [categoryData])
 
     const getChildExpenses = (inputID: number) => {

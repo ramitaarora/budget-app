@@ -12,12 +12,19 @@ Budget.init(
             autoIncrement: true
         },
         date: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.STRING,
             allowNull: false
         },
         amount: {
             type: DataTypes.DECIMAL,
             allowNull: false,
+            validate: {
+                isDecimal: true
+            }
+        },
+        savings_goal: {
+            type: DataTypes.DECIMAL,
+            allowNull: true,
             validate: {
                 isDecimal: true
             }
