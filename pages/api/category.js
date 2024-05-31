@@ -43,8 +43,8 @@ export async function getCategories(req, res) {
     const accountID = req.user.account_id;
     let query = { where: {} };
 
-    // if (accountID) query.where.account_id = accountID;
-    // if (id) query.where.id = id;
+    if (accountID) query.where.account_id = accountID;
+    if (id) query.where.id = id;
 
     try {
         const category = await Category.findAll(query);

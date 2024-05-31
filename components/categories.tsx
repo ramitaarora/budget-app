@@ -34,8 +34,6 @@ export default function Categories() {
         } catch (err) {
             console.error(err);
         }
-
-
     }
 
     useEffect(() => {

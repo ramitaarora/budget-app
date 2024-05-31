@@ -14,7 +14,7 @@ export default function SpendingChart() {
     const [categoryData, setCategoryData] = useState<any[]>([]);
     const [expensesData, setExpensesData] = useState<any[]>([]);
     let sortedData: any[] = [];
-    
+
     const getData = async () => {
         try {
             setLoading(true);
@@ -70,16 +70,16 @@ export default function SpendingChart() {
                         sortedData[j].amount += Number(expensesData[i].amount);
                     }
                 }
-            }   
+            }
         }
     }, [expensesData])
 
     useEffect(() => {
         for (let i = 0; i < sortedData.length - 1; i++) {
             let category = categoryData.filter((category) => sortedData[i].category_id === category.id);
-            setSpendingData( (prev) => [...(prev || []), [category[0].name, sortedData[i].amount]] );
+            setSpendingData((prev) => [...(prev || []), [category[0].name, sortedData[i].amount]]);
         }
-        
+
     }, [sortedData])
 
     const data: ChartData = {
