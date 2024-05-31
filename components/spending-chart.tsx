@@ -1,7 +1,6 @@
+import exp from 'constants';
 import { useState, useEffect } from 'react';
 import { Chart } from "react-google-charts";
-import { Expenses, expensesData } from "../frontend-test-data/expenses";
-import { categoryData } from '../frontend-test-data/categories';
 
 interface ChartData {
     title: string;
@@ -10,8 +9,44 @@ interface ChartData {
 }
 
 export default function SpendingChart() {
+    const [loading, setLoading] = useState<boolean>(false);
     const [spendingData, setSpendingData] = useState<(string | number)[][] | []>([]);
-    let sortedData: Expenses[] = [];
+    const [categoryData, setCategoryData] = useState<any[]>([]);
+    const [expensesData, setExpensesData] = useState<any[]>([]);
+    let sortedData: any[] = [];
+    
+    const getData = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch('/api/category', {
+                method: 'GET'
+            });
+            if (response.ok) {
+                const data = await response.json();
+                // console.log(data);
+                setCategoryData(data);
+                try {
+                    const response = await fetch('/api/expenses', {
+                        method: 'GET'
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        // console.log(data);
+                        setExpensesData(data);
+                        setLoading(false);
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
 
     useEffect(() => {
         setSpendingData([]);
@@ -20,12 +55,19 @@ export default function SpendingChart() {
             let inSorted = sortedData.find((item) => item.category_id === expensesData[i].category_id);
 
             if (!inSorted) {
-                sortedData.push(expensesData[i]);
+                sortedData.push({
+                    description: expensesData[i].description,
+                    category_id: expensesData[i].category_id,
+                    amount: Number(expensesData[i].amount),
+                    date: expensesData[i].date,
+                    id: expensesData[i].id,
+                    user_id: expensesData[i].user_id
+                });
             }
             else {
                 for (let j = 0; j < sortedData.length; j++) {
                     if (sortedData[j].category_id === expensesData[i].category_id) {
-                        sortedData[j].amount += expensesData[i].amount;
+                        sortedData[j].amount += Number(expensesData[i].amount);
                     }
                 }
             }   
