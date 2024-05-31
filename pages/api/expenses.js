@@ -43,9 +43,9 @@ export async function getExpenses(req, res) {
     const userID = req.user.user_id;
     let query = { where: {} };
 
-    if (userID) query.where.user_id = userID;
-    if (id) query.where.id = id;
-    if (date) query.where.date = date;
+    // if (userID) query.where.user_id = userID;
+    // if (id) query.where.id = id;
+    // if (date) query.where.date = date;
     if (category_id) query.where.category_id = category_id;
 
     try {
