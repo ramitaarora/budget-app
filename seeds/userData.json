@@ -1,8 +1,9 @@
 [
     {
-        "first_name": "Justin",
-        "last_name": "C",
-        "email": "justin@example.com",
+        "id": 1,
+        "first_name": "Test",
+        "last_name": "Last Name",
+        "email": "test@example.com",
         "password": "password12345!",
         "location": "Glendale",
         "account_id": 1
