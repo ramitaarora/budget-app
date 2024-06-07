@@ -1,9 +1,9 @@
 [
     {
         "id": 1,
-        "first_name": "Ramita",
-        "last_name": "I",
-        "email": "ramita@example.com",
+        "first_name": "Test",
+        "last_name": "Last Name",
+        "email": "test@example.com",
         "password": "password12345!",
         "location": "Pasadena",
         "account_id": 1
