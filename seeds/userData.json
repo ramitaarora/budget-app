@@ -1,11 +1,10 @@
 [
     {
-        "id": 1,
-        "first_name": "Ramita",
-        "last_name": "I",
-        "email": "ramita@example.com",
+        "first_name": "Justin",
+        "last_name": "C",
+        "email": "justin@example.com",
         "password": "password12345!",
-        "location": "Pasadena",
+        "location": "Glendale",
         "account_id": 1
     }
 ]

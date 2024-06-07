@@ -1,51 +1,62 @@
 import Expenses from '../../models/Expenses';
 import { apiAuthenticate } from '../../middleware/auth';
+const { Op } = require('sequelize');
 
 // USE IN PRODUCTION TO PROTECT API ROUTES
 
-export default async function expenses(req, res) {
-    apiAuthenticate(req, res, async () => {
-        switch (req.method) {
-            case 'GET':
-                return getExpenses(req, res);
-            case 'POST':
-                return createExpense(req, res);
-            case 'PUT':
-                return updateExpense(req, res);
-            case 'DELETE':
-                return deleteExpense(req, res);
-            default:
-                res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
-                res.status(405).end(`Method ${req.method} Not Allowed`);
-        }
-    });
-}
-
 // export default async function expenses(req, res) {
-//     switch (req.method) {
-//         case 'GET':
-//             return getExpenses(req, res);
-//         case 'POST':
-//             return createExpense(req, res);
-//         case 'PUT':
-//             return updateExpense(req, res);
-//         case 'DELETE':
-//             return deleteExpense(req, res);
-//         default:
-//             res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
-//             res.status(405).end(`Method ${req.method} Not Allowed`);
-//     }
+//     apiAuthenticate(req, res, async () => {
+//         switch (req.method) {
+//             case 'GET':
+//                 return getExpenses(req, res);
+//             case 'POST':
+//                 return createExpense(req, res);
+//             case 'PUT':
+//                 return updateExpense(req, res);
+//             case 'DELETE':
+//                 return deleteExpense(req, res);
+//             default:
+//                 res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
+//                 res.status(405).end(`Method ${req.method} Not Allowed`);
+//         }
+//     });
 // }
+
+export default async function expenses(req, res) {
+    switch (req.method) {
+        case 'GET':
+            return getExpenses(req, res);
+        case 'POST':
+            return createExpense(req, res);
+        case 'PUT':
+            return updateExpense(req, res);
+        case 'DELETE':
+            return deleteExpense(req, res);
+        default:
+            res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
+            res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+}
 
 export async function getExpenses(req, res) {
 
-    const { id, date, category_id } = req.query;
-    const userID = req.user.user_id;
+    const { id, date, month, year, category_id } = req.query;
+    // const userID = req.user.user_id;
     let query = { where: {} };
 
-    if (userID) query.where.user_id = userID;
+    // if (userID) query.where.user_id = userID;
     if (id) query.where.id = id;
-    if (date) query.where.date = date;
+    // if (date) query.where.date = date;
+    if (month && year) {
+        const integerMonth = Number(month);
+        const integerYear = Number(year);
+        const startDate = new Date(integerYear, integerMonth, 1);
+        const endDate = new Date(integerYear, integerMonth + 1, 0);
+        query.where.date = {
+            [Op.gte]: startDate,
+            [Op.lte]: endDate
+        };
+    }
     if (category_id) query.where.category_id = category_id;
 
     try {
