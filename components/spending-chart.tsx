@@ -13,7 +13,8 @@ export default function SpendingChart() {
     const [spendingData, setSpendingData] = useState<(string | number)[][] | []>([]);
     const [categoryData, setCategoryData] = useState<any[]>([]);
     const [expensesData, setExpensesData] = useState<any[]>([]);
-    const [savingsGoal, setSavingsGoal] = useState<number>(0);
+    const [budgetData, setBudgetData] = useState<any[]>([]);
+    const [totalExpenses, setTotalExpenses] = useState<number>(0);
     let sortedData: any[] = [];
 
     const getData = async () => {
@@ -46,7 +47,8 @@ export default function SpendingChart() {
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        setSavingsGoal(data[0].savings_goal);
+                        // console.log(data);
+                        setBudgetData(data);
                     }
                 } catch (err) {
                     console.error(err)
@@ -92,17 +94,25 @@ export default function SpendingChart() {
             let category = categoryData.filter((category) => sortedData[i].category_id === category.id);
             setSpendingData((prev) => [...(prev || []), [category[0].name, sortedData[i].amount]]);
         }
-        
-    }, [sortedData, savingsGoal])
+    }, [sortedData])
 
     useEffect(() => {
-        const includesSavings = spendingData.some((item) => item[0] === "Savings");
+        const includesSavings = spendingData.some((item) => item[0] === "Savings Goal");
+        const includesRemaining = spendingData.some((item) => item[0] === "Remaining Budget");
 
-        if (includesSavings === false) {
-            setSpendingData((prev) => [...(prev || []), ["Savings", Number(savingsGoal)]]);
+        if (!includesSavings && budgetData.length) {
+            setSpendingData((prev) => [...(prev || []), ["Savings Goal", Number(budgetData[0].savings_goal)]]);
         }
-        
-    }, [savingsGoal])
+
+        if (!includesRemaining && budgetData.length) {
+            const remainingBudget = Number(budgetData[0].amount) - totalExpenses;
+            setSpendingData((prev) => [...(prev || []), ["Remaining Budget", remainingBudget]]);
+        }
+    }, [budgetData])
+
+    useEffect(() => {
+        setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));
+    }, [expensesData])
 
     const data: ChartData = {
         title: '',
