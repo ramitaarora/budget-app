@@ -13,6 +13,7 @@ export default function SpendingChart() {
     const [spendingData, setSpendingData] = useState<(string | number)[][] | []>([]);
     const [categoryData, setCategoryData] = useState<any[]>([]);
     const [expensesData, setExpensesData] = useState<any[]>([]);
+    const [savingsGoal, setSavingsGoal] = useState<number>(0);
     let sortedData: any[] = [];
 
     const getData = async () => {
@@ -37,6 +38,18 @@ export default function SpendingChart() {
                     }
                 } catch (err) {
                     console.error(err);
+                }
+
+                try {
+                    const response = await fetch('/api/budget', {
+                        method: 'GET'
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        setSavingsGoal(data[0].savings_goal);
+                    }
+                } catch (err) {
+                    console.error(err)
                 }
             }
         } catch (err) {
@@ -79,8 +92,17 @@ export default function SpendingChart() {
             let category = categoryData.filter((category) => sortedData[i].category_id === category.id);
             setSpendingData((prev) => [...(prev || []), [category[0].name, sortedData[i].amount]]);
         }
+        
+    }, [sortedData, savingsGoal])
 
-    }, [sortedData])
+    useEffect(() => {
+        const includesSavings = spendingData.some((item) => item[0] === "Savings");
+
+        if (includesSavings === false) {
+            setSpendingData((prev) => [...(prev || []), ["Savings", Number(savingsGoal)]]);
+        }
+        
+    }, [savingsGoal])
 
     const data: ChartData = {
         title: '',
