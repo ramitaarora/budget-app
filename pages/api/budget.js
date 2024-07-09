@@ -1,20 +1,20 @@
-import Expenses from '../../models/Expenses';
+import Budget from '../../models/Budget';
 import { apiAuthenticate } from '../../middleware/auth';
 const { Op } = require('sequelize');
 
 // USE IN PRODUCTION TO PROTECT API ROUTES
 
-export default async function expenses(req, res) {
+export default async function budget(req, res) {
     apiAuthenticate(req, res, async () => {
         switch (req.method) {
             case 'GET':
-                return getExpenses(req, res);
+                return getBudget(req, res);
             case 'POST':
-                return createExpense(req, res);
+                return createBudget(req, res);
             case 'PUT':
-                return updateExpense(req, res);
+                return updateBudget(req, res);
             case 'DELETE':
-                return deleteExpense(req, res);
+                return deleteBudget(req, res);
             default:
                 res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
                 res.status(405).end(`Method ${req.method} Not Allowed`);
@@ -38,14 +38,13 @@ export default async function expenses(req, res) {
 //     }
 // }
 
-export async function getExpenses(req, res) {
+export async function getBudget(req, res) {
 
-    const { id, date, month, year, category_id, limit } = req.query;
+    const { id, date, month, year, category_id } = req.query;
     // const userID = req.user.user_id;
     let query = {
         where: {},
-        order: [['date', 'DESC']],
-        limit: parseInt(limit) || 3
+        order: [['date', 'DESC']]
     };
 
     // if (userID) query.where.user_id = userID;
@@ -64,62 +63,61 @@ export async function getExpenses(req, res) {
     if (category_id) query.where.category_id = category_id;
 
     try {
-        const expenses = await Expenses.findAll(query);
-        if (expenses) {
-            res.status(200).json(expenses);
+        const budget = await Budget.findAll(query);
+        if (budget) {
+            res.status(200).json(budget);
         } else {
-            res.status(404).json({ message: 'Expense not found.' })
+            res.status(404).json({ message: 'Budget not found.' })
         }
     } catch (error) {
-        console.error('Failed to fetch expenses:', error);
-        res.status(500).json({ message: 'Failed to retrieve expenses.' });
+        console.error('Failed to fetch budget:', error);
+        res.status(500).json({ message: 'Failed to retrieve budget.' });
     }
 }
 
-export async function createExpense(req, res) {
+export async function createBudget(req, res) {
     console.log(req.user.user_id);
     try {
-        const newExpense = await Expenses.create({
-            description: req.body.description,
-            category_id: req.body.category_id,
+        const newBudget = await Budget.create({
             date: req.body.date,
             amount: req.body.amount,
-            user_id: req.user.user_id
+            savings_goal: req.body.savings_goal,
+            account: req.user.account_id
         });
-        res.status(201).json(newExpense);
+        res.status(201).json(newBudget);
     } catch (error) {
-        console.error('Failed to create expense:', error);
-        res.status(500).json({ message: 'Failed to create expense.' });
+        console.error('Failed to create budget:', error);
+        res.status(500).json({ message: 'Failed to create budget.' });
     }
 }
 
-export async function updateExpense(req, res) {
+export async function updateBudget(req, res) {
     try {
         const { id } = req.query;
         const updateData = req.body;
-        const result = await Expenses.update(updateData, {
+        const result = await Budget.update(updateData, {
             where: { id: id }
         });
         res.status(200).json(result);
     } catch (error) {
-        console.error('Failed to update expense:', error);
-        res.status(500).json({ message: 'Failed to update expense.' });
+        console.error('Failed to update budget:', error);
+        res.status(500).json({ message: 'Failed to update budget.' });
     }
 }
 
-export async function deleteExpense(req, res) {
+export async function deleteBudget(req, res) {
     try {
         const { id } = req.query;
-        const result = await Expenses.destroy({
+        const result = await Budget.destroy({
             where: { id: id }
         });
         if (result > 0) {
-            res.status(204).json({ message: 'Successfully deleted expense.' });
+            res.status(204).json({ message: 'Successfully deleted budget.' });
         } else {
-            res.status(404).json({ message: 'Expense not found.' });
+            res.status(404).json({ message: 'Budget not found.' });
         }
     } catch (error) {
-        console.error('Failed to delete expense:', error);
-        res.status(500).json({ message: 'Failed to delete expense.' });
+        console.error('Failed to delete budget:', error);
+        res.status(500).json({ message: 'Failed to delete budget.' });
     }
 }

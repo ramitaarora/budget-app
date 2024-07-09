@@ -23,7 +23,7 @@ export default function Dashboard() {
                     <Budget />
                     <Expenses />
                 </div>
-                <SpendingChart />
+                {/* <SpendingChart /> */}
                 {/* <AddUser /> */}
             </main>
         </div>

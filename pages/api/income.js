@@ -1,4 +1,4 @@
-import Expenses from '../../models/Expenses';
+import Income from '../../models/Income';
 import { apiAuthenticate } from '../../middleware/auth';
 
 // USE IN PRODUCTION TO PROTECT API ROUTES
@@ -48,7 +48,7 @@ export async function getIncome(req, res) {
     if (date) query.where.date = date;
 
     try {
-        const expenses = await Expenses.findAll(query);
+        const expenses = await Income.findAll(query);
         if (expenses) {
             res.status(200).json(expenses);
         } else {
@@ -62,13 +62,13 @@ export async function getIncome(req, res) {
 
 export async function createIncome(req, res) {
     try {
-        const newExpense = await Expenses.create({
+        const newIncome = await Income.create({
             description: req.body.description,
             date: req.body.date,
             amount: req.body.amount,
             user_id: req.user.user_id
         });
-        res.status(201).json(newExpense);
+        res.status(201).json(newIncome);
     } catch (error) {
         console.error('Failed to create income:', error);
         res.status(500).json({ message: 'Failed to create income.' });
@@ -79,7 +79,7 @@ export async function updateIncome(req, res) {
     try {
         const { id } = req.query;
         const updateData = req.body;
-        const result = await Expenses.update(updateData, {
+        const result = await Income.update(updateData, {
             where: { id: id }
         });
         res.status(200).json(result);
@@ -92,7 +92,7 @@ export async function updateIncome(req, res) {
 export async function deleteIncome(req, res) {
     try {
         const { id } = req.query;
-        const result = await Expenses.destroy({
+        const result = await Income.destroy({
             where: { id: id }
         });
         if (result > 0) {
