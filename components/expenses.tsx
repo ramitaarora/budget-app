@@ -3,12 +3,9 @@ import { Expenses, expensesData } from "../frontend-test-data/expenses";
 
 export default function Expenses() {
     const [expensesData, setExpensesData] = useState<any[]>([]);
-    // const [sortedExpenses, setSortedExpenses] = useState<Expenses[]>(expensesData);
-    // const sortedExpensesData = expensesData.sort((a, b) => b.date.getTime() - a.date.getTime());
 
     const today = new Date();
     const month = today.getMonth();
-    // const monthName = today.toLocaleString('en-US', { month: 'long' });
     const year = today.getFullYear();
 
     useEffect(() => {
@@ -17,7 +14,7 @@ export default function Expenses() {
                 const res = await fetch(`/api/expenses?month=${month}&year=${year}&limit=5`, {
                     method: 'GET',
                     headers: {
-                        'Content-Type' : 'application/json',
+                        'Content-Type': 'application/json',
                     }
                 })
                 if (!res.ok) {
@@ -25,23 +22,28 @@ export default function Expenses() {
                 };
 
                 const data = await res.json();
-                console.log(data);
                 setExpensesData(data);
             } catch (err) {
-                console.error('Error making GET request:' , err);
+                console.error('Error making GET request:', err);
             };
         };
 
         fetchExpenses();
-    }, [month, year]);
+    }, []);
 
     return (
         <section id="expenses">
             <h2 className="text-center">Latest Expenses</h2>
             <div id="recent-expenses">
-                {/* <p>{sortedExpenses[0].description} - ${sortedExpenses[0].amount}</p>
-                <p>{sortedExpenses[1].description} - ${sortedExpenses[1].amount}</p>
-                <p>{sortedExpenses[2].description} - ${sortedExpenses[2].amount}</p> */}
+                {expensesData.length > 0 ? (
+                    <>
+                        <p>{expensesData[0]?.description} - ${expensesData[0]?.amount}</p>
+                        <p>{expensesData[1]?.description} - ${expensesData[1]?.amount}</p>
+                        <p>{expensesData[2]?.description} - ${expensesData[2]?.amount}</p>
+                    </>
+                ) : (
+                    <p>Loading data...</p>
+                )}
             </div>
         </section>
     );
