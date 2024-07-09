@@ -8,18 +8,21 @@ interface ChartData {
     columns: { type: string, label: string }[];
 }
 
-export default function SpendingChart() {
+interface SpendingChartProps {
+    fullDate: string;
+}
+
+export default function SpendingChart({ fullDate }: SpendingChartProps) {
     const [loading, setLoading] = useState<boolean>(false);
     const [spendingData, setSpendingData] = useState<(string | number)[][] | []>([]);
     const [categoryData, setCategoryData] = useState<any[]>([]);
-    const [expensesData, setExpensesData] = useState<any[]>([]);
     const [budgetData, setBudgetData] = useState<any[]>([]);
+    const [expensesData, setExpensesData] = useState<any[]>([]);
     const [totalExpenses, setTotalExpenses] = useState<number>(0);
-    let sortedData: any[] = [];
+    const [sortedData, setSortedData] = useState<any[]>([]);
 
     const getData = async () => {
         try {
-            setLoading(true);
             const response = await fetch('/api/category', {
                 method: 'GET'
             });
@@ -27,19 +30,6 @@ export default function SpendingChart() {
                 const data = await response.json();
                 // console.log(data);
                 setCategoryData(data);
-                try {
-                    const response = await fetch('/api/expenses', {
-                        method: 'GET'
-                    });
-                    if (response.ok) {
-                        const data = await response.json();
-                        // console.log(data);
-                        setExpensesData(data);
-                        setLoading(false);
-                    }
-                } catch (err) {
-                    console.error(err);
-                }
 
                 try {
                     const response = await fetch('/api/budget', {
@@ -48,7 +38,29 @@ export default function SpendingChart() {
                     if (response.ok) {
                         const data = await response.json();
                         // console.log(data);
-                        setBudgetData(data);
+
+                        for (let i = 0; i < data.length; i++) {
+                            if (new Date(data[i].date).getMonth() === new Date(fullDate).getMonth() && new Date(data[i].date).getFullYear() === Number(fullDate.slice(-4))) {
+                                setBudgetData([data[i]]);
+                            }
+                        }
+
+                        try {
+                            const response = await fetch('/api/expenses', {
+                                method: 'GET'
+                            });
+                            if (response.ok) {
+                                const data = await response.json();
+                                // console.log(data);
+                                for (let i = 0; i < data.length; i++) {
+                                    if (new Date(data[i].date).getMonth() === new Date(fullDate).getMonth() && new Date(data[i].date).getFullYear() === Number(fullDate.slice(-4))) {
+                                        setExpensesData((prev) => [...prev, data[i]])
+                                    }
+                                }
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
                     }
                 } catch (err) {
                     console.error(err)
@@ -64,20 +76,24 @@ export default function SpendingChart() {
     }, [])
 
     useEffect(() => {
+        setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));
+    }, [expensesData])
+
+    useEffect(() => {
         setSpendingData([]);
 
         for (let i = 0; i < expensesData.length; i++) {
             let inSorted = sortedData.find((item) => item.category_id === expensesData[i].category_id);
 
             if (!inSorted) {
-                sortedData.push({
+                setSortedData((prev) => [...prev, {
                     description: expensesData[i].description,
                     category_id: expensesData[i].category_id,
                     amount: Number(expensesData[i].amount),
                     date: expensesData[i].date,
                     id: expensesData[i].id,
                     user_id: expensesData[i].user_id
-                });
+                }]);
             }
             else {
                 for (let j = 0; j < sortedData.length; j++) {
@@ -105,14 +121,11 @@ export default function SpendingChart() {
         }
 
         if (!includesRemaining && budgetData.length) {
-            const remainingBudget = Number(budgetData[0].amount) - totalExpenses;
+            const remainingBudget = Number(budgetData[0].amount) - totalExpenses - budgetData[0].savings_goal;
             setSpendingData((prev) => [...(prev || []), ["Remaining Budget", remainingBudget]]);
         }
-    }, [budgetData])
 
-    useEffect(() => {
-        setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));
-    }, [expensesData])
+    }, [totalExpenses, spendingData, budgetData])
 
     const data: ChartData = {
         title: '',
@@ -124,22 +137,26 @@ export default function SpendingChart() {
     };
 
     return (
-        <section id="spending-chart">
-            <h2>Spending Chart</h2>
-            <div id="chart" className="overflow-hidden">
-                <Chart
-                    chartType="PieChart"
-                    width="400px"
-                    height="300px"
-                    data={[
-                        [data.columns[0].label, data.columns[1].label],
-                        ...data.data,
-                    ]}
-                    options={{
-                        title: data.title,
-                    }}
-                />
-            </div>
-        </section>
+        <div>
+            {loading ? <img /> : (
+                <section id="spending-chart">
+                    <h2>Spending Chart</h2>
+                    <div id="chart" className="overflow-hidden">
+                        <Chart
+                            chartType="PieChart"
+                            width="400px"
+                            height="300px"
+                            data={[
+                                [data.columns[0].label, data.columns[1].label],
+                                ...data.data,
+                            ]}
+                            options={{
+                                title: data.title,
+                            }}
+                        />
+                    </div>
+                </section>
+            )}
+        </div>
     );
 }
