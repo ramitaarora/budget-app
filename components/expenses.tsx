@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Expenses, expensesData } from "../frontend-test-data/expenses";
 
 export default function Expenses() {
     const [expensesData, setExpensesData] = useState<any[]>([]);
