@@ -64,7 +64,6 @@ export default function Budget() {
                 };
 
                 const fetchedIncomeData = await res.json();
-                console.log(fetchedIncomeData, 'here');
                 setIncomeData(fetchedIncomeData);
             } catch (err) {
                 console.error('Error making GET request:', err);
@@ -89,7 +88,9 @@ export default function Budget() {
                 <h3>Remaining Budget</h3>
                 {budgetData.length > 0 ? (
                     <>
-                        <p>${totalExpenses} / ${budgetData[0]?.amount}</p>
+                        <p style={{ color: totalExpenses > budgetData[0]?.amount ? 'red' : 'black' }}>
+                            ${totalExpenses} / ${budgetData[0]?.amount}
+                        </p>
                     </>
                 ) : (
                     <p>No data available.</p>
