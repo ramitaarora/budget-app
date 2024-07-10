@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 
 export default function Budget() {
-    const [totalExpenses, setTotalExpenses] = useState<number>(0);
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [budgetData, setBudgetData] = useState<any[]>([]);
+    const [incomeData, setIncomeData] = useState<any[]>([]);
+    const [totalExpenses, setTotalExpenses] = useState<number>(0);
+    const [totalIncome, setTotalIncome] = useState<number>(0);
 
     const today = new Date();
     const month = today.getMonth();
@@ -49,13 +51,35 @@ export default function Budget() {
             };
         };
 
+        const fetchIncome = async () => {
+            try {
+                const res = await fetch(`/api/income?month=${month}&year=${year}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                if (!res.ok) {
+                    throw new Error('Failed to fetch income data');
+                };
+
+                const fetchedIncomeData = await res.json();
+                console.log(fetchedIncomeData, 'here');
+                setIncomeData(fetchedIncomeData);
+            } catch (err) {
+                console.error('Error making GET request:', err);
+            };
+        };
+
         fetchExpenses();
         fetchBudget();
+        fetchIncome();
     }, []);
 
     useEffect(() => {
         setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));
-    }, [expensesData]);
+        setTotalIncome(incomeData.reduce((acc, obj) => acc + Number(obj.amount), 0));
+    }, [expensesData, incomeData]);
 
     return (
         <section id="budget">
@@ -65,7 +89,7 @@ export default function Budget() {
                 <h3>Remaining Budget</h3>
                 {budgetData.length > 0 ? (
                     <>
-                        <p>${totalExpenses} / ${budgetData[0].amount}</p>
+                        <p>${totalExpenses} / ${budgetData[0]?.amount}</p>
                     </>
                 ) : (
                     <p>No data available.</p>
@@ -73,13 +97,19 @@ export default function Budget() {
             </div>
             <div id="income">
                 <h3>Income</h3>
-                <p></p>
+                {incomeData.length > 0 ? (
+                    <>
+                        <p>${totalIncome}</p>
+                    </>
+                ) : (
+                    <p>No income data.</p>
+                )}
             </div>
             <div id="savings-goals">
                 <h3>Monthly Savings Goal</h3>
                 {budgetData.length > 0 ? (
                     <>
-                        <p>${budgetData[0].savings_goal}</p>
+                        <p>${budgetData[0]?.savings_goal}</p>
                     </>
                 ) : (
                     <p>No budget data available.</p>

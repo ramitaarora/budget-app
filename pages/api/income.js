@@ -1,5 +1,6 @@
 import Income from '../../models/Income';
 import { apiAuthenticate } from '../../middleware/auth';
+const { Op } = require('sequelize');
 
 // USE IN PRODUCTION TO PROTECT API ROUTES
 
