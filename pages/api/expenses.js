@@ -44,13 +44,13 @@ export async function getExpenses(req, res) {
     // const userID = req.user.user_id;
     let query = {
         where: {},
-        order: [['date', 'DESC']],
-        limit: parseInt(limit) || 3
+        order: [['date', 'DESC']]
     };
+
+    if (limit) query.limit = parseInt(limit);
 
     // if (userID) query.where.user_id = userID;
     if (id) query.where.id = id;
-    // if (date) query.where.date = date;
     if (month && year) {
         const integerMonth = Number(month);
         const integerYear = Number(year);

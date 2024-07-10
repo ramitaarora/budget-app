@@ -40,25 +40,20 @@ export default async function budget(req, res) {
 
 export async function getBudget(req, res) {
 
-    const { id, date, month, year, category_id } = req.query;
-    // const userID = req.user.user_id;
+    const { id, month, year, category_id } = req.query;
+    // const accountID = req.user.account_id;
     let query = {
-        where: {},
-        order: [['date', 'DESC']]
+        where: {}
     };
 
-    // if (userID) query.where.user_id = userID;
+    // if (accountID) query.where.account_id = accountID;
     if (id) query.where.id = id;
-    // if (date) query.where.date = date;
     if (month && year) {
-        const integerMonth = Number(month);
-        const integerYear = Number(year);
-        const startDate = new Date(integerYear, integerMonth, 1);
-        const endDate = new Date(integerYear, integerMonth + 1, 0);
-        query.where.date = {
-            [Op.gte]: startDate,
-            [Op.lte]: endDate
-        };
+        // const integerMonth = Number(month);
+        // const integerYear = Number(year);
+        // const startDate = new Date(integerYear, integerMonth, 1);
+        // query.where.date = startDate;
+        query.where.date = `${month}-01-${year}`
     }
     if (category_id) query.where.category_id = category_id;
 

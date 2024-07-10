@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import DateSelector from './date-selector';
+import MonthSelector from './month-selector';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function AddIncome() {
+export default function AddBudget() {
 
-    const [formState, setFormState] = useState({ description: '', date: '', amount: '' });
+    const [formState, setFormState] = useState({ date: '', amount: '', savings_goal: '' });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -19,45 +19,47 @@ export default function AddIncome() {
 
         event.preventDefault();
 
-        const { description, date, amount } = formState;
+        const { date, amount, savings_goal } = formState;
 
         const formattedAmount = amount.replace(/[^\d.-]/g, '');
+        const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
 
-        const res = await fetch('/api/income', {
+        const res = await fetch('/api/budget', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ description, date, amount: formattedAmount })
+            body: JSON.stringify({ date, amount: formattedAmount, savings_goal: formattedSavingsGoal })
         });
 
         if (res.ok) {
             setFormState({
-                description: '',
                 date: '',
-                amount: ''
+                amount: '',
+                savings_goal: '',
             });
             // Change later
-            alert('New income created!');
+            alert('New budget created!');
         }
     };
 
     return (
         <div>
             <form onSubmit={handleFormSubmit}>
-                <p>Add Income</p>
+                <p>Add Budget</p>
                 <div>
-                    <input
-                        placeholder="Description"
-                        name="description"
-                        type="text"
-                        value={formState.description}
-                        onChange={handleChange}
-                    />
-                    <DateSelector date={formState.date} onChange={handleChange} />
+                    <MonthSelector date={formState.date} onChange={handleChange} />
                     <label>Amount: </label>
                     <CurrencyInput
                         name="amount"
+                        prefix="$"
+                        defaultValue={0}
+                        decimalsLimit={2}
+                        onChange={handleChange}
+                    />
+                    <label>Savings Goal: </label>
+                    <CurrencyInput
+                        name="savings_goal"
                         prefix="$"
                         defaultValue={0}
                         decimalsLimit={2}

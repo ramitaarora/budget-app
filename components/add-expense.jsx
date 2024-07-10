@@ -72,6 +72,7 @@ export default function AddExpense() {
                         <option value="13">Misc.</option>
                     </select>
                     <DateSelector date={formState.date} onChange={handleChange} />
+                    <label>Amount: </label>
                     <CurrencyInput
                         name="amount"
                         prefix="$"
