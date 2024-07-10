@@ -53,7 +53,11 @@ export async function getBudget(req, res) {
         // const integerYear = Number(year);
         // const startDate = new Date(integerYear, integerMonth, 1);
         // query.where.date = startDate;
-        query.where.date = `${month}-01-${year}`
+        const formattedMonth = String(parseInt(month) + 1).padStart(2, '0');
+        const formattedDate = `${formattedMonth}-01-${year}`;
+        console.log(formattedDate);
+        console.log(typeof formattedDate);
+        query.where.date = formattedDate;
     }
     if (category_id) query.where.category_id = category_id;
 

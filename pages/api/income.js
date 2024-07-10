@@ -39,13 +39,25 @@ export default async function income(req, res) {
 
 export async function getIncome(req, res) {
 
-    const { id, date} = req.query;
+    const { id, month, year} = req.query;
     const userID = req.user.user_id;
-    let query = { where: {} };
+    let query = {
+        where: {},
+        order: [['date', 'DESC']]
+    };
 
     if (userID) query.where.user_id = userID;
     if (id) query.where.id = id;
-    if (date) query.where.date = date;
+    if (month && year) {
+        const integerMonth = Number(month);
+        const integerYear = Number(year);
+        const startDate = new Date(integerYear, integerMonth, 1);
+        const endDate = new Date(integerYear, integerMonth + 1, 0);
+        query.where.date = {
+            [Op.gte]: startDate,
+            [Op.lte]: endDate
+        };
+    }
 
     try {
         const expenses = await Income.findAll(query);

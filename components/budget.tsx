@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// import { Budget, budgetData } from '../frontend-test-data/budget';
 
 export default function Budget() {
     const [totalExpenses, setTotalExpenses] = useState<number>(0);
@@ -17,7 +16,7 @@ export default function Budget() {
                 const res = await fetch(`/api/expenses?month=${month}&year=${year}`, {
                     method: 'GET',
                     headers: {
-                        'Content-Type' : 'application/json',
+                        'Content-Type': 'application/json',
                     }
                 })
                 if (!res.ok) {
@@ -28,7 +27,7 @@ export default function Budget() {
                 console.log(fetchedExpensesData);
                 setExpensesData(fetchedExpensesData);
             } catch (err) {
-                console.error('Error making GET request:' , err);
+                console.error('Error making GET request:', err);
             };
         };
 
@@ -37,7 +36,7 @@ export default function Budget() {
                 const res = await fetch(`/api/budget?month=${month}&year=${year}`, {
                     method: 'GET',
                     headers: {
-                        'Content-Type' : 'application/json',
+                        'Content-Type': 'application/json',
                     }
                 })
                 if (!res.ok) {
@@ -45,16 +44,16 @@ export default function Budget() {
                 };
 
                 const fetchedBudgetData = await res.json();
-                console.log(fetchedBudgetData);
+                console.log(fetchedBudgetData[0].amount);
                 setBudgetData(fetchedBudgetData);
             } catch (err) {
-                console.error('Error making GET request:' , err);
+                console.error('Error making GET request:', err);
             };
         };
 
         fetchExpenses();
         fetchBudget();
-    }, [month, year]);
+    }, []);
 
     useEffect(() => {
         setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));
@@ -66,7 +65,13 @@ export default function Budget() {
             <h3>Current Month: {monthName} {year}</h3>
             <div id="total-budget">
                 <h3>Remaining Budget</h3>
-                <p>${totalExpenses} / ${budgetData}</p>
+                {budgetData.length > 0 ? (
+                    <>
+                        <p>${totalExpenses} / ${budgetData[0].amount}</p>
+                    </>
+                ) : (
+                    <p>No data available.</p>
+                )}
             </div>
             <div id="income">
                 <h3>Income</h3>
@@ -74,7 +79,13 @@ export default function Budget() {
             </div>
             <div id="savings-goals">
                 <h3>Monthly Savings Goal</h3>
-                {/* <p>${budgetData[0].savings_goal}</p> */}
+                {budgetData.length > 0 ? (
+                    <>
+                        <p>${budgetData[0].savings_goal}</p>
+                    </>
+                ) : (
+                    <p>No budget data available.</p>
+                )}
             </div>
         </section>
     );
