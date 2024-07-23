@@ -21,12 +21,16 @@ export default async function budget(req, res) {
 
 export async function getBudgets(req, res) {
 
-    const { id } = req.query;
+    const { id, date } = req.query;
     const accountID = req.user.account_id;
     let query = { where: {} };
 
     if (accountID) query.where.account_id = accountID;
     if (id) query.where.id = id;
+    if (date) {
+        let month = new Date(date).getMonth() + 1;
+        query.where.date = month;
+    }
 
     try {
         const budget = await Budget.findAll(query);

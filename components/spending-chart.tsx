@@ -19,9 +19,11 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
     const [budgetData, setBudgetData] = useState<any[]>([]);
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [totalExpenses, setTotalExpenses] = useState<number>(0);
-    const [sortedData, setSortedData] = useState<any[]>([]);
+    let sortedData: any[] = [];
 
     const getData = async () => {
+        setLoading(true);
+
         try {
             const response = await fetch('/api/category', {
                 method: 'GET'
@@ -32,31 +34,23 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
                 setCategoryData(data);
 
                 try {
-                    const response = await fetch('/api/budget', {
+                    const response = await fetch(`/api/budget?date=${fullDate}`, {
                         method: 'GET'
                     });
                     if (response.ok) {
                         const data = await response.json();
                         // console.log(data);
-
-                        for (let i = 0; i < data.length; i++) {
-                            if (new Date(data[i].date).getMonth() === new Date(fullDate).getMonth() && new Date(data[i].date).getFullYear() === Number(fullDate.slice(-4))) {
-                                setBudgetData([data[i]]);
-                            }
-                        }
+                        setBudgetData(data);
 
                         try {
-                            const response = await fetch('/api/expenses', {
+                            const response = await fetch(`/api/expenses?date=${fullDate}`, {
                                 method: 'GET'
                             });
                             if (response.ok) {
                                 const data = await response.json();
                                 // console.log(data);
-                                for (let i = 0; i < data.length; i++) {
-                                    if (new Date(data[i].date).getMonth() === new Date(fullDate).getMonth() && new Date(data[i].date).getFullYear() === Number(fullDate.slice(-4))) {
-                                        setExpensesData((prev) => [...prev, data[i]])
-                                    }
-                                }
+                                setExpensesData(data);
+                                setLoading(false);
                             }
                         } catch (err) {
                             console.error(err);
@@ -72,8 +66,10 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
     }
 
     useEffect(() => {
-        getData();
-    }, [])
+        if (fullDate) {
+            getData();
+        }
+    }, [fullDate])
 
     useEffect(() => {
         setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));
@@ -86,14 +82,14 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
             let inSorted = sortedData.find((item) => item.category_id === expensesData[i].category_id);
 
             if (!inSorted) {
-                setSortedData((prev) => [...prev, {
+                sortedData.push({
                     description: expensesData[i].description,
                     category_id: expensesData[i].category_id,
                     amount: Number(expensesData[i].amount),
                     date: expensesData[i].date,
                     id: expensesData[i].id,
                     user_id: expensesData[i].user_id
-                }]);
+                });
             }
             else {
                 for (let j = 0; j < sortedData.length; j++) {
@@ -110,6 +106,7 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
             let category = categoryData.filter((category) => sortedData[i].category_id === category.id);
             setSpendingData((prev) => [...(prev || []), [category[0].name, sortedData[i].amount]]);
         }
+
     }, [sortedData])
 
     useEffect(() => {
@@ -138,13 +135,13 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
 
     return (
         <div>
-            {loading ? <img /> : (
-                <section id="spending-chart">
-                    <h2>Spending Chart</h2>
+            <section id="spending-chart">
+                <h2>Spending Chart</h2>
+                {loading ? <p>Loading...</p> : (
                     <div id="chart" className="overflow-hidden">
                         <Chart
                             chartType="PieChart"
-                            width="400px"
+                            width="350px"
                             height="300px"
                             data={[
                                 [data.columns[0].label, data.columns[1].label],
@@ -155,8 +152,9 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
                             }}
                         />
                     </div>
-                </section>
-            )}
+                )}
+            </section>
+
         </div>
     );
 }

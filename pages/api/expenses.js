@@ -45,7 +45,11 @@ export async function getExpenses(req, res) {
 
     if (userID) query.where.user_id = userID;
     if (id) query.where.id = id;
-    if (date) query.where.date = date;
+    if (date) {
+        let month = new Date(date).getMonth() + 1;
+        console.log(month);
+        query.where.date = month;
+    } 
     if (category_id) query.where.category_id = category_id;
 
     try {

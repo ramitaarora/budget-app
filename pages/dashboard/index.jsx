@@ -31,7 +31,7 @@ export default function Dashboard() {
                 <p>Month - Year</p>
                 <p>AI Suggestion here</p>
             </header>
-            <main className="flex w-screen flex-wrap">
+            <main className="flex w-screen flex-wrap justify-center align-center">
                 <Categories />
                 <div className="flex flex-col">
                     <Budget />
