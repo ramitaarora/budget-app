@@ -27,8 +27,8 @@ export default function Categories({ fullDate }: CategoriesProps) {
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        console.log(data);
-                        // setExpensesData(data);
+                        // console.log(data);
+                        setExpensesData(data);
                         setLoading(false);
                     }
                 } catch (err) {
