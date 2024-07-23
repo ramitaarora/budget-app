@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 
-export default function Categories() {
+interface CategoriesProps {
+    fullDate: string;
+}
+
+export default function Categories({ fullDate }: CategoriesProps) {
     const [categoryData, setCategoryData] = useState<any[]>([]);
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [parentCategory, setParentCategory] = useState<any[]>([]);
@@ -18,13 +22,13 @@ export default function Categories() {
                 // console.log(data);
                 setCategoryData(data);
                 try {
-                    const response = await fetch('/api/expenses', {
+                    const response = await fetch(`/api/expenses?date=${fullDate}`, {
                         method: 'GET'
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        // console.log(data);
-                        setExpensesData(data);
+                        console.log(data);
+                        // setExpensesData(data);
                         setLoading(false);
                     }
                 } catch (err) {
