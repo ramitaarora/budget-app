@@ -54,8 +54,8 @@ export async function getExpenses(req, res) {
     // if (month && year) {
     //     const integerMonth = Number(month);
     //     const integerYear = Number(year);
-    //     const startDate = new Date(integerYear, integerMonth, 1);
-    //     const endDate = new Date(integerYear, integerMonth + 1, 0);
+    //     const startDate = new Date(integerYear, integerMonth - 1, 1);
+    //     const endDate = new Date(integerYear, integerMonth, 0);
     //     query.where.date = {
     //         [Op.gte]: startDate,
     //         [Op.lte]: endDate
