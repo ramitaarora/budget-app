@@ -35,13 +35,9 @@ export default function Expenses() {
             <h2 className="text-center">Latest Expenses</h2>
             <div id="recent-expenses">
                 {expensesData.length > 0 ? (
-                    <>
-                        <p>{expensesData[0]?.description} - ${expensesData[0]?.amount}</p>
-                        <p>{expensesData[1]?.description} - ${expensesData[1]?.amount}</p>
-                        <p>{expensesData[2]?.description} - ${expensesData[2]?.amount}</p>
-                        <p>{expensesData[3]?.description} - ${expensesData[3]?.amount}</p>
-                        <p>{expensesData[4]?.description} - ${expensesData[4]?.amount}</p>
-                    </>
+                    expensesData.map((expense, index) => (
+                        <p key={index}>{expense.description} - ${expense.amount}</p>
+                    ))
                 ) : (
                     <p>No expenses.</p>
                 )}
