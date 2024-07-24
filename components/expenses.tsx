@@ -4,7 +4,7 @@ export default function Expenses() {
     const [expensesData, setExpensesData] = useState<any[]>([]);
 
     const today = new Date();
-    const month = today.getMonth();
+    const month = today.getMonth() + 1;
     const year = today.getFullYear();
 
     useEffect(() => {

@@ -8,7 +8,7 @@ export default function Budget() {
     const [totalIncome, setTotalIncome] = useState<number>(0);
 
     const today = new Date();
-    const month = today.getMonth();
+    const month = today.getMonth() + 1;
     const monthName = today.toLocaleString('en-US', { month: 'long' });
     const year = today.getFullYear();
 
