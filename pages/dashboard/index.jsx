@@ -6,9 +6,9 @@ import AddUser from '../../components/add-user';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
 
-// export async function getServerSideProps(context) {
-//     return authenticate(context.req)
-// }
+export async function getServerSideProps(context) {
+    return authenticate(context.req)
+}
 
 export default function Dashboard() {
     const [fullDate, setFullDate] = useState('');

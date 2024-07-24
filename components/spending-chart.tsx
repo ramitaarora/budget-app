@@ -13,7 +13,7 @@ interface SpendingChartProps {
 }
 
 export default function SpendingChart({ fullDate }: SpendingChartProps) {
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [spendingData, setSpendingData] = useState<(string | number)[][] | []>([]);
     const [categoryData, setCategoryData] = useState<any[]>([]);
     const [budgetData, setBudgetData] = useState<any[]>([]);
@@ -21,9 +21,16 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
     const [totalExpenses, setTotalExpenses] = useState<number>(0);
     let sortedData: any[] = [];
 
-    const getData = async () => {
-        setLoading(true);
+    let data: ChartData = {
+        title: '',
+        columns: [
+            { type: 'string', label: 'Type' },
+            { type: 'number', label: 'Amount' },
+        ],
+        data: spendingData,
+    };
 
+    const getData = async () => {
         try {
             const response = await fetch('/api/category', {
                 method: 'GET'
@@ -50,7 +57,6 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
                                 const data = await response.json();
                                 // console.log(data);
                                 setExpensesData(data);
-                                setLoading(false);
                             }
                         } catch (err) {
                             console.error(err);
@@ -124,14 +130,19 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
 
     }, [totalExpenses, spendingData, budgetData])
 
-    const data: ChartData = {
-        title: '',
-        columns: [
-            { type: 'string', label: 'Type' },
-            { type: 'number', label: 'Amount' },
-        ],
-        data: spendingData,
-    };
+    useEffect(() => {
+        if (spendingData.length) {
+            data = {
+                title: '',
+                columns: [
+                    { type: 'string', label: 'Type' },
+                    { type: 'number', label: 'Amount' },
+                ],
+                data: spendingData,
+            };
+            setLoading(false);
+        }
+    }, [spendingData])
 
     return (
         <div>
