@@ -2,7 +2,6 @@ import Budget from '../../components/budget';
 import Categories from '../../components/categories';
 import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
-import AddUser from '../../components/add-user';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
 
@@ -26,19 +25,21 @@ export default function Dashboard() {
 
     return (
         <div>
+            <nav>
+                <button>Logout</button>
+            </nav>
             <header className="text-center">
-                <h1>Dashboard</h1>
-                <p>Month - Year</p>
+                <h1 className="text-xl">Your Budget</h1>
+                
                 <p>AI Suggestion here</p>
             </header>
             <main className="flex w-screen flex-wrap justify-center align-center">
                 <Categories fullDate={fullDate} />
-                <div className="flex flex-col">
+                <div className="flex flex-col align-center justify-evenly">
                     <Budget />
                     <Expenses />
                 </div>
                 <SpendingChart fullDate={fullDate}/>
-                {/* <AddUser /> */}
             </main>
         </div>
     )

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { authCheck } from '../middleware/auth';
+import AddUser from '../components/add-user';
 
 export async function getServerSideProps(context) {
     return authCheck(context.req)
@@ -50,7 +51,7 @@ export default function Login() {
     };
 
     return (
-        <main className="h-screen flex items-center justify-center">
+        <main className="h-screen flex flex-col items-center justify-center">
             <form id="login-form" onSubmit={handleFormSubmit} className="w-1/2 border border-zinc-500 rounded-md p-5 flex flex-col items-center justify-center shadow-md">
                 <p className="text-center text-xl">Log In</p>
                 <div className="m-3 flex justify-center items-center flex-wrap">
@@ -73,6 +74,7 @@ export default function Login() {
                 </div>
                 <button type="submit" className="border border-zinc-600 px-2 py-1 rounded">Submit</button>
             </form>
+            <AddUser />
         </main>
     )
 }

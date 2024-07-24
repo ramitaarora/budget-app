@@ -13,12 +13,9 @@ export default function Home() {
             <Head>
                 <title>Budget Planner App</title>
             </Head>
-            <nav className="p-2 w-screen flex justify-evenly align-center">
-                <button onClick={loginPage}>Login</button>
-                <button>Logout</button>
-            </nav>
-            <header className="text-center">
+            <header className="text-center m-auto">
                 <h1>Budget Planner App</h1>
+                <button onClick={loginPage} className="p-2 border rounded">Login</button>
             </header>
         </div>
     )
