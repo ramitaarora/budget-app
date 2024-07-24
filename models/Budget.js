@@ -12,7 +12,7 @@ Budget.init(
             autoIncrement: true
         },
         date: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             allowNull: false
         },
         amount: {

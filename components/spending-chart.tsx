@@ -8,16 +8,30 @@ interface ChartData {
     columns: { type: string, label: string }[];
 }
 
-export default function SpendingChart() {
-    const [loading, setLoading] = useState<boolean>(false);
+interface SpendingChartProps {
+    fullDate: string;
+}
+
+export default function SpendingChart({ fullDate }: SpendingChartProps) {
+    const [loading, setLoading] = useState<boolean>(true);
     const [spendingData, setSpendingData] = useState<(string | number)[][] | []>([]);
     const [categoryData, setCategoryData] = useState<any[]>([]);
+    const [budgetData, setBudgetData] = useState<any[]>([]);
     const [expensesData, setExpensesData] = useState<any[]>([]);
+    const [totalExpenses, setTotalExpenses] = useState<number>(0);
     let sortedData: any[] = [];
+
+    let data: ChartData = {
+        title: '',
+        columns: [
+            { type: 'string', label: 'Type' },
+            { type: 'number', label: 'Amount' },
+        ],
+        data: spendingData,
+    };
 
     const getData = async () => {
         try {
-            setLoading(true);
             const response = await fetch('/api/category', {
                 method: 'GET'
             });
@@ -25,18 +39,31 @@ export default function SpendingChart() {
                 const data = await response.json();
                 // console.log(data);
                 setCategoryData(data);
+
                 try {
-                    const response = await fetch('/api/expenses', {
+                    const response = await fetch(`/api/budget?date=${fullDate}`, {
                         method: 'GET'
                     });
                     if (response.ok) {
                         const data = await response.json();
                         // console.log(data);
-                        setExpensesData(data);
-                        setLoading(false);
+                        setBudgetData(data);
+
+                        try {
+                            const response = await fetch(`/api/expenses?date=${fullDate}`, {
+                                method: 'GET'
+                            });
+                            if (response.ok) {
+                                const data = await response.json();
+                                // console.log(data);
+                                setExpensesData(data);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
                     }
                 } catch (err) {
-                    console.error(err);
+                    console.error(err)
                 }
             }
         } catch (err) {
@@ -45,8 +72,14 @@ export default function SpendingChart() {
     }
 
     useEffect(() => {
-        getData();
-    }, [])
+        if (fullDate) {
+            getData();
+        }
+    }, [fullDate])
+
+    useEffect(() => {
+        setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));
+    }, [expensesData])
 
     useEffect(() => {
         setSpendingData([]);
@@ -82,32 +115,57 @@ export default function SpendingChart() {
 
     }, [sortedData])
 
-    const data: ChartData = {
-        title: '',
-        columns: [
-            { type: 'string', label: 'Type' },
-            { type: 'number', label: 'Amount' },
-        ],
-        data: spendingData,
-    };
+    useEffect(() => {
+        const includesSavings = spendingData.some((item) => item[0] === "Savings Goal");
+        const includesRemaining = spendingData.some((item) => item[0] === "Remaining Budget");
+
+        if (!includesSavings && budgetData.length) {
+            setSpendingData((prev) => [...(prev || []), ["Savings Goal", Number(budgetData[0].savings_goal)]]);
+        }
+
+        if (!includesRemaining && budgetData.length) {
+            const remainingBudget = Number(budgetData[0].amount) - totalExpenses - budgetData[0].savings_goal;
+            setSpendingData((prev) => [...(prev || []), ["Remaining Budget", remainingBudget]]);
+        }
+
+    }, [totalExpenses, spendingData, budgetData])
+
+    useEffect(() => {
+        if (spendingData.length) {
+            data = {
+                title: '',
+                columns: [
+                    { type: 'string', label: 'Type' },
+                    { type: 'number', label: 'Amount' },
+                ],
+                data: spendingData,
+            };
+            setLoading(false);
+        }
+    }, [spendingData])
 
     return (
-        <section id="spending-chart">
-            <h2>Spending Chart</h2>
-            <div id="chart" className="overflow-hidden">
-                <Chart
-                    chartType="PieChart"
-                    width="400px"
-                    height="300px"
-                    data={[
-                        [data.columns[0].label, data.columns[1].label],
-                        ...data.data,
-                    ]}
-                    options={{
-                        title: data.title,
-                    }}
-                />
-            </div>
-        </section>
+        <div>
+            <section id="spending-chart">
+                <h2>Spending Chart</h2>
+                {loading ? <p>Loading...</p> : (
+                    <div id="chart" className="overflow-hidden">
+                        <Chart
+                            chartType="PieChart"
+                            width="350px"
+                            height="300px"
+                            data={[
+                                [data.columns[0].label, data.columns[1].label],
+                                ...data.data,
+                            ]}
+                            options={{
+                                title: data.title,
+                            }}
+                        />
+                    </div>
+                )}
+            </section>
+
+        </div>
     );
 }
