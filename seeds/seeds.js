@@ -21,7 +21,12 @@ const seedCategories = async () => {
             returning: true,
         })
 
-        const budget = await Budget.bulkCreate(budgetData, {
+        const newBudgetData = budgetData.map((budget) => ({
+            ...budget,
+            date: new Date(budget.date)
+        }))
+
+        const budget = await Budget.bulkCreate(newBudgetData, {
             individualHooks: true,
             returning: true,
         })
@@ -36,10 +41,16 @@ const seedCategories = async () => {
             returning: true,
         })
 
-        const expenses = await Expenses.bulkCreate(expensesData, {
+        const newExpensesData = expensesData.map((expense) => ({
+            ...expense,
+            date: new Date(expense.date)
+        }));
+
+        const expenses = await Expenses.bulkCreate(newExpensesData, {
             individualHooks: true,
             returning: true,
         });
+
     } catch(error) {
         console.log(error);
     }
