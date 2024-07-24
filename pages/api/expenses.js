@@ -1,5 +1,6 @@
 import Expenses from '../../models/Expenses';
 import { apiAuthenticate } from '../../middleware/auth';
+import { Op, literal } from 'sequelize';
 
 // USE IN PRODUCTION TO PROTECT API ROUTES
 
@@ -39,16 +40,39 @@ export default async function expenses(req, res) {
 
 export async function getExpenses(req, res) {
 
-    const { id, date, category_id } = req.query;
-    const userID = req.user.user_id;
-    let query = { where: {} };
+    const { id, date, month, year, category_id, limit } = req.query;
+    // const userID = req.user.user_id;
+    let query = {
+        where: {},
+        order: [['date', 'DESC']]
+    };
 
-    if (userID) query.where.user_id = userID;
+    if (limit) query.limit = parseInt(limit);
+
+    // if (userID) query.where.user_id = userID;
     if (id) query.where.id = id;
-    if (date) {
-        let month = new Date(date).getMonth() + 1;
-        query.where.date = month;
-    } 
+    // if (month && year) {
+    //     const integerMonth = Number(month);
+    //     const integerYear = Number(year);
+    //     const startDate = new Date(integerYear, integerMonth - 1, 1);
+    //     const endDate = new Date(integerYear, integerMonth, 0);
+    //     query.where.date = {
+    //         [Op.gte]: startDate,
+    //         [Op.lte]: endDate
+    //     };
+    // }
+    if (month && year) {
+        // console.log(month, year);
+        query.where = {
+            ...query.where,
+            date: {
+                [Op.and]: [
+                    literal(`YEAR(date) = ${year}`),
+                    literal(`MONTH(date) = ${month}`)
+                ]
+            }
+        };
+    }
     if (category_id) query.where.category_id = category_id;
 
     try {
@@ -65,6 +89,7 @@ export async function getExpenses(req, res) {
 }
 
 export async function createExpense(req, res) {
+    console.log(req.user.user_id);
     try {
         const newExpense = await Expenses.create({
             description: req.body.description,

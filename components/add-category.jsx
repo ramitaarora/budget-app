@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CurrencyInput from 'react-currency-input-field';
 
 export default function AddCategory() {
 
@@ -20,13 +21,14 @@ export default function AddCategory() {
         event.preventDefault();
 
         const { name, parent_category, budget, flexible } = formState;
+        const formattedBudget = budget.replace(/[^\d.-]/g, '');
 
         const res = await fetch('/api/category', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, parent_category, budget, flexible })
+            body: JSON.stringify({ name, parent_category, budget: formattedBudget, flexible })
         });
 
         if (res.ok) {
@@ -69,11 +71,12 @@ export default function AddCategory() {
                         <option value="15">Medical</option>
                         <option value="16">Misc.</option>
                     </select>
-                    <input
-                        placeholder="Budget"
+                    <label>Budget: </label>
+                    <CurrencyInput
                         name="budget"
-                        type="number"
-                        value={formState.budget}
+                        prefix="$"
+                        defaultValue={0}
+                        decimalsLimit={2}
                         onChange={handleChange}
                     />
                     <p>Flexible?</p>

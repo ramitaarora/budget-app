@@ -111,7 +111,6 @@ export default function UpdateCategory() {
                 </select>
             </form>
             <form onSubmit={handleFormSubmit}>
-                <p>Update Category</p>
                 <div>
                     <input
                         placeholder="Name"

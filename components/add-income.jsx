@@ -2,9 +2,9 @@ import { useState } from 'react';
 import DateSelector from './date-selector';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function AddExpense() {
+export default function AddIncome() {
 
-    const [formState, setFormState] = useState({ description: '', date: '', amount: '', category_id: '' });
+    const [formState, setFormState] = useState({ description: '', date: '', amount: '' });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -19,34 +19,33 @@ export default function AddExpense() {
 
         event.preventDefault();
 
-        const { description, date, amount, category_id } = formState;
+        const { description, date, amount } = formState;
 
         const formattedAmount = amount.replace(/[^\d.-]/g, '');
 
-        const res = await fetch('/api/expenses', {
+        const res = await fetch('/api/income', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ description, date, amount: formattedAmount, category_id })
+            body: JSON.stringify({ description, date, amount: formattedAmount })
         });
 
         if (res.ok) {
             setFormState({
                 description: '',
                 date: '',
-                amount: '',
-                category_id: ''
+                amount: ''
             });
             // Change later
-            alert('New expense created!');
+            alert('New income created!');
         }
     };
 
     return (
         <div>
             <form onSubmit={handleFormSubmit}>
-                <p>Add Expense</p>
+                <p>Add Income</p>
                 <div>
                     <input
                         placeholder="Description"
@@ -55,22 +54,6 @@ export default function AddExpense() {
                         value={formState.description}
                         onChange={handleChange}
                     />
-                    <label>Category:</label>
-                    <select
-                        name="category_id"
-                        value={formState.category_id}
-                        onChange={handleChange}
-                    >
-                        <option value="1">Food</option>
-                        <option value="4">Rent</option>
-                        <option value="5">Bills</option>
-                        <option value="6">Transporation</option>
-                        <option value="9">Necessities</option>
-                        <option value="10">Entertainment</option>
-                        <option value="11">Holiday/Gifts</option>
-                        <option value="12">Medical</option>
-                        <option value="13">Misc.</option>
-                    </select>
                     <DateSelector date={formState.date} onChange={handleChange} />
                     <label>Amount: </label>
                     <CurrencyInput

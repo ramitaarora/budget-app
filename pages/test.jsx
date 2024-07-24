@@ -1,5 +1,7 @@
 import AddCategory from '../components/add-category';
 import AddExpense from '../components/add-expense';
+import AddIncome from '../components/add-income';
+import AddBudget from '../components/add-budget';
 import UpdateCategory from '../components/update-category';
 // import { authenticate } from '../middleware/auth';
 
@@ -20,13 +22,15 @@ export default function Test() {
 
     return (
         <div>
-            <div>-- Add Category --</div>
             <AddCategory />
             <br />
-            <div>-- Add Expense --</div>
             <AddExpense />
             <br />
-            <div>-- Update Category --</div>
+            <AddIncome />
+            <br />
+            <AddBudget />
+            <br />
+            <div>Update Category</div>
             <UpdateCategory />
             <br />
         </div>
