@@ -29,3 +29,75 @@
 .card-header svg {
   cursor: pointer;
 }
+
+/* Modal Styles */
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+
+  to {
+      opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+      opacity: 1;
+  }
+
+  to {
+      opacity: 0;
+  }
+}
+
+.fadeOut {
+  animation: fadeOut 400ms;
+}
+
+.modal-background {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  padding-top: 100px;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4);
+  -webkit-transition: 0.5s;
+  overflow: auto;
+  transition: all 0.3s linear;
+  animation: fadeIn 400ms;
+}
+
+.modal {
+  height: fit-content;
+  width: 600px;
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 15px;
+  margin: auto;
+  color: var(--text);
+  transition: all 500ms linear;
+  animation: fadeIn 400ms;
+}
+
+.modal-content {
+  margin: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.exit {
+  cursor: pointer;
+  float: right;
+}

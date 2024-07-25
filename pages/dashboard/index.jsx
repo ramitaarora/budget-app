@@ -33,7 +33,7 @@ export default function Dashboard() {
                 
                 <p>AI Suggestion here</p>
             </header>
-            <main className="flex w-screen flex-wrap justify-center align-center">
+            <main className="flex w-screen flex-wrap justify-center items-center">
                 <Categories fullDate={fullDate} />
                 <div className="flex flex-col align-center justify-evenly">
                     <Budget />
