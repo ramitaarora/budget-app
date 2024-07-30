@@ -45,7 +45,7 @@ export default function AddIncome() {
     return (
         <div>
             <form onSubmit={handleFormSubmit}>
-                <p>Add Income</p>
+                <h2>Add Income</h2>
                 <div>
                     <input
                         placeholder="Description"

@@ -87,3 +87,51 @@
   cursor: pointer;
   float: right;
 }
+
+/* Form Styles */
+
+.modal-content form {
+  text-align: center;
+
+  h2 {
+    font-size: 24px;
+  }
+
+  input, label, select, #radio-buttons {
+    margin: 1% 5%;
+    padding: 1%;
+  }
+
+  input, select, button {
+    border: 1px solid lightgrey;
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    margin: 2% 0;
+  }
+  
+  .modal-form-line {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-line-left {
+    width: 20%;
+  }
+
+  .form-line-right {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button {
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
