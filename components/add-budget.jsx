@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import MonthSelector from './month-selector';
 import CurrencyInput from 'react-currency-input-field';
 
 export default function AddBudget({ modalVisibility, setModalVisibility }) {
@@ -16,10 +15,10 @@ export default function AddBudget({ modalVisibility, setModalVisibility }) {
     };
 
     const handleFormSubmit = async (event) => {
-
         event.preventDefault();
 
         const { date, amount, savings_goal } = formState;
+        console.log(formState)
 
         const formattedAmount = amount.replace(/[^\d.-]/g, '');
         const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
@@ -58,8 +57,13 @@ export default function AddBudget({ modalVisibility, setModalVisibility }) {
                         <h2>Add Budget</h2>
                         <div className="modal-form">
 
-                            <div>
-                                <MonthSelector date={formState.date} onChange={handleChange} />
+                            <div className="modal-form-line">
+                                <label className="form-line-left">Select Month: </label>
+                                <input 
+                                    type="month" 
+                                    name="date" 
+                                    onChange={(event) => handleChange(event)}
+                                />
                             </div>
 
                             <div className="modal-form-line">

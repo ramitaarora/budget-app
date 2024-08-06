@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import DateSelector from './date-selector';
 import CurrencyInput from 'react-currency-input-field';
 
 export default function AddExpense({ modalVisibility, setModalVisibility }) {
@@ -91,7 +90,8 @@ export default function AddExpense({ modalVisibility, setModalVisibility }) {
                             </div>
                             
                             <div className="modal-form-line">
-                                <DateSelector date={formState.date} onChange={handleChange} />
+                                <label className="form-line-left">Date:</label>
+                                <input type="date" className="form-line-right" onChange={(event) => handleChange(event)} name="date"/>
                             </div>
 
                             <div className="modal-form-line">
