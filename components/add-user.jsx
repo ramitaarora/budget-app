@@ -29,10 +29,10 @@ export default function AddUser() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleFormSubmit}>
-                <p>Add Additional User</p>
-                <div>
+        <div className="m-3 flex flex-col items-center justify-center">
+            <form onSubmit={handleFormSubmit} className="w-1/2 border border-zinc-500 rounded-md p-5 flex flex-col items-center justify-center shadow-md">
+                <p className="text-center text-xl">Add Additional User</p>
+                <div className="user-form">
                     <input
                         placeholder="First Name"
                         name="first_name"
@@ -69,7 +69,7 @@ export default function AddUser() {
                         onChange={handleChange}
                     />
                 </div>
-                <button type="submit">Save</button>
+                <button type="submit" className="user-submit">Save</button>
             </form>
         </div>
     )
