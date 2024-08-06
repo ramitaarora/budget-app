@@ -56,39 +56,56 @@ export default function AddExpense({ modalVisibility, setModalVisibility }) {
                     </svg>
                     <form onSubmit={handleFormSubmit}>
                         <h2>Add Expense</h2>
-                        <div>
-                            <input
-                                placeholder="Description"
-                                name="description"
-                                type="text"
-                                value={formState.description}
-                                onChange={handleChange}
-                            />
-                            <label>Category:</label>
-                            <select
-                                name="category_id"
-                                value={formState.category_id}
-                                onChange={handleChange}
-                            >
-                                <option value="1">Food</option>
-                                <option value="4">Rent</option>
-                                <option value="5">Bills</option>
-                                <option value="6">Transporation</option>
-                                <option value="9">Necessities</option>
-                                <option value="10">Entertainment</option>
-                                <option value="11">Holiday/Gifts</option>
-                                <option value="12">Medical</option>
-                                <option value="13">Misc.</option>
-                            </select>
-                            <DateSelector date={formState.date} onChange={handleChange} />
-                            <label>Amount: </label>
-                            <CurrencyInput
-                                name="amount"
-                                prefix="$"
-                                defaultValue={0}
-                                decimalsLimit={2}
-                                onChange={handleChange}
-                            />
+                        <div className="modal-form">
+
+                            <div className="modal-form-line">
+                                <label className="form-line-left">Description</label>
+                                <input
+                                    placeholder="Description"
+                                    name="description"
+                                    type="text"
+                                    value={formState.description}
+                                    onChange={handleChange}
+                                    className="form-line-right"
+                                />
+                            </div>
+
+                            <div className="modal-form-line">
+                                <label className="form-line-left">Category:</label>
+                                <select
+                                    name="category_id"
+                                    value={formState.category_id}
+                                    onChange={handleChange}
+                                    className="form-line-right"
+                                >
+                                    <option value="1">Food</option>
+                                    <option value="4">Rent</option>
+                                    <option value="5">Bills</option>
+                                    <option value="6">Transporation</option>
+                                    <option value="9">Necessities</option>
+                                    <option value="10">Entertainment</option>
+                                    <option value="11">Holiday/Gifts</option>
+                                    <option value="12">Medical</option>
+                                    <option value="13">Misc.</option>
+                                </select>
+                            </div>
+                            
+                            <div className="modal-form-line">
+                                <DateSelector date={formState.date} onChange={handleChange} />
+                            </div>
+
+                            <div className="modal-form-line">
+                                <label className="form-line-left">Amount: </label>
+                                <CurrencyInput
+                                    name="amount"
+                                    prefix="$"
+                                    defaultValue={0}
+                                    decimalsLimit={2}
+                                    onChange={handleChange}
+                                    className="form-line-right"
+                                />
+                            </div>
+
                         </div>
                         <button type="submit">Save</button>
                     </form>
