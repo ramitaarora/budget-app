@@ -30,7 +30,7 @@ export default function Dashboard() {
             </nav>
             <header className="text-center">
                 <h1 className="text-xl">Your Budget</h1>
-                
+                <p>{fullDate}</p>
                 <p>AI Suggestion here</p>
             </header>
             <main className="flex w-screen flex-wrap justify-center items-center">
