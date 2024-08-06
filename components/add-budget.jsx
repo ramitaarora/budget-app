@@ -56,24 +56,35 @@ export default function AddBudget({ modalVisibility, setModalVisibility }) {
                     </svg>
                     <form onSubmit={handleFormSubmit}>
                         <h2>Add Budget</h2>
-                        <div>
-                            <MonthSelector date={formState.date} onChange={handleChange} />
-                            <label>Amount: </label>
-                            <CurrencyInput
-                                name="amount"
-                                prefix="$"
-                                defaultValue={0}
-                                decimalsLimit={2}
-                                onChange={handleChange}
-                            />
-                            <label>Savings Goal: </label>
-                            <CurrencyInput
-                                name="savings_goal"
-                                prefix="$"
-                                defaultValue={0}
-                                decimalsLimit={2}
-                                onChange={handleChange}
-                            />
+                        <div className="modal-form">
+
+                            <div>
+                                <MonthSelector date={formState.date} onChange={handleChange} />
+                            </div>
+
+                            <div className="modal-form-line">
+                                <label className="form-line-left">Amount: </label>
+                                <CurrencyInput
+                                    name="amount"
+                                    prefix="$"
+                                    defaultValue={0}
+                                    decimalsLimit={2}
+                                    onChange={handleChange}
+                                    className="form-line-right"
+                                />
+                            </div>
+
+                            <div className="modal-form-line">
+                                <label className="form-line-left">Savings Goal: </label>
+                                <CurrencyInput
+                                    name="savings_goal"
+                                    prefix="$"
+                                    defaultValue={0}
+                                    decimalsLimit={2}
+                                    onChange={handleChange}
+                                    className="form-line-right"
+                                />
+                            </div>
                         </div>
                         <button type="submit">Save</button>
                     </form>
