@@ -1,16 +1,21 @@
 import { useState, useEffect } from 'react';
 
-export default function Budget() {
+interface BudgetProps {
+    month: number;
+    year: number;
+}
+
+export default function Budget({ month, year }: BudgetProps) {
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [budgetData, setBudgetData] = useState<any[]>([]);
     const [incomeData, setIncomeData] = useState<any[]>([]);
     const [totalExpenses, setTotalExpenses] = useState<number>(0);
     const [totalIncome, setTotalIncome] = useState<number>(0);
 
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const monthName = today.toLocaleString('en-US', { month: 'long' });
-    const year = today.getFullYear();
+    // const today = new Date();
+    // const month = today.getMonth() + 1;
+    // const monthName = today.toLocaleString('en-US', { month: 'long' });
+    // const year = today.getFullYear();
 
     useEffect(() => {
         const fetchExpenses = async () => {
@@ -73,7 +78,7 @@ export default function Budget() {
         fetchExpenses();
         fetchBudget();
         fetchIncome();
-    }, []);
+    }, [month, year]);
 
     useEffect(() => {
         setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));
@@ -83,7 +88,6 @@ export default function Budget() {
     return (
         <section id="budget">
             <h2 className="text-center">Budget</h2>
-            <h3>Current Month: {monthName} {year}</h3>
             <div id="total-budget">
                 <h3>Remaining Budget</h3>
                 {budgetData.length > 0 ? (
