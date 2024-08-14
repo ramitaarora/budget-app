@@ -41,7 +41,7 @@ export default function AddUser({ userModal, setUserModal }) {
                     </svg>
                     <form onSubmit={handleFormSubmit} className="flex flex-col">
                         <h2>Add Additional User</h2>
-                        <div className="user-form">
+                        <div className="user-form + flex-col">
                             <input
                                 placeholder="First Name"
                                 name="first_name"

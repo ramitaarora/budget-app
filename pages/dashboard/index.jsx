@@ -5,6 +5,7 @@ import SpendingChart from '../../components/spending-chart';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
 import AddUser from '../../components/add-user';
+import { useRouter } from 'next/router';
 
 export async function getServerSideProps(context) {
     return authenticate(context.req)
@@ -13,6 +14,7 @@ export async function getServerSideProps(context) {
 export default function Dashboard() {
     const [fullDate, setFullDate] = useState('');
     const [userModal, setUserModal] = useState('hidden');
+    const router = useRouter();
 
     useEffect(() => {
         const date = new Date();
@@ -25,12 +27,25 @@ export default function Dashboard() {
         setFullDate(timeZoneDate)
     }, [])
 
-    const navigate = (event) => {
+    const navigate = async (event) => {
         if (event.target.id === "add-user") {
             setUserModal('visible');
         }
+        
         if (event.target.id === "logout") {
+            const response = await fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
 
+            if (response.ok) {
+                router.push('/login');
+            }
+            else {
+                alert('Logout failed.');
+            }
         }
     }
 
