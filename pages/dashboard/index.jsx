@@ -4,6 +4,7 @@ import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
+import AddUser from '../../components/add-user';
 
 export async function getServerSideProps(context) {
     return authenticate(context.req)
@@ -11,6 +12,7 @@ export async function getServerSideProps(context) {
 
 export default function Dashboard() {
     const [fullDate, setFullDate] = useState('');
+    const [userModal, setUserModal] = useState('hidden');
 
     useEffect(() => {
         const date = new Date();
@@ -24,11 +26,9 @@ export default function Dashboard() {
     }, [])
 
     const navigate = (event) => {
-        console.log(event.target.id);
         if (event.target.id === "add-user") {
-            
+            setUserModal('visible');
         }
-
         if (event.target.id === "logout") {
 
         }
@@ -36,10 +36,11 @@ export default function Dashboard() {
 
     return (
         <div>
+            <AddUser userModal={userModal} setUserModal={setUserModal} />
             <nav>
                 <ul>
-                    <li id="add-user" onClick={navigate}>Add Additional User</li>
-                    <li id="logout" onClick={navigate}>Logout</li>
+                    <li id="add-user" onClick={(event) => navigate(event)}>Add Additional User</li>
+                    <li id="logout" onClick={(event) => navigate(event)}>Logout</li>
                 </ul>
             </nav>
             <header className="text-center">
