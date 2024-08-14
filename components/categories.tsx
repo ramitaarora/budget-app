@@ -99,7 +99,7 @@ export default function Categories({ fullDate }: CategoriesProps) {
                         <div key={parentIndex}>
                             <div className="flex w-100 justify-between items-center">
                                 <p className="font-bold mr-5">{parentItem.name}</p>
-                                <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300">
                                     <div className="bg-blue-900 h-2.5 rounded-full" style={{ "width": `${(getParentExpenses(parentItem.id) / parentItem.budget) * 100}%` }}></div>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@ export default function Categories({ fullDate }: CategoriesProps) {
                                 .map((filteredChildCategory, childIndex) => (
                                     <div key={childIndex} className="ml-3 flex w-100 justify-between items-center">
                                         <p className="mr-5">{filteredChildCategory.name}</p>
-                                        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300">
                                             <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget) * 100}%` }}></div>
                                         </div>
                                     </div>
