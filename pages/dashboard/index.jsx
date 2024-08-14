@@ -16,17 +16,31 @@ export default function Dashboard() {
         const date = new Date();
 
         const timeZoneDate = new Intl.DateTimeFormat('en-US', {
-          dateStyle: 'full',
-          timeZone: 'America/Los_Angeles',
+            dateStyle: 'full',
+            timeZone: 'America/Los_Angeles',
         }).format(date);
 
         setFullDate(timeZoneDate)
     }, [])
 
+    const navigate = (event) => {
+        console.log(event.target.id);
+        if (event.target.id === "add-user") {
+            
+        }
+
+        if (event.target.id === "logout") {
+
+        }
+    }
+
     return (
         <div>
             <nav>
-                <button>Logout</button>
+                <ul>
+                    <li id="add-user" onClick={navigate}>Add Additional User</li>
+                    <li id="logout" onClick={navigate}>Logout</li>
+                </ul>
             </nav>
             <header className="text-center">
                 <h1 className="text-xl">Your Budget</h1>
@@ -39,7 +53,7 @@ export default function Dashboard() {
                     <Budget />
                     <Expenses />
                 </div>
-                <SpendingChart fullDate={fullDate}/>
+                <SpendingChart fullDate={fullDate} />
             </main>
         </div>
     )
