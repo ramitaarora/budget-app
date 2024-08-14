@@ -72,7 +72,6 @@ export default function Login() {
                 </div>
                 <button type="submit" className="user-submit">Submit</button>
             </form>
-            <AddUser />
         </main>
     )
 }
