@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react';
 import AddBudget from './add-budget';
 import AddIncome from './add-income';
 
-export default function Budget() {
+interface BudgetProps {
+    month: number;
+    year: number;
+}
+
+export default function Budget({ month, year }: BudgetProps) {
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [budgetData, setBudgetData] = useState<any[]>([]);
     const [incomeData, setIncomeData] = useState<any[]>([]);
@@ -11,10 +16,10 @@ export default function Budget() {
     const [modalVisibility, setModalVisibility] = useState<string>('hidden');
     const [incomeVisibility, setIncomeVisibility] = useState<string>('hidden');
 
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const monthName = today.toLocaleString('en-US', { month: 'long' });
-    const year = today.getFullYear();
+    // const today = new Date();
+    // const month = today.getMonth() + 1;
+    // const monthName = today.toLocaleString('en-US', { month: 'long' });
+    // const year = today.getFullYear();
 
     useEffect(() => {
         const fetchExpenses = async () => {
@@ -79,7 +84,7 @@ export default function Budget() {
         fetchExpenses();
         fetchBudget();
         fetchIncome();
-    }, []);
+    }, [month, year]);
 
     useEffect(() => {
         setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));

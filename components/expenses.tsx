@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import AddExpense from './add-expense';
 
-export default function Expenses() {
+interface ExpensesProps {
+    month: number;
+    year: number;
+}
+
+export default function Expenses({ month, year }: ExpensesProps) {
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [modalVisibility, setModalVisibility] = useState<string>('hidden');
 
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-
     useEffect(() => {
+
         const fetchExpenses = async () => {
             try {
                 const res = await fetch(`/api/expenses?month=${month}&year=${year}&limit=5`, {
@@ -31,7 +33,8 @@ export default function Expenses() {
         };
 
         fetchExpenses();
-    }, []);
+
+    }, [month, year]);
 
     const openModal = () => {
         setModalVisibility('visible');

@@ -15,17 +15,32 @@ export default function Dashboard() {
     const [fullDate, setFullDate] = useState('');
     const [userModal, setUserModal] = useState('hidden');
     const router = useRouter();
+    const [selectedMonth, setSelectedMonth] = useState();
+    const [selectedYear, setSelectedYear] = useState();
 
     useEffect(() => {
-        const date = new Date();
+        const today = new Date();
+        const formattedMonth = (today.getMonth() + 1).toString().padStart(2, '0');
+        const formattedYear = today.getFullYear().toString();
+        // const monthName = today.toLocaleString('en-US', { month: 'long' });
 
         const timeZoneDate = new Intl.DateTimeFormat('en-US', {
             dateStyle: 'full',
             timeZone: 'America/Los_Angeles',
-        }).format(date);
+        }).format(today);
 
-        setFullDate(timeZoneDate)
-    }, [])
+        setFullDate(timeZoneDate);
+        setSelectedMonth(formattedMonth);
+        setSelectedYear(formattedYear);
+    }, []);
+
+    const setMonthYear = (event) => {
+        const selectedDate = event.target.value;
+        const newMonth = selectedDate.slice(5, 7);
+        const newYear = selectedDate.slice(0, 4);
+        setSelectedMonth(newMonth);
+        setSelectedYear(newYear);
+    };
 
     const navigate = async (event) => {
         if (event.target.id === "add-user") {
@@ -58,19 +73,23 @@ export default function Dashboard() {
                     <li id="logout" onClick={(event) => navigate(event)}>Logout</li>
                 </ul>
             </nav>
-            <header className="text-center">
-                <h1 className="text-xl">Your Budget</h1>
-                <p>{fullDate}</p>
-                <p>AI Suggestion here</p>
-            </header>
-            <main className="flex w-screen flex-wrap justify-center items-center">
-                <Categories fullDate={fullDate} />
-                <div className="flex flex-col align-center justify-evenly">
-                    <Budget />
-                    <Expenses />
+            {selectedMonth && selectedYear && (
+                <div>
+                    <header className="text-center">
+                        <h1 className="text-xl">Your Budget</h1>
+                        <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} />
+                        <p>AI Suggestion here</p>
+                    </header>
+                    <main className="flex w-screen flex-wrap justify-center align-center">
+                        <Categories fullDate={fullDate} />
+                        <div className="flex flex-col align-center justify-evenly">
+                            <Budget month={selectedMonth} year={selectedYear} />
+                            <Expenses month={selectedMonth} year={selectedYear} />
+                        </div>
+                        <SpendingChart fullDate={fullDate} />
+                    </main>
                 </div>
-                <SpendingChart fullDate={fullDate} />
-            </main>
+            )}
         </div>
     )
 }

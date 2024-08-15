@@ -6,13 +6,28 @@ import dayjs from 'dayjs';
 export default function MonthSelector({ onChange, date }) {
 
     const handleChange = (newDate) => {
-        const updatedDate = newDate ? newDate.date(1).format("MM-DD-YYYY") : '';
-        onChange({
-            target: {
-                name: 'date',
-                value: updatedDate
-            }
-        });
+        if (newDate) {
+            const month = newDate.month() + 1; // Dayjs months are 0-indexed
+            const year = newDate.year();
+            const updatedDate = newDate.date(1).format("YYYY-MM-DD");
+            onChange({
+                target: {
+                    name: 'date',
+                    value: updatedDate
+                },
+                month,
+                year
+            });
+        } else {
+            onChange({
+                target: {
+                    name: 'date',
+                    value: ''
+                },
+                month: null,
+                year: null
+            });
+        }
     };
 
     return (
