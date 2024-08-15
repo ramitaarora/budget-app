@@ -4,6 +4,8 @@ import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
+import AddUser from '../../components/add-user';
+import { useRouter } from 'next/router';
 
 export async function getServerSideProps(context) {
     return authenticate(context.req)
@@ -11,6 +13,8 @@ export async function getServerSideProps(context) {
 
 export default function Dashboard() {
     const [fullDate, setFullDate] = useState('');
+    const [userModal, setUserModal] = useState('hidden');
+    const router = useRouter();
     const [selectedMonth, setSelectedMonth] = useState();
     const [selectedYear, setSelectedYear] = useState();
 
@@ -38,13 +42,39 @@ export default function Dashboard() {
         setSelectedYear(newYear);
     };
 
+    const navigate = async (event) => {
+        if (event.target.id === "add-user") {
+            setUserModal('visible');
+        }
+        
+        if (event.target.id === "logout") {
+            const response = await fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+
+            if (response.ok) {
+                router.push('/login');
+            }
+            else {
+                alert('Logout failed.');
+            }
+        }
+    }
+
     return (
         <div>
+            <AddUser userModal={userModal} setUserModal={setUserModal} />
             <nav>
-                <button>Logout</button>
+                <ul>
+                    <li id="add-user" onClick={(event) => navigate(event)}>Add Additional User</li>
+                    <li id="logout" onClick={(event) => navigate(event)}>Logout</li>
+                </ul>
             </nav>
             {selectedMonth && selectedYear && (
-                <>
+                <div>
                     <header className="text-center">
                         <h1 className="text-xl">Your Budget</h1>
                         <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} />
@@ -58,7 +88,7 @@ export default function Dashboard() {
                         </div>
                         <SpendingChart fullDate={fullDate} />
                     </main>
-                </>
+                </div>
             )}
         </div>
     )

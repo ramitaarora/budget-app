@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import AddExpense from './add-expense';
 
 interface ExpensesProps {
     month: number;
@@ -7,6 +8,7 @@ interface ExpensesProps {
 
 export default function Expenses({ month, year }: ExpensesProps) {
     const [expensesData, setExpensesData] = useState<any[]>([]);
+    const [modalVisibility, setModalVisibility] = useState<string>('hidden');
 
     useEffect(() => {
 
@@ -23,6 +25,7 @@ export default function Expenses({ month, year }: ExpensesProps) {
                 };
 
                 const data = await res.json();
+                // console.log(data);
                 setExpensesData(data);
             } catch (err) {
                 console.error('Error making GET request:', err);
@@ -33,9 +36,19 @@ export default function Expenses({ month, year }: ExpensesProps) {
 
     }, [month, year]);
 
+    const openModal = () => {
+        setModalVisibility('visible');
+    }
+
     return (
         <section id="expenses">
-            <h2 className="text-center">Latest Expenses</h2>
+            <AddExpense modalVisibility={modalVisibility} setModalVisibility={setModalVisibility} />
+            <div className="card-header">
+                <h2>Latest Expenses</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openModal}>
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                </svg>
+            </div>
             <div id="recent-expenses">
                 {expensesData.length > 0 ? (
                     expensesData.map((expense, index) => (
