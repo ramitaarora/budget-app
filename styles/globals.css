@@ -13,4 +13,111 @@
   padding: 15px;
   box-shadow: 2px 2px 2px lightgrey;
   overflow: overlay;
-};
+}
+
+.chat-container {
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 0 10px #ccc;
+  background-color: #f9f9f9;
+}
+
+.send-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.send-box {
+  flex-grow: 1;
+  padding: 5px;
+  /* box-shadow: 0 0 10px #ccc; */
+  background-color: #f9f9f9;
+}
+
+.send-button {
+  display: flex;
+  align-items: center;
+  margin-left: 2px;
+}
+
+.messages {
+  height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.message-container {
+  display: flex;
+  width: 100%;
+}
+
+.message-sender-user {
+  align-self: flex-start;
+  background-color: #dadada;
+  /* border-radius: 15px; */
+  padding: 8px 15px;
+  margin: 5px;
+  position: relative;
+}
+
+.message-sender-gpt {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: #fff;
+  /* border-radius: 15px; */
+  padding: 8px 15px;
+  margin: 5px;
+  position: relative;
+}
+
+.message-sender-user:before,
+.message-sender-user:after,
+.message-sender-gpt:before,
+.message-sender-gpt:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.message-sender-user:before {
+  border-left: 10px solid transparent;
+  border-right: 10px solid #dadada;
+  border-top: 10px solid #dadada;
+  border-bottom: 10px solid transparent;
+  left: -13px;
+  top: 0px;
+}
+
+.message-sender-user:after {
+  border-left: 7px solid transparent;
+  border-right: 7px solid #dadada;
+  border-top: 7px solid #dadada;
+  border-bottom: 7px solid transparent;
+  left: -7px;
+  top: 4px;
+}
+
+.message-sender-gpt:before {
+  border-left: 10px solid #007bff;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #007bff;
+  border-bottom: 10px solid transparent;
+  right: -13px;
+  top: 0px;
+}
+
+.message-sender-gpt:after {
+  border-left: 7px solid #007bff;
+  border-right: 7px solid transparent;
+  border-top: 7px solid #007bff;
+  border-bottom: 7px solid transparent;
+  right: -7px;
+  top: 4px;
+}
