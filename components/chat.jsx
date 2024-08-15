@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 export default function Chat() {
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
+    const [selectedOption, setSelectedOption] = useState(null);
 
     const handleInputChange = (event) => {
         setInputMessage(event.target.value);
@@ -36,9 +37,33 @@ export default function Chat() {
         }
     };
 
+    const options = [
+        { id: 1, text: "Check my expenses", prompt: "Please show me my expenses for this month." },
+        { id: 2, text: "Budget suggestions", prompt: "What budgeting tips do you have?" }
+    ];
+
+    const handleOptionClick = (option) => {
+        setSelectedOption(option.id);
+        sendMessage(option.prompt);
+    };
+
     return (
         <div className='chat-container'>
             <div className='messages message-container'>
+                <p className="message-box message-sender-gpt">
+                    Hello! I am here to answer any questions you may have. Feel free to ask me anything related to your finances, budget planning, expense tracking, etc.
+                </p>
+                <div>
+                    {options.map(option => (
+                        <button
+                            key={option.id}
+                            onClick={() => handleOptionClick(option)}
+                            className={`option-button ${selectedOption === option.id ? 'selected' : ''}`}
+                        >
+                            {option.text}
+                        </button>
+                    ))}
+                </div>
                 {messages.map((msg, index) => (
                     <p key={index} className={`message-box message-sender-${msg.from}`}>
                         {msg.text}
