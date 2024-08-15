@@ -30,6 +30,7 @@ export default function Budget() {
                 };
 
                 const fetchedExpensesData = await res.json();
+                // console.log(fetchedExpensesData)
                 setExpensesData(fetchedExpensesData);
             } catch (err) {
                 console.error('Error making GET request:', err);
@@ -49,6 +50,7 @@ export default function Budget() {
                 };
 
                 const fetchedBudgetData = await res.json();
+                console.log(fetchedBudgetData);
                 setBudgetData(fetchedBudgetData);
             } catch (err) {
                 console.error('Error making GET request:', err);

@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
 export default function AddBudget({ modalVisibility, setModalVisibility }) {
-
     const [formState, setFormState] = useState({ date: '', amount: '', savings_goal: '' });
 
     const handleChange = (event) => {
@@ -18,7 +17,6 @@ export default function AddBudget({ modalVisibility, setModalVisibility }) {
         event.preventDefault();
 
         const { date, amount, savings_goal } = formState;
-        console.log(formState)
 
         const formattedAmount = amount.replace(/[^\d.-]/g, '');
         const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');

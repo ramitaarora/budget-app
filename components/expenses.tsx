@@ -23,6 +23,7 @@ export default function Expenses() {
                 };
 
                 const data = await res.json();
+                // console.log(data);
                 setExpensesData(data);
             } catch (err) {
                 console.error('Error making GET request:', err);

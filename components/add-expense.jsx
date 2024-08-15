@@ -1,9 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
 export default function AddExpense({ modalVisibility, setModalVisibility }) {
-
     const [formState, setFormState] = useState({ description: '', date: '', amount: '', category_id: '' });
+    const [categoryOptions, setCategoryOptions] = useState([]);
+
+    useEffect(() => {
+        getCategories();
+    }, [])
+
+    const getCategories = async () => {
+        try {
+            const response = await fetch('api/category');
+            if (response.ok) {
+                const data = await response.json();
+                // console.log(data);
+                setCategoryOptions(data);
+            }
+        } catch(err) {
+            console.error(err)
+        }
+    }
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -77,15 +94,10 @@ export default function AddExpense({ modalVisibility, setModalVisibility }) {
                                     onChange={handleChange}
                                     className="form-line-right"
                                 >
-                                    <option value="1">Food</option>
-                                    <option value="4">Rent</option>
-                                    <option value="5">Bills</option>
-                                    <option value="6">Transporation</option>
-                                    <option value="9">Necessities</option>
-                                    <option value="10">Entertainment</option>
-                                    <option value="11">Holiday/Gifts</option>
-                                    <option value="12">Medical</option>
-                                    <option value="13">Misc.</option>
+                                <option></option>
+                                {categoryOptions.length && categoryOptions.map((category, index) => (
+                                    <option key={index} value={category.id}>{category.name}</option>
+                                ))}
                                 </select>
                             </div>
                             

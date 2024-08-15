@@ -93,9 +93,9 @@ export async function createExpense(req, res) {
     try {
         const newExpense = await Expenses.create({
             description: req.body.description,
-            category_id: req.body.category_id,
+            category_id: Number(req.body.category_id),
             date: req.body.date,
-            amount: req.body.amount,
+            amount: Number(req.body.amount),
             user_id: req.user.user_id
         });
         res.status(201).json(newExpense);
