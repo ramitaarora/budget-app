@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import AddBudget from './add-budget';
+import AddIncome from './add-income';
 
 interface BudgetProps {
     month: number;
@@ -11,6 +13,8 @@ export default function Budget({ month, year }: BudgetProps) {
     const [incomeData, setIncomeData] = useState<any[]>([]);
     const [totalExpenses, setTotalExpenses] = useState<number>(0);
     const [totalIncome, setTotalIncome] = useState<number>(0);
+    const [modalVisibility, setModalVisibility] = useState<string>('hidden');
+    const [incomeVisibility, setIncomeVisibility] = useState<string>('hidden');
 
     // const today = new Date();
     // const month = today.getMonth() + 1;
@@ -31,6 +35,7 @@ export default function Budget({ month, year }: BudgetProps) {
                 };
 
                 const fetchedExpensesData = await res.json();
+                // console.log(fetchedExpensesData)
                 setExpensesData(fetchedExpensesData);
             } catch (err) {
                 console.error('Error making GET request:', err);
@@ -50,6 +55,7 @@ export default function Budget({ month, year }: BudgetProps) {
                 };
 
                 const fetchedBudgetData = await res.json();
+                console.log(fetchedBudgetData);
                 setBudgetData(fetchedBudgetData);
             } catch (err) {
                 console.error('Error making GET request:', err);
@@ -85,9 +91,24 @@ export default function Budget({ month, year }: BudgetProps) {
         setTotalIncome(incomeData.reduce((acc, obj) => acc + Number(obj.amount), 0));
     }, [expensesData, incomeData]);
 
+    const openModal = () => {
+        setModalVisibility('visible');
+    }
+
+    const openIncomeModal = () => {
+        setIncomeVisibility('visible');
+    }
+
     return (
         <section id="budget">
-            <h2 className="text-center">Budget</h2>
+            <AddBudget modalVisibility={modalVisibility} setModalVisibility={setModalVisibility} />
+            <AddIncome incomeVisibility={incomeVisibility} setIncomeVisibility={setIncomeVisibility} />
+            <div className="card-header">
+                <h2>Budget</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openModal}>
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                </svg>
+            </div>
             <div id="total-budget">
                 <h3>Remaining Budget</h3>
                 {budgetData.length > 0 ? (
@@ -101,7 +122,12 @@ export default function Budget({ month, year }: BudgetProps) {
                 )}
             </div>
             <div id="income">
-                <h3>Income</h3>
+                <div className="w-full flex justify-between items-center">
+                    <h3 onClick={openIncomeModal} className="cursor-pointer">Income</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openIncomeModal} className="cursor-pointer">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    </svg>
+                </div>
                 {incomeData.length > 0 ? (
                     <>
                         <p>${totalIncome}</p>

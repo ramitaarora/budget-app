@@ -6,11 +6,177 @@
 #budget,
 #expenses,
 #spending-chart {
-  width: 350px;
+  width: 450px;
   border: 1px solid lightgrey;
   border-radius: 10px;
   margin: 10px;
   padding: 15px;
   box-shadow: 2px 2px 2px lightgrey;
   overflow: overlay;
-};
+  height: fit-content;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  width: 99%;
+  align-items: center;
+  padding: 2px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.card-header svg {
+  cursor: pointer;
+}
+
+/* Nav Styles */
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  padding: 10px;
+  justify-content: end;
+  align-items: center;
+
+  li {
+    margin: 0 10px;
+    cursor: pointer;
+  }
+
+  li:hover {
+    position: relative;
+    top: -3px;
+  }
+}
+
+/* Modal Styles */
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+
+  to {
+      opacity: 1;
+  }
+}
+
+.modal-background {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  padding-top: 100px;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4);
+  -webkit-transition: 0.5s;
+  overflow: auto;
+  transition: all 0.3s linear;
+  animation: fadeIn 400ms;
+}
+
+.modal {
+  height: fit-content;
+  width: 600px;
+  background-color: white;
+  border: 1px solid lightgrey;
+  border-radius: 15px;
+  margin: auto;
+  color: var(--text);
+  transition: all 500ms linear;
+  animation: fadeIn 400ms;
+}
+
+.modal-content {
+  margin: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.exit {
+  cursor: pointer;
+  float: right;
+}
+
+/* Form Styles */
+
+.modal-content form {
+  text-align: center;
+
+  h2 {
+    font-size: 24px;
+  }
+
+  input, label, select, #radio-buttons {
+    margin: 1% 5%;
+    padding: 1%;
+  }
+
+  input, select, button {
+    border: 1px solid lightgrey;
+  }
+
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    margin: 2% 0;
+  }
+  
+  .modal-form-line {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-line-left {
+    width: 20%;
+  }
+
+  .form-line-right {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button {
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+
+.user-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 2%;
+
+  input {
+    /* border border-zinc-600 px-2 py-1 rounded */
+    text-align: center;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+  }
+}
+
+.user-submit {
+  text-align: center;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding: 10px;
+}

@@ -75,13 +75,13 @@ export async function getBudget(req, res) {
 }
 
 export async function createBudget(req, res) {
-    console.log(req.user.user_id);
+    // console.log(req.user.user_id);
     try {
         const newBudget = await Budget.create({
             date: req.body.date,
             amount: req.body.amount,
             savings_goal: req.body.savings_goal,
-            account: req.user.account_id
+            account_id: req.user.account_id
         });
         res.status(201).json(newBudget);
     } catch (error) {

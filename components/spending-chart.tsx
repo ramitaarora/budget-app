@@ -147,7 +147,9 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
     return (
         <div>
             <section id="spending-chart">
-                <h2>Spending Chart</h2>
+                <div className="card-header">
+                    <h2>Spending Chart</h2>
+                </div>
                 {loading ? <p>Loading...</p> : (
                     <div id="chart" className="overflow-hidden">
                         <Chart

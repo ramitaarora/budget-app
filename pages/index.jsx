@@ -8,6 +8,10 @@ export default function Home() {
         router.push('/login');
     }
 
+    const signupPage = () => {
+        router.push('/signup')
+    }
+
     return (
         <div>
             <Head>
@@ -16,6 +20,7 @@ export default function Home() {
             <header className="text-center m-auto">
                 <h1>Budget Planner App</h1>
                 <button onClick={loginPage} className="p-2 border rounded">Login</button>
+                <button onClick={signupPage} className="p-2 border rounded">Sign Up</button>
             </header>
         </div>
     )

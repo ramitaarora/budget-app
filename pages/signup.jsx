@@ -40,10 +40,10 @@ export default function Signup() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleFormSubmit}>
-                <p>Create New Account</p>
-                <div>
+        <div className="h-screen flex flex-col items-center justify-center">
+            <form onSubmit={handleFormSubmit} className="w-1/2 border border-zinc-500 rounded-md p-5 flex flex-col items-center justify-center shadow-md">
+                <p className="text-center text-xl">Create New Account</p>
+                <div className="user-form + flex-col">
                     <input
                         placeholder="First Name"
                         name="first_name"
@@ -80,7 +80,7 @@ export default function Signup() {
                         onChange={handleChange}
                     />
                 </div>
-                <button type="submit">Sign Me Up!</button>
+                <button type="submit" className="user-submit">Sign Me Up!</button>
             </form>
         </div>
     )

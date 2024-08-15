@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import AddCategory from './add-category';
 
 interface CategoriesProps {
     fullDate: string;
@@ -10,6 +11,7 @@ export default function Categories({ fullDate }: CategoriesProps) {
     const [parentCategory, setParentCategory] = useState<any[]>([]);
     const [childCategory, setChildCategory] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [modalVisibility, setModalVisibility] = useState<string>('hidden');
 
     const getData = async () => {
         try {
@@ -78,16 +80,26 @@ export default function Categories({ fullDate }: CategoriesProps) {
         return total;
     }
 
+    const openModal = () => {
+        setModalVisibility('visible');
+    }
+
     return (
         <section id="categories">
-                {categoryData.length && expensesData.length ? (
+            <AddCategory modalVisibility={modalVisibility} setModalVisibility={setModalVisibility} />
+            <div className="card-header">
+                <h2>Categories</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openModal}>
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                </svg>
+            </div>
+            {categoryData.length && expensesData.length ? (
                 <div>
-                    <h2 className="text-center">Categories</h2>
                     {parentCategory.length ? parentCategory.map((parentItem, parentIndex) => (
                         <div key={parentIndex}>
                             <div className="flex w-100 justify-between items-center">
                                 <p className="font-bold mr-5">{parentItem.name}</p>
-                                <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300">
                                     <div className="bg-blue-900 h-2.5 rounded-full" style={{ "width": `${(getParentExpenses(parentItem.id) / parentItem.budget) * 100}%` }}></div>
                                 </div>
                             </div>
@@ -96,7 +108,7 @@ export default function Categories({ fullDate }: CategoriesProps) {
                                 .map((filteredChildCategory, childIndex) => (
                                     <div key={childIndex} className="ml-3 flex w-100 justify-between items-center">
                                         <p className="mr-5">{filteredChildCategory.name}</p>
-                                        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300">
                                             <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget) * 100}%` }}></div>
                                         </div>
                                     </div>
@@ -105,7 +117,7 @@ export default function Categories({ fullDate }: CategoriesProps) {
                         </div>
                     )) : null}
                 </div>
-                ) : null}
+            ) : null}
         </section>
     );
 }
