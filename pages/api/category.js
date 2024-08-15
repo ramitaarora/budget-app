@@ -67,7 +67,7 @@ export async function createCategory(req, res) {
     try {
         const newCategory = await Category.create({
             name: req.body.name,
-            parent_category: req.body.parent_category,
+            parent_id: req.body.parent_id,
             color: req.body.color,
             flexible: req.body.flexible,
             budget: req.body.budget,

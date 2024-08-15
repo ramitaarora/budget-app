@@ -1,9 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
 export default function AddCategory({ modalVisibility, setModalVisibility }) {
-
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
+    const [typeOptions, setTypeOptions] = useState([]);
+
+    const getCategories = async () => {
+        try {
+            const response = await fetch('/api/category', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                // console.log(data);
+                setTypeOptions([{ name: '', id: '' }, ...data]);
+            }
+        } catch(err) {
+            console.error(err);
+        }
+    }
+
+    useEffect(() => {
+        getCategories();
+    }, [])
 
     const handleChange = (event) => {
         const { name, value, type } = event.target;
@@ -17,18 +39,27 @@ export default function AddCategory({ modalVisibility, setModalVisibility }) {
     };
 
     const handleFormSubmit = async (event) => {
-
         event.preventDefault();
 
         const { name, parent_category, budget, flexible } = formState;
         const formattedBudget = budget.replace(/[^\d.-]/g, '');
+
+        let parent_id = null;
+        if (parent_category.length) {
+            parent_id = Number(parent_category);
+        }
 
         const res = await fetch('/api/category', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, parent_category, budget: formattedBudget, flexible })
+            body: JSON.stringify({ 
+                name, 
+                parent_id,
+                budget: formattedBudget, 
+                flexible 
+            })
         });
 
         if (res.ok) {
@@ -70,14 +101,17 @@ export default function AddCategory({ modalVisibility, setModalVisibility }) {
                                 />
                             </div>
                             <div className="modal-form-line">
-                                <label className="form-line-left">Type:</label>
+                                <label className="form-line-left">Type (Optional):</label>
                                 <select
                                     name="parent_category"
                                     value={formState.parent_category}
                                     onChange={handleChange}
                                     className="form-line-right"
                                 >
-                                    <option value="1">Food</option>
+                                {typeOptions.length && typeOptions.map((type, index) => (
+                                    <option value={type.id} key={index}>{type.name}</option>
+                                ))}
+                                {/*    <option value="1">Food</option>
                                     <option value="4">Rent</option>
                                     <option value="5">Bills</option>
                                     <option value="9">Transporation</option>
@@ -86,6 +120,7 @@ export default function AddCategory({ modalVisibility, setModalVisibility }) {
                                     <option value="14">Holiday/Gifts</option>
                                     <option value="15">Medical</option>
                                     <option value="16">Misc.</option>
+    */}
                                 </select>
                             </div>
 
