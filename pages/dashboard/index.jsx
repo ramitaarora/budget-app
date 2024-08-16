@@ -2,6 +2,7 @@ import Budget from '../../components/budget';
 import Categories from '../../components/categories';
 import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
+import Chat from '../../components/chat';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
 import AddUser from '../../components/add-user';
@@ -87,6 +88,7 @@ export default function Dashboard() {
                             <Expenses month={selectedMonth} year={selectedYear} />
                         </div>
                         <SpendingChart fullDate={fullDate} />
+                        <Chat month={selectedMonth} year={selectedYear} />
                     </main>
                 </div>
             )}

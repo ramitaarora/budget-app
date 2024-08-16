@@ -31,7 +31,7 @@ export default async function chatHandler(req, res) {
         const gptResponse = await openai.chat.completions.create({
             model: "gpt-4o-mini",
             messages: [initialPrompt, userMessage],
-            max_tokens: 200,
+            max_tokens: 1000,
         });
 
         res.status(200).json({ response: gptResponse.choices[0].message.content });

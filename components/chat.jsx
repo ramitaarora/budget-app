@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function Chat() {
+export default function Chat({ month, year }) {
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [optionMessage, setOptionMessage] = useState('');
+    const [selectedPrompt, setSelectedPrompt] = useState(null);
+    const [selectedData, setSelectedData] = useState(null);
+    const [autoSendEnabled, setAutoSendEnabled] = useState(false);
 
     const handleInputChange = (event) => {
         setInputMessage(event.target.value);
@@ -37,14 +40,82 @@ export default function Chat() {
         }
     };
 
+    const autoSendMessage = async () => {
+        if (optionMessage.trim() === '') return;
+
+        const messageToSend = {
+            message: optionMessage
+        };
+
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(messageToSend)
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                setMessages(messages => [...messages, { text: data.response, from: 'gpt' }]);
+                setOptionMessage('');
+            } else {
+                console.error(data.message);
+            }
+        } catch (error) {
+            console.error('Failed to send message:', error);
+        }
+
+        setAutoSendEnabled(false);
+    };
+
     const options = [
-        { id: 1, text: "Check my expenses", prompt: "Please show me my expenses for this month." },
-        { id: 2, text: "Budget suggestions", prompt: "What budgeting tips do you have?" }
+        { id: 1, text: "Analyze Spending Habits", prompt: "Please analyze my spending habits based on this data of my expenses this month. Suggest ways that I can save and better spend my money.", fetch: "Expenses" }
     ];
 
-    const handleOptionClick = (option) => {
-        setSelectedOption(option.id);
-        sendMessage(option.prompt);
+    const fetchExpenses = async () => {
+        try {
+            const res = await fetch(`/api/expenses?month=${month}&year=${year}&limit=5`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            if (!res.ok) {
+                throw new Error('Failed to fetch expenses data');
+            };
+
+            const data = await res.json();
+            setSelectedData(data);
+        } catch (err) {
+            console.error('Error making GET request:', err);
+        };
+    };
+
+    useEffect(() => {
+        if (selectedPrompt && selectedData) {
+            setOptionMessage(`${selectedPrompt} Use this data: ${JSON.stringify(selectedData)}`);
+            setAutoSendEnabled(true);
+        }
+    }, [selectedPrompt, selectedData]);
+
+    useEffect(() => {
+        if (optionMessage && autoSendEnabled) {
+            autoSendMessage();
+        }
+    }, [autoSendEnabled]);
+
+    const handleOptionClick = async (option) => {
+        setSelectedPrompt(option.prompt);
+
+        switch (option.fetch) {
+            case 'Expenses':
+                return fetchExpenses();
+        }
+
+        setInputMessage(selectedPrompt + selectedData);
+        console.log(inputMessage);
     };
 
     return (
@@ -58,7 +129,6 @@ export default function Chat() {
                         <button
                             key={option.id}
                             onClick={() => handleOptionClick(option)}
-                            className={`option-button ${selectedOption === option.id ? 'selected' : ''}`}
                         >
                             {option.text}
                         </button>
@@ -79,7 +149,7 @@ export default function Chat() {
                     placeholder="Type your message here..."
                 />
                 <button onClick={sendMessage} className="send-button">
-                    <img src="./send.png" alt="Send Message" onClick={sendMessage} style={{ width: "20px", height: "auto", margin: "5px" }} />
+                    <img src="./send.png" alt="Send Message" style={{ width: "20px", height: "auto", margin: "5px" }} />
                 </button>
             </div>
         </div>
