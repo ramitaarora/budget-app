@@ -22,10 +22,7 @@ export default function Dashboard() {
     useEffect(() => {
         const today = new Date();
         const formattedMonth = (today.getMonth() + 1).toString().padStart(2, '0');
-        const formattedYear = today.getFullYear().toString();
-        // const monthName = today.toLocaleString('en-US', { month: 'long' });
-
-        console.log(today);
+        const formattedYear = today.getFullYear().toString()
 
         const timeZoneDate = new Intl.DateTimeFormat('en-US', {
             dateStyle: 'full',
@@ -49,7 +46,7 @@ export default function Dashboard() {
         if (event.target.id === "add-user") {
             setUserModal('visible');
         }
-        
+
         if (event.target.id === "logout") {
             const response = await fetch('/api/logout', {
                 method: 'POST',
@@ -80,7 +77,12 @@ export default function Dashboard() {
                 <div>
                     <header className="text-center">
                         <h1 className="text-xl">Your Budget</h1>
-                        <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} />
+                        <h1>{fullDate}</h1>
+                        <div>
+                            <p>Change Month: </p>
+                            {/* <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} /> */}
+                            <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                        </div>
                     </header>
                     <main className="flex w-screen flex-wrap justify-center align-center">
                         <Categories fullDate={fullDate} />
