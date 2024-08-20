@@ -15,13 +15,19 @@
   overflow: overlay;
 }
 
+/* Chatbox */
+
 .chat-container {
   width: 100%;
   max-width: 400px;
   margin: auto;
   padding: 20px;
-  box-shadow: 0 0 10px #ccc;
+  box-shadow: 0 0 50px #ccc;
   background-color: #f9f9f9;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 1000;
 }
 
 .send-container {
@@ -286,4 +292,15 @@ nav ul {
   border: 1px solid lightgrey;
   border-radius: 5px;
   padding: 10px;
+}
+
+#floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+#floating-btn:hover {
+  cursor: pointer
 }

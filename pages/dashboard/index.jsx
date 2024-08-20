@@ -19,6 +19,9 @@ export default function Dashboard() {
     const [selectedMonth, setSelectedMonth] = useState();
     const [selectedYear, setSelectedYear] = useState();
 
+    const [chatVisibility, setChatVisibility] = useState(false);
+    const toggleChat = () => setChatVisibility(!chatVisibility);
+
     useEffect(() => {
         const today = new Date();
         const formattedMonth = (today.getMonth() + 1).toString().padStart(2, '0');
@@ -91,10 +94,13 @@ export default function Dashboard() {
                             <Expenses month={selectedMonth} year={selectedYear} />
                         </div>
                         <SpendingChart fullDate={fullDate} />
-                        <Chat month={selectedMonth} year={selectedYear} />
                     </main>
                 </div>
             )}
+            {chatVisibility && <Chat month={selectedMonth} year={selectedYear} />}
+            <a onClick={toggleChat} id="floating-btn">
+                <img src="./chat.png" alt="Toggle Chatbox" style={{ width: "40px", height: "auto", margin: "5px" }} />
+            </a>
         </div>
     )
 }
