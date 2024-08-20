@@ -108,9 +108,11 @@ export default function Chat({ month, year }) {
                     Hello! I am here to answer any questions you may have. Feel free to ask me anything related to your finances, budget planning, expense tracking, etc.
                 </p>
                 <div>
+                    <p style={{ padding: '10px', fontWeight: 'bold' }}>Suggestions:</p>
                     {options.map(option => (
                         <button
                             key={option.id}
+                            className='option-button'
                             onClick={() => handleOptionClick(option)}
                         >
                             {option.text}

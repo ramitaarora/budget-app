@@ -98,8 +98,8 @@ export default function Dashboard() {
                 </div>
             )}
             {chatVisibility && <Chat month={selectedMonth} year={selectedYear} />}
-            <a onClick={toggleChat} id="floating-btn">
-                <img src="./chat.png" alt="Toggle Chatbox" style={{ width: "40px", height: "auto", margin: "5px" }} />
+            <a onClick={toggleChat} id="floating-button">
+                <img src="./chat.png" alt="Toggle Chatbox" style={{ width: "35px", height: "auto", margin: "5px" }} />
             </a>
         </div>
     )
