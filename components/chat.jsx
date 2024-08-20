@@ -3,10 +3,6 @@ import React, { useState, useEffect } from 'react';
 export default function Chat({ month, year }) {
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
-    const [optionMessage, setOptionMessage] = useState('');
-    const [selectedPrompt, setSelectedPrompt] = useState(null);
-    const [selectedData, setSelectedData] = useState(null);
-    const [autoSendEnabled, setAutoSendEnabled] = useState(false);
 
     const handleInputChange = (event) => {
         setInputMessage(event.target.value);
@@ -40,11 +36,11 @@ export default function Chat({ month, year }) {
         }
     };
 
-    const autoSendMessage = async () => {
-        if (optionMessage.trim() === '') return;
+    const autoSendMessage = async (message) => {
+        if (message.trim() === '') return;
 
         const messageToSend = {
-            message: optionMessage
+            message: message
         };
 
         try {
@@ -59,19 +55,16 @@ export default function Chat({ month, year }) {
             const data = await res.json();
             if (res.ok) {
                 setMessages(messages => [...messages, { text: data.response, from: 'gpt' }]);
-                setOptionMessage('');
             } else {
                 console.error(data.message);
             }
         } catch (error) {
             console.error('Failed to send message:', error);
         }
-
-        setAutoSendEnabled(false);
     };
 
     const options = [
-        { id: 1, text: "Analyze Spending Habits", prompt: "Please analyze my spending habits based on this data of my expenses this month. Suggest ways that I can save and better spend my money.", fetch: "Expenses" }
+        { id: 1, text: "Analyze Spending Habits", prompt: "Please analyze my spending habits based on this data of my expenses this month. Suggest ways that I can save and better spend my money. Don't re-list my expenses in your response; I have this data available to me already.", fetch: "Expenses" }
     ];
 
     const fetchExpenses = async () => {
@@ -86,36 +79,26 @@ export default function Chat({ month, year }) {
                 throw new Error('Failed to fetch expenses data');
             };
 
-            const data = await res.json();
-            setSelectedData(data);
+            const data = res.json();
+
+            return data;
         } catch (err) {
             console.error('Error making GET request:', err);
         };
     };
 
-    useEffect(() => {
-        if (selectedPrompt && selectedData) {
-            setOptionMessage(`${selectedPrompt} Use this data: ${JSON.stringify(selectedData)}`);
-            setAutoSendEnabled(true);
-        }
-    }, [selectedPrompt, selectedData]);
-
-    useEffect(() => {
-        if (optionMessage && autoSendEnabled) {
-            autoSendMessage();
-        }
-    }, [autoSendEnabled]);
-
     const handleOptionClick = async (option) => {
-        setSelectedPrompt(option.prompt);
+        const prompt = option.prompt;
 
+        let data;
         switch (option.fetch) {
             case 'Expenses':
-                return fetchExpenses();
+                data = await fetchExpenses();
         }
 
-        setInputMessage(selectedPrompt + selectedData);
-        console.log(inputMessage);
+        const input = prompt + 'Data: ' + JSON.stringify(data);
+
+        autoSendMessage(input);
     };
 
     return (
