@@ -25,6 +25,8 @@ export default function Dashboard() {
         const formattedYear = today.getFullYear().toString();
         // const monthName = today.toLocaleString('en-US', { month: 'long' });
 
+        console.log(today);
+
         const timeZoneDate = new Intl.DateTimeFormat('en-US', {
             dateStyle: 'full',
             timeZone: 'America/Los_Angeles',
@@ -79,7 +81,6 @@ export default function Dashboard() {
                     <header className="text-center">
                         <h1 className="text-xl">Your Budget</h1>
                         <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} />
-                        <p>AI Suggestion here</p>
                     </header>
                     <main className="flex w-screen flex-wrap justify-center align-center">
                         <Categories fullDate={fullDate} />

@@ -16,11 +16,6 @@ export default function Budget({ month, year }: BudgetProps) {
     const [modalVisibility, setModalVisibility] = useState<string>('hidden');
     const [incomeVisibility, setIncomeVisibility] = useState<string>('hidden');
 
-    // const today = new Date();
-    // const month = today.getMonth() + 1;
-    // const monthName = today.toLocaleString('en-US', { month: 'long' });
-    // const year = today.getFullYear();
-
     useEffect(() => {
         const fetchExpenses = async () => {
             try {
