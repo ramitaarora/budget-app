@@ -80,7 +80,8 @@ export async function createIncome(req, res) {
             description: req.body.description,
             date: req.body.date,
             amount: req.body.amount,
-            user_id: req.user.user_id
+            user_id: req.user.user_id,
+            account_id: req.user.account_id,
         });
         res.status(201).json(newIncome);
     } catch (error) {

@@ -96,7 +96,8 @@ export async function createExpense(req, res) {
             category_id: Number(req.body.category_id),
             date: req.body.date,
             amount: Number(req.body.amount),
-            user_id: req.user.user_id
+            user_id: req.user.user_id,
+            account_id: req.user.account_id
         });
         res.status(201).json(newExpense);
     } catch (error) {
