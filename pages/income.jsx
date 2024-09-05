@@ -38,7 +38,8 @@ export default function Income() {
         return new Intl.DateTimeFormat('en-US', {
             year: 'numeric',
             month: 'numeric',
-            day: '2-digit'
+            day: '2-digit',
+            // timeZone: 'America/Los_Angeles'
         }).format(date);
     }
 
@@ -87,9 +88,6 @@ export default function Income() {
             if (!res.ok) {
                 throw new Error('Failed to fetch income data');
             };
-
-            const deletedIncomeData = await res.json();
-            return(deletedIncomeData);
         } catch (err) {
             console.error('Error making DELETE request:', err);
         };
