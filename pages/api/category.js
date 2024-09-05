@@ -78,10 +78,13 @@ export async function createCategory(req, res) {
 
 export async function updateCategory(req, res) {
     try {
-        const { id } = req.query;
+        const { account, id } = req.query;
         const updateData = req.body;
         const result = await Category.update(updateData, {
-            where: { id: id }
+            where: { 
+                id: id,
+                account_id: account,
+            }
         });
         res.status(200).json(result);
     } catch (error) {

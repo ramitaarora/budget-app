@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import AddCategory from './add-category';
+import EditCategory from './edit-category';
 
 interface CategoriesProps {
     month: number,
@@ -13,6 +14,8 @@ export default function Categories({ month, year }: CategoriesProps) {
     const [childCategory, setChildCategory] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [addModalVisibility, setAddModalVisibility] = useState<string>('hidden');
+    const [editModalVisibility, setEditModalVisibility] = useState<string>('hidden');
+    const [editID, setEditID] = useState<any>();
 
     const getData = async () => {
         try {
@@ -85,9 +88,15 @@ export default function Categories({ month, year }: CategoriesProps) {
         setAddModalVisibility('visible');
     }
 
+    const openEditModal = (event: any) => {
+        setEditID(event.target.id);
+        setEditModalVisibility('visible');
+    }
+
     return (
         <section id="categories">
             <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} />
+            <EditCategory editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} />
             <div className="card-header">
                 <h2>Categories</h2>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openModal}>
@@ -107,7 +116,7 @@ export default function Categories({ month, year }: CategoriesProps) {
                                             <div className="bg-blue-900 h-2.5 rounded-full" style={{ "width": `${(getParentExpenses(parentItem.id) / parentItem.budget) * 100}%` }}></div>
                                         </div>
                                         <p>${parentItem.budget}</p>
-                                        <img src="./edit.svg" alt="edit" />
+                                        <img src="./edit.svg" alt="edit" onClick={openEditModal} id={parentItem.id}/>
                                         <img src="./delete.svg" alt="delete" />
                                     </div>
                                 </div>
@@ -122,7 +131,7 @@ export default function Categories({ month, year }: CategoriesProps) {
                                                     <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget) * 100}%` }}></div>
                                                 </div>
                                                 <p>${filteredChildCategory.budget}</p>
-                                                <img src="./edit.svg" alt="edit" />
+                                                <img src="./edit.svg" alt="edit" onClick={openEditModal} id={filteredChildCategory.id}/>
                                                 <img src="./delete.svg" alt="delete" />
                                             </div>
                                         </div>

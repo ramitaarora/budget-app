@@ -111,16 +111,6 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
                                 {typeOptions.length && typeOptions.map((type, index) => (
                                     <option value={type.id} key={index}>{type.name}</option>
                                 ))}
-                                {/*    <option value="1">Food</option>
-                                    <option value="4">Rent</option>
-                                    <option value="5">Bills</option>
-                                    <option value="9">Transporation</option>
-                                    <option value="12">Necessities</option>
-                                    <option value="13">Entertainment</option>
-                                    <option value="14">Holiday/Gifts</option>
-                                    <option value="15">Medical</option>
-                                    <option value="16">Misc.</option>
-    */}
                                 </select>
                             </div>
 
