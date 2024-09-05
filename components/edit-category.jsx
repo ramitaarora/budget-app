@@ -1,8 +1,9 @@
 import CurrencyInput from "react-currency-input-field"
 import { useState, useEffect } from 'react';
 
-export default function EditCategory({ editModalVisibility, setEditModalVisibility, editID }) {
+export default function EditCategory({ editModalVisibility, setEditModalVisibility, editID, categoryData }) {
     const [formState, setFormState] = useState({ name: '', budget: '' });
+    const [typeOptions, setTypeOptions] = useState([]);
 
     const closeModal = () => {
         setEditModalVisibility('hidden')
@@ -37,11 +38,17 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
             });
         }
         if (name === "budget") {
-            console.log(value.split('$')[1])
             setFormState({
                 ...formState,
                 budget: Number(value.split('$')[1]),
             });
+        }
+
+        if (name === "parent_id") {
+            setFormState({
+                ...formState,
+                parent_id: value
+            })
         }
     }
 
@@ -49,6 +56,9 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
         event.preventDefault();
 
         const { id, name, account_id, flexible, budget, parent_id} = formState;
+
+        let parent_category = null;
+        if (parent_id) parent_category = Number(parent_id);
 
         try {
             const response = await fetch(`/api/category?id=${id}&account=${account_id}`, {
@@ -58,7 +68,7 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
                 },
                 body: JSON.stringify({ 
                     name, 
-                    parent_id,
+                    parent_id: parent_category,
                     budget, 
                     flexible 
                 })
@@ -74,8 +84,16 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
     }
 
     useEffect(() => {
-        console.log(formState);
-    }, [formState])
+        setTypeOptions([{ name: '', id: ''}])
+        for (let i = 0; i < categoryData.length; i++) {
+            if (categoryData[i].parent_id === null) {
+                const findCategory = typeOptions.find((category) => category.id === categoryData[i].id);
+                if (!findCategory) {
+                    setTypeOptions((prev) => [...prev, categoryData[i]]);
+                }
+            }
+        }
+    }, [categoryData])
 
     return (
         <div className={"modal-background " + editModalVisibility}>
@@ -114,12 +132,14 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
                             <div className="modal-form-line">
                                 <label className="form-line-left">Type (Optional):</label>
                                 <select
-                                    name="parent_category"
+                                    name="parent_id"
                                     className="form-line-right"
+                                    value={formState.parent_id === null ? '' : formState.parent_id}
+                                    onChange={handleFormChange}
                                 >
-                                    {/*typeOptions.length && typeOptions.map((type, index) => (
+                                    {typeOptions.length && typeOptions.map((type, index) => (
                                         <option value={type.id} key={index}>{type.name}</option>
-                                    ))*/}
+                                    ))}
                                 </select>
                             </div>
 

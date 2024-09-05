@@ -16,7 +16,16 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
             if (response.ok) {
                 const data = await response.json();
                 // console.log(data);
-                setTypeOptions([{ name: '', id: '' }, ...data]);
+                setTypeOptions([{ name: '', id: '' }]);
+
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].parent_id === null) {
+                        const findCategory = typeOptions.find((category) => category.id === data[i].id);
+                        if (!findCategory) {
+                            setTypeOptions((prev) => [...prev, data[i]]);
+                        }
+                    }
+                }
             }
         } catch(err) {
             console.error(err);
