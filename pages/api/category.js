@@ -45,10 +45,6 @@ export async function getCategories(req, res) {
 
     if (accountID) query.where.account_id = accountID;
     if (id) query.where.id = id;
-    // if (date) {
-    //     let month = new Date(date).getMonth() + 1;
-    //     query.where.date = month;
-    // } 
 
     try {
         const category = await Category.findAll(query);

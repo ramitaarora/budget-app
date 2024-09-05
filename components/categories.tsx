@@ -2,21 +2,22 @@ import { useState, useEffect } from 'react';
 import AddCategory from './add-category';
 
 interface CategoriesProps {
-    fullDate: string;
+    month: number,
+    year: number,
 }
 
-export default function Categories({ fullDate }: CategoriesProps) {
+export default function Categories({ month, year }: CategoriesProps) {
     const [categoryData, setCategoryData] = useState<any[]>([]);
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [parentCategory, setParentCategory] = useState<any[]>([]);
     const [childCategory, setChildCategory] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [modalVisibility, setModalVisibility] = useState<string>('hidden');
+    const [addModalVisibility, setAddModalVisibility] = useState<string>('hidden');
 
     const getData = async () => {
         try {
             setLoading(true);
-            const response = await fetch('/api/category', {
+            const response = await fetch(`/api/category`, {
                 method: 'GET'
             });
             if (response.ok) {
@@ -24,7 +25,7 @@ export default function Categories({ fullDate }: CategoriesProps) {
                 // console.log(data);
                 setCategoryData(data);
                 try {
-                    const response = await fetch(`/api/expenses?date=${fullDate}`, {
+                    const response = await fetch(`/api/expenses?month=${month}&year=${year}`, {
                         method: 'GET'
                     });
                     if (response.ok) {
@@ -44,7 +45,7 @@ export default function Categories({ fullDate }: CategoriesProps) {
 
     useEffect(() => {
         getData();
-    }, [])
+    }, [month, year])
 
     useEffect(() => {
         const parentCategories = categoryData.filter((category) => category.parent_id === null);
@@ -81,43 +82,57 @@ export default function Categories({ fullDate }: CategoriesProps) {
     }
 
     const openModal = () => {
-        setModalVisibility('visible');
+        setAddModalVisibility('visible');
     }
 
     return (
         <section id="categories">
-            <AddCategory modalVisibility={modalVisibility} setModalVisibility={setModalVisibility} />
+            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} />
             <div className="card-header">
                 <h2>Categories</h2>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openModal}>
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                 </svg>
             </div>
-            {categoryData.length && expensesData.length ? (
-                <div>
-                    {parentCategory.length ? parentCategory.map((parentItem, parentIndex) => (
-                        <div key={parentIndex}>
-                            <div className="flex w-100 justify-between items-center">
-                                <p className="font-bold mr-5">{parentItem.name}</p>
-                                <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300">
-                                    <div className="bg-blue-900 h-2.5 rounded-full" style={{ "width": `${(getParentExpenses(parentItem.id) / parentItem.budget) * 100}%` }}></div>
-                                </div>
-                            </div>
-                            {childCategory
-                                .filter((childItem) => childItem.parent_id === parentItem.id)
-                                .map((filteredChildCategory, childIndex) => (
-                                    <div key={childIndex} className="ml-3 flex w-100 justify-between items-center">
-                                        <p className="mr-5">{filteredChildCategory.name}</p>
+            {!loading ? (
+                categoryData.length ? (
+                    <div>
+                        {parentCategory.length ? parentCategory.map((parentItem, parentIndex) => (
+                            <div key={parentIndex}>
+                                <div className="flex w-100 justify-between items-center">
+                                    <p className="font-bold mr-5">{parentItem.name}</p>
+                                    <div className="w-full flex items-center justify-center">
+                                        <p>${getParentExpenses(parentItem.id)}</p>
                                         <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300">
-                                            <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget) * 100}%` }}></div>
+                                            <div className="bg-blue-900 h-2.5 rounded-full" style={{ "width": `${(getParentExpenses(parentItem.id) / parentItem.budget) * 100}%` }}></div>
                                         </div>
+                                        <p>${parentItem.budget}</p>
+                                        <img src="./edit.svg" alt="edit" />
+                                        <img src="./delete.svg" alt="delete" />
                                     </div>
-                                ))
-                            }
-                        </div>
-                    )) : null}
-                </div>
-            ) : null}
+                                </div>
+                                {childCategory
+                                    .filter((childItem) => childItem.parent_id === parentItem.id)
+                                    .map((filteredChildCategory, childIndex) => (
+                                        <div key={childIndex} className="ml-3 flex w-100 justify-between items-center">
+                                            <p className="mr-5">{filteredChildCategory.name}</p>
+                                            <div className="w-full flex items-center justify-center">
+                                                <p>${getChildExpenses(filteredChildCategory.id)}</p>
+                                                <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300">
+                                                    <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget) * 100}%` }}></div>
+                                                </div>
+                                                <p>${filteredChildCategory.budget}</p>
+                                                <img src="./edit.svg" alt="edit" />
+                                                <img src="./delete.svg" alt="delete" />
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        )) : <p>Add categories and expenses to get started!</p>}
+                    </div>
+                ) : null
+            ) : <p>Loading...</p>}
         </section>
     );
 }

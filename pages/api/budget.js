@@ -39,27 +39,19 @@ export default async function budget(req, res) {
 // }
 
 export async function getBudget(req, res) {
-
     const { id, month, year, category_id } = req.query;
-    // const accountID = req.user.account_id;
-    let query = {
-        where: {}
-    };
+    // console.log("req query: ", req)
+    const accountID = req.user.account_id;
+    let query = { where: {} };
 
-    // if (accountID) query.where.account_id = accountID;
+    if (accountID) query.where.account_id = accountID;
     if (id) query.where.id = id;
+    if (category_id) query.where.category_id = category_id;
     if (month && year) {
-        // const integerMonth = Number(month);
-        // const integerYear = Number(year);
-        // const startDate = new Date(integerYear, integerMonth, 1);
-        // query.where.date = startDate;
         const formattedMonth = String(parseInt(month)).padStart(2, '0');
         const formattedDate = `${formattedMonth}-01-${year}`;
-        console.log(formattedDate);
-        console.log(typeof formattedDate);
         query.where.date = formattedDate;
     }
-    if (category_id) query.where.category_id = category_id;
 
     try {
         const budget = await Budget.findAll(query);

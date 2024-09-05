@@ -78,10 +78,9 @@ export default function Dashboard() {
                     <header className="text-center">
                         <h1 className="text-xl">Your Budget</h1>
                         <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} />
-                        <p>AI Suggestion here</p>
                     </header>
                     <main className="flex w-screen flex-wrap justify-center align-center">
-                        <Categories fullDate={fullDate} />
+                        <Categories month={selectedMonth} year={selectedYear} />
                         <div className="flex flex-col align-center justify-evenly">
                             <Budget month={selectedMonth} year={selectedYear} />
                             <Expenses month={selectedMonth} year={selectedYear} />

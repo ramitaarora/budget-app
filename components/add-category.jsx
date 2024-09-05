@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function AddCategory({ modalVisibility, setModalVisibility }) {
+export default function AddCategory({ addModalVisibility, setAddModalVisibility }) {
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
     const [typeOptions, setTypeOptions] = useState([]);
 
@@ -75,11 +75,11 @@ export default function AddCategory({ modalVisibility, setModalVisibility }) {
     };
 
     const closeModal = () => {
-        setModalVisibility('hidden');
+        setAddModalVisibility('hidden');
     }
 
     return (
-        <div className={"modal-background " + modalVisibility}>
+        <div className={"modal-background " + addModalVisibility}>
             <div className="modal">
                 <div className="modal-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={closeModal} className="exit">
