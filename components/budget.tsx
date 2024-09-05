@@ -16,11 +16,6 @@ export default function Budget({ month, year }: BudgetProps) {
     const [modalVisibility, setModalVisibility] = useState<string>('hidden');
     const [incomeVisibility, setIncomeVisibility] = useState<string>('hidden');
 
-    // const today = new Date();
-    // const month = today.getMonth() + 1;
-    // const monthName = today.toLocaleString('en-US', { month: 'long' });
-    // const year = today.getFullYear();
-
     useEffect(() => {
         const fetchExpenses = async () => {
             try {
@@ -55,7 +50,7 @@ export default function Budget({ month, year }: BudgetProps) {
                 };
 
                 const fetchedBudgetData = await res.json();
-                console.log(fetchedBudgetData);
+                // console.log(fetchedBudgetData);
                 setBudgetData(fetchedBudgetData);
             } catch (err) {
                 console.error('Error making GET request:', err);
@@ -75,6 +70,7 @@ export default function Budget({ month, year }: BudgetProps) {
                 };
 
                 const fetchedIncomeData = await res.json();
+                // console.log(fetchedIncomeData);
                 setIncomeData(fetchedIncomeData);
             } catch (err) {
                 console.error('Error making GET request:', err);

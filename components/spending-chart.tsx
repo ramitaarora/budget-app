@@ -9,10 +9,11 @@ interface ChartData {
 }
 
 interface SpendingChartProps {
-    fullDate: string;
+    month: number,
+    year: number
 }
 
-export default function SpendingChart({ fullDate }: SpendingChartProps) {
+export default function SpendingChart({ month, year }: SpendingChartProps) {
     const [loading, setLoading] = useState<boolean>(true);
     const [spendingData, setSpendingData] = useState<(string | number)[][] | []>([]);
     const [categoryData, setCategoryData] = useState<any[]>([]);
@@ -37,25 +38,25 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
             });
             if (response.ok) {
                 const data = await response.json();
-                // console.log(data);
+                console.log("categories", data);
                 setCategoryData(data);
 
                 try {
-                    const response = await fetch(`/api/budget?date=${fullDate}`, {
+                    const response = await fetch(`/api/budget?month=${month}&year=${year}`, {
                         method: 'GET'
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        // console.log(data);
+                        console.log("budget", data);
                         setBudgetData(data);
 
                         try {
-                            const response = await fetch(`/api/expenses?date=${fullDate}`, {
+                            const response = await fetch(`/api/expenses?month=${month}&year=${year}`, {
                                 method: 'GET'
                             });
                             if (response.ok) {
                                 const data = await response.json();
-                                // console.log(data);
+                                console.log("expenses", data);
                                 setExpensesData(data);
                             }
                         } catch (err) {
@@ -72,10 +73,10 @@ export default function SpendingChart({ fullDate }: SpendingChartProps) {
     }
 
     useEffect(() => {
-        if (fullDate) {
+        if (month && year) {
             getData();
         }
-    }, [fullDate])
+    }, [month, year])
 
     useEffect(() => {
         setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));

@@ -180,3 +180,9 @@ nav ul {
   border-radius: 5px;
   padding: 10px;
 }
+
+#total-budget,
+#income {
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 5px;
+}

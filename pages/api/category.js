@@ -45,10 +45,6 @@ export async function getCategories(req, res) {
 
     if (accountID) query.where.account_id = accountID;
     if (id) query.where.id = id;
-    // if (date) {
-    //     let month = new Date(date).getMonth() + 1;
-    //     query.where.date = month;
-    // } 
 
     try {
         const category = await Category.findAll(query);
@@ -82,10 +78,13 @@ export async function createCategory(req, res) {
 
 export async function updateCategory(req, res) {
     try {
-        const { id } = req.query;
+        const { account, id } = req.query;
         const updateData = req.body;
         const result = await Category.update(updateData, {
-            where: { id: id }
+            where: { 
+                id: id,
+                account_id: account,
+            }
         });
         res.status(200).json(result);
     } catch (error) {
@@ -101,7 +100,7 @@ export async function deleteCategory(req, res) {
             where: { id: id }
         });
         if (result > 0) {
-            res.status(204).json({ message: 'Successfully deleted.' });
+            res.status(200).json({ message: 'Successfully deleted.' });
         } else {
             res.status(404).json({ message: 'Category not found.' });
         }

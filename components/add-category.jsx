@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function AddCategory({ modalVisibility, setModalVisibility }) {
+export default function AddCategory({ addModalVisibility, setAddModalVisibility }) {
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
     const [typeOptions, setTypeOptions] = useState([]);
 
@@ -16,7 +16,16 @@ export default function AddCategory({ modalVisibility, setModalVisibility }) {
             if (response.ok) {
                 const data = await response.json();
                 // console.log(data);
-                setTypeOptions([{ name: '', id: '' }, ...data]);
+                setTypeOptions([{ name: '', id: '' }]);
+
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].parent_id === null) {
+                        const findCategory = typeOptions.find((category) => category.id === data[i].id);
+                        if (!findCategory) {
+                            setTypeOptions((prev) => [...prev, data[i]]);
+                        }
+                    }
+                }
             }
         } catch(err) {
             console.error(err);
@@ -75,11 +84,11 @@ export default function AddCategory({ modalVisibility, setModalVisibility }) {
     };
 
     const closeModal = () => {
-        setModalVisibility('hidden');
+        setAddModalVisibility('hidden');
     }
 
     return (
-        <div className={"modal-background " + modalVisibility}>
+        <div className={"modal-background " + addModalVisibility}>
             <div className="modal">
                 <div className="modal-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={closeModal} className="exit">
@@ -111,16 +120,6 @@ export default function AddCategory({ modalVisibility, setModalVisibility }) {
                                 {typeOptions.length && typeOptions.map((type, index) => (
                                     <option value={type.id} key={index}>{type.name}</option>
                                 ))}
-                                {/*    <option value="1">Food</option>
-                                    <option value="4">Rent</option>
-                                    <option value="5">Bills</option>
-                                    <option value="9">Transporation</option>
-                                    <option value="12">Necessities</option>
-                                    <option value="13">Entertainment</option>
-                                    <option value="14">Holiday/Gifts</option>
-                                    <option value="15">Medical</option>
-                                    <option value="16">Misc.</option>
-    */}
                                 </select>
                             </div>
 
