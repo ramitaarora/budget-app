@@ -100,7 +100,7 @@ export async function deleteCategory(req, res) {
             where: { id: id }
         });
         if (result > 0) {
-            res.status(204).json({ message: 'Successfully deleted.' });
+            res.status(200).json({ message: 'Successfully deleted.' });
         } else {
             res.status(404).json({ message: 'Category not found.' });
         }

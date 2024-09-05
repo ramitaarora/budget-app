@@ -93,6 +93,17 @@ export default function Categories({ month, year }: CategoriesProps) {
         setEditModalVisibility('visible');
     }
 
+    const deleteCategory = (event: any) => {
+        console.log(event.target.id);
+        try {
+            const response = fetch(`api/category?id=${event.target.id}`, {
+                method: 'DELETE',
+            })
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     return (
         <section id="categories">
             <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} />
@@ -117,7 +128,7 @@ export default function Categories({ month, year }: CategoriesProps) {
                                         </div>
                                         <p>${parentItem.budget}</p>
                                         <img src="./edit.svg" alt="edit" onClick={openEditModal} id={parentItem.id}/>
-                                        <img src="./delete.svg" alt="delete" />
+                                        <img src="./delete.svg" alt="delete" onClick={deleteCategory} id={parentItem.id} />
                                     </div>
                                 </div>
                                 {childCategory
@@ -132,7 +143,7 @@ export default function Categories({ month, year }: CategoriesProps) {
                                                 </div>
                                                 <p>${filteredChildCategory.budget}</p>
                                                 <img src="./edit.svg" alt="edit" onClick={openEditModal} id={filteredChildCategory.id}/>
-                                                <img src="./delete.svg" alt="delete" />
+                                                <img src="./delete.svg" alt="delete" onClick={deleteCategory} id={filteredChildCategory.id} />
                                             </div>
                                         </div>
                                     ))
