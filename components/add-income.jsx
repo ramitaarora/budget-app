@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import DateSelector from './date-selector';
 import CurrencyInput from 'react-currency-input-field';
 
 export default function AddIncome({ incomeVisibility, setIncomeVisibility }) {

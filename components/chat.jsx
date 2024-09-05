@@ -36,9 +36,9 @@ export default function Chat({ month, year }) {
             }
         } catch (error) {
             console.error('Failed to send message:', error);
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     };
 
     const autoSendMessage = async (message) => {
@@ -67,13 +67,24 @@ export default function Chat({ month, year }) {
             }
         } catch (error) {
             console.error('Failed to send message:', error);
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     };
 
     const options = [
-        { id: 1, text: "Analyze Spending Habits", prompt: "Please analyze my spending habits based on this data of my expenses this month. Suggest ways that I can save and better spend my money. Don't re-list my expenses in your response; I have this data available to me already. If no data is provided here, please let me know that there is no data to work. Let me know that I need to select a month that contains saved expenses.", fetch: "Expenses" }
+        {
+            id: 1,
+            text: "Analyze Spending Habits",
+            prompt: "Please analyze my spending habits based on this data of my expenses this month. Suggest ways that I can save and better spend my money. Don't re-list my expenses in your response; I have this data available to me already. If no data is provided here, please let me know that there is no data to work. Let me know that I need to select a month that contains saved expenses.",
+            fetch: "Expenses"
+        },
+        // {
+        //     id: 2,
+        //     text: "Analyze Spending Habits",
+        //     prompt: "Please analyze my spending habits based on this data of my expenses this month. Suggest ways that I can save and better spend my money. Don't re-list my expenses in your response; I have this data available to me already. If no data is provided here, please let me know that there is no data to work. Let me know that I need to select a month that contains saved expenses.",
+        //     fetch: "Expenses"
+        // }
     ];
 
     const fetchExpenses = async () => {
@@ -116,6 +127,23 @@ export default function Chat({ month, year }) {
                 <p className="message-box message-sender-gpt">
                     Hello! I am here to answer any questions you may have. Feel free to ask me anything related to your finances, budget planning, expense tracking, etc.
                 </p>
+                {/* <div>
+                    <p style={{ padding: '10px', fontWeight: 'bold' }}>Suggestions:</p>
+                    {options.map(option => (
+                        <button
+                            key={option.id}
+                            className='option-button'
+                            onClick={() => handleOptionClick(option)}
+                        >
+                            {option.text}
+                        </button>
+                    ))}
+                </div> */}
+                {messages.map((msg, index) => (
+                    <p key={index} className={`message-box message-sender-${msg.from}`}>
+                        {msg.text}
+                    </p>
+                ))}
                 <div>
                     <p style={{ padding: '10px', fontWeight: 'bold' }}>Suggestions:</p>
                     {options.map(option => (
@@ -133,11 +161,6 @@ export default function Chat({ month, year }) {
                     &&
                     <img src="./soon.gif" alt="Loading Icon" style={{ width: "100px", height: "auto", margin: "5px" }} />
                 }
-                {messages.map((msg, index) => (
-                    <p key={index} className={`message-box message-sender-${msg.from}`}>
-                        {msg.text}
-                    </p>
-                ))}
             </div>
             <div className="send-container">
                 <input
