@@ -43,7 +43,7 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility }) {
 
     const closeModal = () => {
         setIncomeVisibility('hidden');
-    }
+    };
 
     return (
         <div className={"modal-background " + incomeVisibility}>

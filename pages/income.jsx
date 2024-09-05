@@ -78,7 +78,7 @@ export default function Income() {
 
     const deleteIncome = async (incomeID) => {
         try {
-            const res = await fetch(`/api/income?id=${{incomeID}}`, {
+            const res = await fetch(`/api/income?id=${incomeID}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export default function Income() {
 
     const editIncome = async (incomeID) => {
         try {
-            const res = await fetch(`/api/income?id=${{incomeID}}`, {
+            const res = await fetch(`/api/income?id=${incomeID}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -158,12 +158,12 @@ export default function Income() {
                             <td>{income.description}</td>
                             <td>${income.amount}</td>
                             <td>
-                                <button onClick={editIncome(income.id)}>
+                                <button onClick={() => editIncome(income.id)}>
                                     e
                                 </button>
                             </td>
                             <td>
-                                <button onClick={deleteIncome(income.id)}>
+                                <button onClick={() => deleteIncome(income.id)}>
                                     x
                                 </button>
                             </td>
