@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import AddIncome from '../components/add-income';
+import AddExpense from '../components/add-expense';
 // import EditIncome from '../components/edit-income';
 
 export default function Expenses() {
@@ -8,7 +8,7 @@ export default function Expenses() {
     const [selectedYear, setSelectedYear] = useState();
     const [expenseData, setExpenseData] = useState([]);
     const [editModalVisibility, setEditModalVisibility] = useState('hidden');
-    const [addModalVisibility, setAddModalVisibility] = useState('hidden');
+    const [modalVisibility, setModalVisibility] = useState('hidden');
     const [editID, setEditID] = useState();
 
     useEffect(() => {
@@ -72,7 +72,7 @@ export default function Expenses() {
     }
 
     const openAddModal = () => {
-        setAddModalVisibility('visible');
+        setModalVisibility('visible');
     }
 
     const deleteExpense = async (expenseID) => {
@@ -102,11 +102,11 @@ export default function Expenses() {
                     <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
                 </div>
             </header>
-            {/* <AddIncome
-                addModalVisibility={addModalVisibility}
-                setAddModalVisibility={setAddModalVisibility}
+            <AddExpense
+                modalVisibility={modalVisibility}
+                setModalVisibility={setModalVisibility}
             />
-            <EditIncome
+            {/* <EditIncome
                 editModalVisibility={editModalVisibility}
                 setEditModalVisibility={setEditModalVisibility}
                 editID={editID}
@@ -142,7 +142,7 @@ export default function Expenses() {
                                             </button>
                                         </td>
                                         <td>
-                                            <button onClick={() => deleteIncome(expense.id)}>
+                                            <button onClick={() => deleteExpense(expense.id)}>
                                                 x
                                             </button>
                                         </td>
