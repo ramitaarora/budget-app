@@ -1,6 +1,6 @@
 import Budget from '../../models/Budget';
 import { apiAuthenticate } from '../../middleware/auth';
-const { Op } = require('sequelize');
+import { Op, literal } from 'sequelize';
 
 // USE IN PRODUCTION TO PROTECT API ROUTES
 
@@ -48,9 +48,15 @@ export async function getBudget(req, res) {
     if (id) query.where.id = id;
     if (category_id) query.where.category_id = category_id;
     if (month && year) {
-        const formattedMonth = String(parseInt(month)).padStart(2, '0');
-        const formattedDate = `${formattedMonth}-01-${year}`;
-        query.where.date = formattedDate;
+        query.where = {
+            ...query.where,
+            date: {
+                [Op.and]: [
+                    literal(`YEAR(date) = ${year}`),
+                    literal(`MONTH(date) = ${month}`)
+                ]
+            }
+        };
     }
 
     try {
