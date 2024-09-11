@@ -88,12 +88,12 @@ export default function Dashboard() {
                         </div>
                     </header>
                     <main className="flex w-screen flex-wrap justify-center align-center">
-                        <Categories fullDate={fullDate} />
+                        <Categories month={selectedMonth} year={selectedYear} />
                         <div className="flex flex-col align-center justify-evenly">
                             <Budget month={selectedMonth} year={selectedYear} />
                             <Expenses month={selectedMonth} year={selectedYear} />
                         </div>
-                        <SpendingChart fullDate={fullDate} />
+                        <SpendingChart month={selectedMonth} year={selectedYear}/>
                     </main>
                 </div>
             )}

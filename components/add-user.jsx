@@ -26,6 +26,12 @@ export default function AddUser({ userModal, setUserModal }) {
             },
             body: JSON.stringify({ first_name, last_name, email, password, location })
         });
+
+        if (res.ok) {
+            alert('New user created!')
+            setFormState({ first_name: '', last_name: '', email: '', password: '', location: '' })
+            closeModal();
+        }
     };
 
     const closeModal = () => {

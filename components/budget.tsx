@@ -50,7 +50,7 @@ export default function Budget({ month, year }: BudgetProps) {
                 };
 
                 const fetchedBudgetData = await res.json();
-                console.log(fetchedBudgetData);
+                // console.log(fetchedBudgetData);
                 setBudgetData(fetchedBudgetData);
             } catch (err) {
                 console.error('Error making GET request:', err);
@@ -70,6 +70,7 @@ export default function Budget({ month, year }: BudgetProps) {
                 };
 
                 const fetchedIncomeData = await res.json();
+                // console.log(fetchedIncomeData);
                 setIncomeData(fetchedIncomeData);
             } catch (err) {
                 console.error('Error making GET request:', err);

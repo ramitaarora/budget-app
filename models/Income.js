@@ -35,6 +35,16 @@ Income.init(
             },
             onDelete: 'SET NULL',
             onUpdate: 'CASCADE'
+        },
+        account_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'account',
+                key: 'id',
+            },
+            onDelete: 'SET NULL',
+            onUpdate: 'CASCADE'
         }
     },
     {

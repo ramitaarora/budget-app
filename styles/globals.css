@@ -316,6 +316,12 @@ nav ul {
   padding: 10px;
 }
 
+#total-budget,
+#income {
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 5px;
+}
+
 #floating-button {
   position: fixed;
   bottom: 20px;
