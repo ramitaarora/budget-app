@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import AddExpense from '../components/add-expense';
-// import EditIncome from '../components/edit-income';
+import EditExpense from '../components/edit-expense';
 
 export default function Expenses() {
     const [fullDate, setFullDate] = useState();
@@ -106,11 +106,11 @@ export default function Expenses() {
                 modalVisibility={modalVisibility}
                 setModalVisibility={setModalVisibility}
             />
-            {/* <EditIncome
+            <EditExpense
                 editModalVisibility={editModalVisibility}
                 setEditModalVisibility={setEditModalVisibility}
                 editID={editID}
-            /> */}
+            />
             <div id="income">
                 <div className="w-full flex justify-between items-center">
                     <h3 onClick={openAddModal} className="cursor-pointer">Expenses: </h3>
