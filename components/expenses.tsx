@@ -5,9 +5,10 @@ import EditExpense from './edit-expense';
 interface ExpensesProps {
     month: number;
     year: number;
+    timezone: string,
 }
 
-export default function Expenses({ month, year }: ExpensesProps) {
+export default function Expenses({ month, year, timezone }: ExpensesProps) {
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [addModalVisibility, setAddModalVisibility] = useState<string>('hidden');
     const [editModalVisibility, setEditModalVisibility] = useState<string>('hidden');
@@ -43,6 +44,7 @@ export default function Expenses({ month, year }: ExpensesProps) {
         const fullDate = new Date(date);
         const timeZoneDate = new Intl.DateTimeFormat('en-US', {
             dateStyle: 'short',
+            timeZone: timezone
           }).format(fullDate);
         return timeZoneDate;
     }
