@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 // import AddIncome from '../components/add-income';
 // import EditIncome from '../components/edit-income';
 
-export default function Expense() {
+export default function Expenses() {
     const [fullDate, setFullDate] = useState();
     const [selectedMonth, setSelectedMonth] = useState();
     const [selectedYear, setSelectedYear] = useState();
