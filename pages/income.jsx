@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import AddIncome from '../components/add-income';
+import EditIncome from '../components/edit-income';
 
 export default function Income() {
-    const [fullDate, setFullDate] = useState('');
+    const [fullDate, setFullDate] = useState();
     const [selectedMonth, setSelectedMonth] = useState();
     const [selectedYear, setSelectedYear] = useState();
     const [incomeData, setIncomeData] = useState([]);
     const [totalIncome, setTotalIncome] = useState(0);
-    // const [modalVisibility, setModalVisibility] = useState('hidden');
+    const [editModalVisibility, setEditModalVisibility] = useState('hidden');
     const [incomeVisibility, setIncomeVisibility] = useState('hidden');
+    const [editID, setEditID] = useState();
 
     useEffect(() => {
         const today = new Date();
@@ -39,7 +41,7 @@ export default function Income() {
             year: 'numeric',
             month: 'numeric',
             day: '2-digit',
-            // timeZone: 'America/Los_Angeles'
+            timeZone: 'UTC'
         }).format(date);
     }
 
@@ -69,8 +71,9 @@ export default function Income() {
         setTotalIncome(incomeData.reduce((acc, obj) => acc + Number(obj.amount), 0));
     }, [incomeData]);
 
-    const openModal = () => {
-        setModalVisibility('visible');
+    const openEditModal = (event) => {
+        setEditID(event.target.id);
+        setEditModalVisibility('visible');
     }
 
     const openIncomeModal = () => {
@@ -93,25 +96,6 @@ export default function Income() {
         };
     };
 
-    const editIncome = async (incomeID) => {
-        try {
-            const res = await fetch(`/api/income?id=${incomeID}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            if (!res.ok) {
-                throw new Error('Failed to fetch income data');
-            };
-
-            const deletedIncomeData = await res.json();
-            return(deletedIncomeData);
-        } catch (err) {
-            console.error('Error making DELETE request:', err);
-        };
-    };
-
     return (
         <section>
             <header className="text-center">
@@ -123,7 +107,15 @@ export default function Income() {
                     <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
                 </div>
             </header>
-            <AddIncome incomeVisibility={incomeVisibility} setIncomeVisibility={setIncomeVisibility} />
+            <AddIncome
+                incomeVisibility={incomeVisibility}
+                setIncomeVisibility={setIncomeVisibility}
+            />
+            <EditIncome
+                editModalVisibility={editModalVisibility}
+                setEditModalVisibility={setEditModalVisibility}
+                editID={editID}
+            />
             <div id="income">
                 <div className="w-full flex justify-between items-center">
                     <h3 onClick={openIncomeModal} className="cursor-pointer">Total Monthly Income:</h3>
@@ -156,7 +148,7 @@ export default function Income() {
                             <td>{income.description}</td>
                             <td>${income.amount}</td>
                             <td>
-                                <button onClick={() => editIncome(income.id)}>
+                                <button onClick={(event) => openEditModal(event)} id={income.id}>
                                     e
                                 </button>
                             </td>

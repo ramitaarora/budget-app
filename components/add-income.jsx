@@ -70,8 +70,8 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility }) {
                             <div className="modal-form-line">
                                 <label className="form-line-left">Date: </label>
                                 <input 
-                                    type="month" 
-                                    name="date" 
+                                    type="date" 
+                                    name="date"
                                     onChange={handleChange} 
                                     className="form-line-right" 
                                 />
