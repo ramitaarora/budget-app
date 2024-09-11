@@ -44,25 +44,26 @@ export default function Expenses() {
         }).format(date);
     }
 
-    useEffect(() => {
-        const fetchExpense = async () => {
-            try {
-                const res = await fetch(`/api/expenses?month=${selectedMonth}&year=${selectedYear}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                if (!res.ok) {
-                    throw new Error('Failed to fetch expense data');
-                };
-
-                const fetchedExpenseData = await res.json();
-                setExpenseData(fetchedExpenseData);
-            } catch (err) {
-                console.error('Error making GET request:', err);
+    const fetchExpense = async () => {
+        try {
+            const res = await fetch(`/api/expenses?month=${selectedMonth}&year=${selectedYear}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            if (!res.ok) {
+                throw new Error('Failed to fetch expense data');
             };
+
+            const fetchedExpenseData = await res.json();
+            setExpenseData(fetchedExpenseData);
+        } catch (err) {
+            console.error('Error making GET request:', err);
         };
+    };
+
+    useEffect(() => {
         fetchExpense();
     }, [selectedMonth, selectedYear]);
 
@@ -86,6 +87,7 @@ export default function Expenses() {
             if (!res.ok) {
                 throw new Error('Failed to fetch expense data');
             };
+            fetchExpense();
         } catch (err) {
             console.error('Error making DELETE request:', err);
         };
@@ -105,6 +107,7 @@ export default function Expenses() {
             <AddExpense
                 modalVisibility={modalVisibility}
                 setModalVisibility={setModalVisibility}
+                fetchExpense={fetchExpense}
             />
             <EditExpense
                 editModalVisibility={editModalVisibility}

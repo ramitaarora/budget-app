@@ -90,7 +90,9 @@ export default function Income() {
             })
             if (!res.ok) {
                 throw new Error('Failed to fetch income data');
-            };
+            } else if (res.ok) {
+                alert('Income deleted successfully!')
+            }
         } catch (err) {
             console.error('Error making DELETE request:', err);
         };

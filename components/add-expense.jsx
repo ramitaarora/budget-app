@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function AddExpense({ modalVisibility, setModalVisibility }) {
+export default function AddExpense({ modalVisibility, setModalVisibility, fetchExpense }) {
     const [formState, setFormState] = useState({ description: '', date: '', amount: '', category_id: '' });
     const [categoryOptions, setCategoryOptions] = useState([]);
 
@@ -54,8 +54,8 @@ export default function AddExpense({ modalVisibility, setModalVisibility }) {
                 amount: '',
                 category_id: ''
             });
-            // Change later
-            alert('New expense created!');
+            fetchExpense();
+            closeModal();
         }
     };
 
