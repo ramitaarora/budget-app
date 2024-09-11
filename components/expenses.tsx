@@ -14,42 +14,42 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
     const [editModalVisibility, setEditModalVisibility] = useState<string>('hidden');
     const [editID, setEditID] = useState<number>();
 
+    const fetchExpense = async () => {
+        try {
+            const res = await fetch(`/api/expenses?month=${month}&year=${year}&limit=5`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            if (!res.ok) {
+                throw new Error('Failed to fetch expenses data');
+            };
+
+            const data = await res.json();
+            // console.log(data);
+            setExpensesData(data);
+        } catch (err) {
+            console.error('Error making GET request:', err);
+        };
+    };
+
     useEffect(() => {
 
-        const fetchExpenses = async () => {
-            try {
-                const res = await fetch(`/api/expenses?month=${month}&year=${year}&limit=5`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                if (!res.ok) {
-                    throw new Error('Failed to fetch expenses data');
-                };
-
-                const data = await res.json();
-                // console.log(data);
-                setExpensesData(data);
-            } catch (err) {
-                console.error('Error making GET request:', err);
-            };
-        };
-
-        fetchExpenses();
+        fetchExpense();
 
     }, [month, year]);
 
-    const formatDate = (date:any) => {
+    const formatDate = (date: any) => {
         const fullDate = new Date(date);
         const timeZoneDate = new Intl.DateTimeFormat('en-US', {
             dateStyle: 'short',
             timeZone: timezone
-          }).format(fullDate);
+        }).format(fullDate);
         return timeZoneDate;
     }
 
-    const deleteExpense = async (event:any) => {
+    const deleteExpense = async (event: any) => {
         console.log(event.target.id);
         try {
             const response = await fetch(`api/expenses?id=${event.target.id}`, {
@@ -58,7 +58,7 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
             if (response.ok) {
                 alert('Expense deleted.')
             }
-        } catch(err) {
+        } catch (err) {
             console.error(err)
         }
     }
@@ -67,14 +67,14 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
         setAddModalVisibility('visible');
     }
 
-    const openEditModal = (event:any) => {
+    const openEditModal = (event: any) => {
         setEditID(event.target.id)
         setEditModalVisibility('visible');
     }
 
     return (
         <section id="expenses">
-            <AddExpense addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} />
+            <AddExpense addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} fetchExpense={fetchExpense}/>
             <EditExpense editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} />
             <div className="card-header">
                 <h2>Latest Expenses</h2>
@@ -90,8 +90,8 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
                             <p className="w-1/6">${expense.amount}</p>
                             <p className="w-3/6">{expense.description}</p>
                             <div className="w-1/6 flex justify-evenly cursor-pointer">
-                                <img src="./edit.svg" alt="edit" id={expense.id} onClick={(event) => openEditModal(event)}/>
-                                <img src="./delete.svg" alt="delete" id={expense.id} onClick={(event) => deleteExpense(event)}/>
+                                <img src="./edit.svg" alt="edit" id={expense.id} onClick={(event) => openEditModal(event)} />
+                                <img src="./delete.svg" alt="delete" id={expense.id} onClick={(event) => deleteExpense(event)} />
                             </div>
                         </div>
                     ))

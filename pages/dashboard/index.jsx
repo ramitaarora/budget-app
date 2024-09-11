@@ -2,6 +2,7 @@ import Budget from '../../components/budget';
 import Categories from '../../components/categories';
 import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
+import Chat from '../../components/chat';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
 import AddUser from '../../components/add-user';
@@ -19,11 +20,13 @@ export default function Dashboard() {
     const [selectedYear, setSelectedYear] = useState();
     const [timezone, setTimezon] = useState('America/Los_Angeles')
 
+    const [chatVisibility, setChatVisibility] = useState(false);
+    const toggleChat = () => setChatVisibility(!chatVisibility);
+
     useEffect(() => {
         const today = new Date();
         const formattedMonth = (today.getMonth() + 1).toString().padStart(2, '0');
-        const formattedYear = today.getFullYear().toString();
-        // const monthName = today.toLocaleString('en-US', { month: 'long' });
+        const formattedYear = today.getFullYear().toString()
 
         const timeZoneDate = new Intl.DateTimeFormat('en-US', {
             dateStyle: 'full',
@@ -47,7 +50,7 @@ export default function Dashboard() {
         if (event.target.id === "add-user") {
             setUserModal('visible');
         }
-        
+
         if (event.target.id === "logout") {
             const response = await fetch('/api/logout', {
                 method: 'POST',
@@ -78,7 +81,12 @@ export default function Dashboard() {
                 <div>
                     <header className="text-center">
                         <h1 className="text-xl">Your Budget</h1>
-                        <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} />
+                        <h1>{fullDate}</h1>
+                        <div>
+                            <p>Change Month: </p>
+                            {/* <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} /> */}
+                            <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                        </div>
                     </header>
                     <main className="flex w-screen flex-wrap justify-center align-center">
                         <Categories month={selectedMonth} year={selectedYear} />
@@ -90,6 +98,10 @@ export default function Dashboard() {
                     </main>
                 </div>
             )}
+            {chatVisibility && <Chat month={selectedMonth} year={selectedYear} />}
+            <a onClick={toggleChat} id="floating-button">
+                <img src="./chat.png" alt="Toggle Chatbox" style={{ width: "35px", height: "auto", margin: "5px" }} />
+            </a>
         </div>
     )
 }

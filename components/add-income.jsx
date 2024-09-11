@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import DateSelector from './date-selector';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function AddIncome({ incomeVisibility, setIncomeVisibility }) {
+export default function AddIncome({ incomeVisibility, setIncomeVisibility, fetchIncome }) {
 
     const [formState, setFormState] = useState({ description: '', date: '', amount: '' });
 
@@ -37,14 +36,14 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility }) {
                 date: '',
                 amount: ''
             });
-            // Change later
-            alert('New income created!');
+            fetchIncome();
+            closeModal();
         }
     };
 
     const closeModal = () => {
         setIncomeVisibility('hidden');
-    }
+    };
 
     return (
         <div className={"modal-background " + incomeVisibility}>
@@ -71,8 +70,8 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility }) {
                             <div className="modal-form-line">
                                 <label className="form-line-left">Date: </label>
                                 <input 
-                                    type="month" 
-                                    name="date" 
+                                    type="date" 
+                                    name="date"
                                     onChange={handleChange} 
                                     className="form-line-right" 
                                 />
