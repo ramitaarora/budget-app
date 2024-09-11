@@ -47,8 +47,18 @@ export default function Expenses({ month, year }: ExpensesProps) {
         return timeZoneDate;
     }
 
-    const deleteExpense = (event:any) => {
+    const deleteExpense = async (event:any) => {
         console.log(event.target.id);
+        try {
+            const response = await fetch(`api/expenses?id=${event.target.id}`, {
+                method: 'DELETE'
+            })
+            if (response.ok) {
+                alert('Expense deleted.')
+            }
+        } catch(err) {
+            console.error(err)
+        }
     }
 
     const openAddModal = () => {
