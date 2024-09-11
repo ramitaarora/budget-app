@@ -43,27 +43,28 @@ export default function Income() {
             day: '2-digit',
             timeZone: 'UTC'
         }).format(date);
-    }
+    };
+
+    const fetchIncome = async () => {
+        try {
+            const res = await fetch(`/api/income?month=${selectedMonth}&year=${selectedYear}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            if (!res.ok) {
+                throw new Error('Failed to fetch income data');
+            };
+
+            const fetchedIncomeData = await res.json();
+            setIncomeData(fetchedIncomeData);
+        } catch (err) {
+            console.error('Error making GET request:', err);
+        };
+    };
 
     useEffect(() => {
-        const fetchIncome = async () => {
-            try {
-                const res = await fetch(`/api/income?month=${selectedMonth}&year=${selectedYear}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                if (!res.ok) {
-                    throw new Error('Failed to fetch income data');
-                };
-
-                const fetchedIncomeData = await res.json();
-                setIncomeData(fetchedIncomeData);
-            } catch (err) {
-                console.error('Error making GET request:', err);
-            };
-        };
         fetchIncome();
     }, [selectedMonth, selectedYear]);
 
@@ -90,9 +91,8 @@ export default function Income() {
             })
             if (!res.ok) {
                 throw new Error('Failed to fetch income data');
-            } else if (res.ok) {
-                alert('Income deleted successfully!')
-            }
+            };
+            fetchIncome();
         } catch (err) {
             console.error('Error making DELETE request:', err);
         };
@@ -112,6 +112,7 @@ export default function Income() {
             <AddIncome
                 incomeVisibility={incomeVisibility}
                 setIncomeVisibility={setIncomeVisibility}
+                fetchIncome={fetchIncome}
             />
             <EditIncome
                 editModalVisibility={editModalVisibility}

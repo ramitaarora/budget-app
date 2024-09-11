@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function AddIncome({ incomeVisibility, setIncomeVisibility }) {
+export default function AddIncome({ incomeVisibility, setIncomeVisibility, fetchIncome }) {
 
     const [formState, setFormState] = useState({ description: '', date: '', amount: '' });
 
@@ -36,8 +36,8 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility }) {
                 date: '',
                 amount: ''
             });
-            // Change later
-            alert('New income created!');
+            fetchIncome();
+            closeModal();
         }
     };
 

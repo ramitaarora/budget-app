@@ -42,7 +42,7 @@ export default function Expenses() {
             day: '2-digit',
             timeZone: 'UTC'
         }).format(date);
-    }
+    };
 
     const fetchExpense = async () => {
         try {
