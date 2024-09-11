@@ -126,41 +126,41 @@ export default function Income() {
                 {incomeData.length > 0 ? (
                     <>
                         <p>${totalIncome}</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {incomeData.map((income, index) => (
+                                    <tr key={index}>
+                                        <td>{formatDate(income.date)}</td>
+                                        <td>{income.description}</td>
+                                        <td>${income.amount}</td>
+                                        <td>
+                                            <button onClick={(event) => openEditModal(event)} id={income.id}>
+                                                e
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button onClick={() => deleteIncome(income.id)}>
+                                                x
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </>
                 ) : (
                     <p>No income data.</p>
                 )}
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {incomeData.map((income, index) => (
-                        <tr key={index}>
-                            <td>{formatDate(income.date)}</td>
-                            <td>{income.description}</td>
-                            <td>${income.amount}</td>
-                            <td>
-                                <button onClick={(event) => openEditModal(event)} id={income.id}>
-                                    e
-                                </button>
-                            </td>
-                            <td>
-                                <button onClick={() => deleteIncome(income.id)}>
-                                    x
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
         </section>
     );
 }
