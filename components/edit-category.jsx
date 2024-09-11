@@ -55,7 +55,7 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
     const submitForm = async (event) => {
         event.preventDefault();
 
-        const { id, name, account_id, flexible, budget, parent_id} = formState;
+        const { id, name, account_id, flexible, budget, parent_id } = formState;
 
         let parent_category = null;
         if (parent_id) parent_category = Number(parent_id);

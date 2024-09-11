@@ -38,7 +38,7 @@ export default function SpendingChart({ month, year }: SpendingChartProps) {
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log("categories", data);
+                // console.log("categories", data);
                 setCategoryData(data);
 
                 try {
@@ -47,7 +47,7 @@ export default function SpendingChart({ month, year }: SpendingChartProps) {
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        console.log("budget", data);
+                        // console.log("budget", data);
                         setBudgetData(data);
 
                         try {
@@ -56,7 +56,7 @@ export default function SpendingChart({ month, year }: SpendingChartProps) {
                             });
                             if (response.ok) {
                                 const data = await response.json();
-                                console.log("expenses", data);
+                                // console.log("expenses", data);
                                 setExpensesData(data);
                             }
                         } catch (err) {

@@ -17,6 +17,7 @@ export default function Dashboard() {
     const router = useRouter();
     const [selectedMonth, setSelectedMonth] = useState();
     const [selectedYear, setSelectedYear] = useState();
+    const [timezone, setTimezon] = useState('America/Los_Angeles')
 
     useEffect(() => {
         const today = new Date();
@@ -26,7 +27,7 @@ export default function Dashboard() {
 
         const timeZoneDate = new Intl.DateTimeFormat('en-US', {
             dateStyle: 'full',
-            timeZone: 'America/Los_Angeles',
+            timeZone: timezone,
         }).format(today);
 
         setFullDate(timeZoneDate);
@@ -83,7 +84,7 @@ export default function Dashboard() {
                         <Categories month={selectedMonth} year={selectedYear} />
                         <div className="flex flex-col align-center justify-evenly">
                             <Budget month={selectedMonth} year={selectedYear} />
-                            <Expenses month={selectedMonth} year={selectedYear} />
+                            <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
                         </div>
                         <SpendingChart month={selectedMonth} year={selectedYear}/>
                     </main>
