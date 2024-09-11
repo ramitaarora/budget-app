@@ -40,6 +40,7 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
 
     const handleFormChange = (event) => {
         const { name, value } = event.target;
+        console.log(name, value)
 
         if (name === "amount") {
             setFormState({
@@ -57,7 +58,7 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
     const submitForm = async () => {
         event.preventDefault();
 
-        const { description, amount, category_id } = formState;
+        const { description, amount, category_id, date } = formState;
 
         try {
             const response = await fetch(`/api/expenses?id=${editID}`, {
@@ -68,7 +69,8 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
                 body: JSON.stringify({ 
                     description: description,
                     amount: amount,
-                    category_id: category_id
+                    category_id: category_id,
+                    date: date
                 })
             }) 
 
@@ -132,6 +134,17 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
                                         <option value={category.id} key={index}>{category.name}</option>
                                     ))}
                                 </select>
+                            </div>
+
+                            <div className="modal-form-line">
+                                <label className="form-line-left">Date:</label>
+                                <input 
+                                    name="date"
+                                    type="date" 
+                                    className="form-line-right"
+                                    value={formState.date.slice(0, 10)} 
+                                    onChange={handleFormChange}
+                                    />
                             </div>
 
                             <div>
