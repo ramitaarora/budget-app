@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import AddBudget from './add-budget';
 import AddIncome from './add-income';
-import EditIncome from './edit-income';
 
 interface BudgetProps {
     month: number;
@@ -16,7 +15,6 @@ export default function Budget({ month, year }: BudgetProps) {
     const [totalIncome, setTotalIncome] = useState<number>(0);
     const [modalVisibility, setModalVisibility] = useState<string>('hidden');
     const [incomeVisibility, setIncomeVisibility] = useState<string>('hidden');
-    const [editIncomeVisibility, setEditIncomeVisibility] = useState<string>('hidden');
 
     useEffect(() => {
         const fetchExpenses = async () => {
@@ -97,15 +95,10 @@ export default function Budget({ month, year }: BudgetProps) {
         setIncomeVisibility('visible');
     }
 
-    const openEditIncomeModal = () => {
-        setEditIncomeVisibility('visible');
-    }
-
     return (
         <section id="budget">
             <AddBudget modalVisibility={modalVisibility} setModalVisibility={setModalVisibility} />
             <AddIncome incomeVisibility={incomeVisibility} setIncomeVisibility={setIncomeVisibility} />
-            <EditIncome editIncomeVisibility={editIncomeVisibility} setEditIncomeVisibility={setEditIncomeVisibility} incomeData={incomeData} />
             <div className="card-header">
                 <h2>Budget</h2>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openModal}>
@@ -134,7 +127,6 @@ export default function Budget({ month, year }: BudgetProps) {
                 {incomeData.length > 0 ? (
                     <div className="flex justify-between">
                         <p>${totalIncome}</p>
-                        <img src="./edit.svg" alt="edit" onClick={openEditIncomeModal}/>
                     </div>
                 ) : (
                     <p>No income data.</p>

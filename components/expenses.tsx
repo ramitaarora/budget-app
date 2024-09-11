@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import AddExpense from './add-expense';
-import EditExpense from './edit-expense';
+import EditExpense from './edit-expense-dashboard';
 
 interface ExpensesProps {
     month: number;
