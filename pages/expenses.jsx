@@ -8,7 +8,7 @@ export default function Expenses() {
     const [selectedYear, setSelectedYear] = useState();
     const [expenseData, setExpenseData] = useState([]);
     const [editModalVisibility, setEditModalVisibility] = useState('hidden');
-    const [modalVisibility, setModalVisibility] = useState('hidden');
+    const [addModalVisibility, setAddModalVisibility] = useState('hidden');
     const [editID, setEditID] = useState();
 
     useEffect(() => {
@@ -73,7 +73,7 @@ export default function Expenses() {
     }
 
     const openAddModal = () => {
-        setModalVisibility('visible');
+        setAddModalVisibility('visible');
     }
 
     const deleteExpense = async (expenseID) => {
@@ -105,8 +105,8 @@ export default function Expenses() {
                 </div>
             </header>
             <AddExpense
-                modalVisibility={modalVisibility}
-                setModalVisibility={setModalVisibility}
+                addModalVisibility={addModalVisibility}
+                setAddModalVisibility={setAddModalVisibility}
                 fetchExpense={fetchExpense}
             />
             <EditExpense
