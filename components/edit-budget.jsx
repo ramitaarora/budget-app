@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
-import CurrencyInput from 'react-currency-input-field';
 
 export default function EditBudget({ editModalVisibility, setEditModalVisibility, budgetData }) {
-    const [formState, setFormState] = useState({ amount: '', savings_goal: '' });
+    const [formState, setFormState] = useState({ date: '', amount: '', savings_goal: '', id: '' });
 
     useEffect(() => {
         if (budgetData.length) {
             setFormState({
                 amount: Number(budgetData[0].amount),
                 savings_goal: Number(budgetData[0].savings_goal),
+                date: budgetData[0].date,
+                id: budgetData[0].id
             })
         }
     }, [budgetData])
@@ -25,26 +26,35 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
-        const { amount, savings_goal } = formState;
+        const { date, amount, savings_goal, id } = formState;
+        const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
+        
+        const amountTest = currencyTest.test(amount);
+        const savingsTest = currencyTest.test(savings_goal);
 
-        // const formattedAmount = amount.replace(/[^\d.-]/g, '');
-        // const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
-
-        const res = await fetch('/api/budget', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ amount: formattedAmount, savings_goal: formattedSavingsGoal })
-        });
-
-        if (res.ok) {
-            setFormState({
-                amount: '',
-                savings_goal: '',
+        if (!amountTest || !savingsTest) {
+            alert('Please input only numbers and decimal places and try again.')
+        } else {
+            const res = await fetch(`/api/budget?id=${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    date: date,
+                    amount: Number(amount), 
+                    savings_goal: Number(savings_goal) 
+                })
             });
-            // Change later
-            alert('Budget edited.');
+    
+            if (res.ok) {
+                setFormState({
+                    amount: '',
+                    savings_goal: '',
+                });
+                // Change later
+                alert('Budget edited.');
+            }
         }
     };
 
@@ -82,12 +92,9 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Amount: </label>
-                                <CurrencyInput
+                                <input
                                     name="amount"
-                                    prefix="$"
-                                    defaultValue={0}
                                     value={formState.amount}
-                                    decimalsLimit={2}
                                     onChange={handleChange}
                                     className="form-line-right"
                                 />
@@ -95,12 +102,9 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Savings Goal: </label>
-                                <CurrencyInput
+                                <input
                                     name="savings_goal"
-                                    prefix="$"
-                                    defaultValue={0}
                                     value={formState.savings_goal}
-                                    decimalsLimit={2}
                                     onChange={handleChange}
                                     className="form-line-right"
                                 />
