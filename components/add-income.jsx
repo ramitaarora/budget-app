@@ -35,16 +35,21 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility, fetch
             });
     
             if (res.ok) {
-                setFormState({
-                    description: '',
-                    date: '',
-                    amount: ''
-                });
+                resetForm();
                 fetchIncome();
                 closeModal();
             }
         }
     };
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        setFormState({
+            description: '',
+            date: '',
+            amount: ''
+        });
+    }
 
     const closeModal = () => {
         setIncomeVisibility('hidden');
@@ -98,6 +103,7 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility, fetch
 
                         </div>
                         <button type="submit">Save</button>
+                        <button type="reset" onClick={resetForm}>Reset Form</button>
                     </form>
                 </div>
             </div>

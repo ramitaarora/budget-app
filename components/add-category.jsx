@@ -77,18 +77,23 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
             });
     
             if (res.ok) {
-                setFormState({
-                    name: '',
-                    parent_category: '',
-                    budget: '',
-                    flexible: ''
-                });
+                resetForm();
                 // Change later
                 alert('New category created!');
                 closeModal();
             }
         }
     };
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        setFormState({
+            name: '',
+            parent_category: '',
+            budget: '',
+            flexible: ''
+        });
+    }
 
     const closeModal = () => {
         setAddModalVisibility('hidden');
@@ -169,6 +174,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
                         </div>
                         <div>
                             <button type="submit">Save</button>
+                            <button type="reset" onClick={resetForm}>Reset Form</button>
                         </div>
                     </form>
                 </div>

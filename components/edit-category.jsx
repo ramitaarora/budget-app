@@ -66,7 +66,7 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
                 })
     
                 if (response.ok) {
-                    setFormState({ name: '', budget: '' })
+                    resetForm()
                     getCategory();
                     alert('Category edit successful!')
                     closeModal()
@@ -76,6 +76,11 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
             }
         }
         
+    }
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        setFormState({ name: '', budget: '' })
     }
 
     useEffect(() => {
@@ -140,6 +145,7 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
 
                             <div>
                                 <button type="submit">Save</button>
+                                <button type="reset" onClick={resetForm}>Reset Form</button>
                             </div>
 
                         </div>

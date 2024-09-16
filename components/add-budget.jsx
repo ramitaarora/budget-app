@@ -92,6 +92,7 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility })
                             </div>
                         </div>
                         <button type="submit">Save</button>
+                        <button type="reset">Reset Form</button>
                     </form>
                 </div>
             </div>

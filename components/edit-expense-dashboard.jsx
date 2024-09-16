@@ -74,13 +74,18 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
     
                 if (response.ok) {
                     alert('Expense edit successful!')
-                    setFormState({ description: '', amount: '', id: '', date: '', category_id: '' });
+                    setFormState({ description: '', amount: '', id: '', date: '', category_id: '' })
                     closeModal();
                 }
             } catch(err) {
-                console.err(err)
+                console.error(err)
             }
         }
+    }
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        getExpense();
     }
 
     const closeModal = () => {
@@ -150,6 +155,7 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
 
                             <div>
                                 <button type="submit">Save</button>
+                                <button type="reset" onClick={resetForm}>Reset Form</button>
                             </div>
 
                         </div>

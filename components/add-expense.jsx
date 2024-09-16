@@ -52,17 +52,22 @@ export default function AddExpense({ addModalVisibility, setAddModalVisibility, 
             });
 
             if (res.ok) {
-                setFormState({
-                    description: '',
-                    date: '',
-                    amount: '',
-                    category_id: ''
-                });
+                resetForm();
                 fetchExpense();
                 closeModal();
             }
         }
     };
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        setFormState({
+            description: '',
+            date: '',
+            amount: '',
+            category_id: ''
+        });
+    }
 
     const closeModal = () => {
         setAddModalVisibility('hidden');
@@ -132,6 +137,7 @@ export default function AddExpense({ addModalVisibility, setAddModalVisibility, 
 
                         </div>
                         <button type="submit">Save</button>
+                        <button type="reset" onClick={resetForm}>Reset Form</button>
                     </form>
                 </div>
             </div>

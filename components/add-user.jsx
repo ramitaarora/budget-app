@@ -29,10 +29,16 @@ export default function AddUser({ userModal, setUserModal }) {
 
         if (res.ok) {
             alert('New user created!')
-            setFormState({ first_name: '', last_name: '', email: '', password: '', location: '' })
+            resetForm();
             closeModal();
         }
     };
+
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        setFormState({ first_name: '', last_name: '', email: '', password: '', location: '' })
+    }
 
     const closeModal = () => {
         setUserModal('hidden');
@@ -90,6 +96,7 @@ export default function AddUser({ userModal, setUserModal }) {
                             />
                         </div>
                         <button type="submit" className="user-submit">Save</button>
+                        <button type="reset" onClick={resetForm}>Reset Form</button>
                     </form>
                 </div>
             </div>

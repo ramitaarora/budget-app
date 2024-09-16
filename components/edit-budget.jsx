@@ -48,10 +48,7 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
             });
     
             if (res.ok) {
-                setFormState({
-                    amount: '',
-                    savings_goal: '',
-                });
+                resetForm();
                 // Change later
                 alert('Budget edited.');
                 closeModal()
@@ -59,7 +56,7 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
         }
     };
 
-    const deleteBudget = async () => {
+    const deleteBudget = async (event) => {
         event.preventDefault();
         try {
             const response = await fetch(`/api/budget?id=${budgetData[0].id}`, {
@@ -69,11 +66,21 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
                 },
             })
             if (response.ok) {
-                alert('Budget deleted.')
+                alert('Budget deleted.');
+                resetForm();
+                closeModal();
             }
         } catch(err) {
             console.error(err);
         }
+    }
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        setFormState({
+            amount: '',
+            savings_goal: '',
+        });
     }
 
     const closeModal = () => {
@@ -115,6 +122,7 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
                         </div>
                         <button type="submit">Save</button>
                         <button onClick={deleteBudget}>Delete Budget</button>
+                        <button type="reset" onClick={resetForm}>Reset form</button>
                     </form>
                 </div>
             </div>
