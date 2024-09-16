@@ -27,8 +27,8 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
 
         const { amount, savings_goal } = formState;
 
-        const formattedAmount = amount.replace(/[^\d.-]/g, '');
-        const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
+        // const formattedAmount = amount.replace(/[^\d.-]/g, '');
+        // const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
 
         const res = await fetch('/api/budget', {
             method: 'POST',
@@ -49,6 +49,7 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
     };
 
     const deleteBudget = async () => {
+        event.preventDefault();
         try {
             const response = await fetch(`/api/budget?id=${budgetData[0].id}`, {
                 method: 'DELETE',
