@@ -54,6 +54,7 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
                 });
                 // Change later
                 alert('Budget edited.');
+                closeModal()
             }
         }
     };

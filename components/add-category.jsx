@@ -85,6 +85,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
                 });
                 // Change later
                 alert('New category created!');
+                closeModal();
             }
         }
     };

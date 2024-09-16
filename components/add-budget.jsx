@@ -41,6 +41,7 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility })
                 });
                 // Change later
                 alert('New budget created!');
+                closeModal();
             }
         }
     };

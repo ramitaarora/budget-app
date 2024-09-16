@@ -66,8 +66,10 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
                 })
     
                 if (response.ok) {
+                    setFormState({ name: '', budget: '' })
                     getCategory();
                     alert('Category edit successful!')
+                    closeModal()
                 }
             } catch(err) {
                 console.error(err);

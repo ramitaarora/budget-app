@@ -54,6 +54,7 @@ export default function AddUser({ userModal, setUserModal }) {
                                 type="text"
                                 value={formState.first_name}
                                 onChange={handleChange}
+                                required
                             />
                             <input
                                 placeholder="Last Name"
@@ -61,6 +62,7 @@ export default function AddUser({ userModal, setUserModal }) {
                                 type="text"
                                 value={formState.last_name}
                                 onChange={handleChange}
+                                required
                             />
                             <input
                                 placeholder="Email"
@@ -68,6 +70,7 @@ export default function AddUser({ userModal, setUserModal }) {
                                 type="email"
                                 value={formState.email}
                                 onChange={handleChange}
+                                required
                             />
                             <input
                                 placeholder="Password"
@@ -75,6 +78,7 @@ export default function AddUser({ userModal, setUserModal }) {
                                 type="password"
                                 value={formState.password}
                                 onChange={handleChange}
+                                required
                             />
                             <input
                                 placeholder="Location"
@@ -82,6 +86,7 @@ export default function AddUser({ userModal, setUserModal }) {
                                 type="text"
                                 value={formState.location}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                         <button type="submit" className="user-submit">Save</button>
