@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import CurrencyInput from 'react-currency-input-field';
+import { useState } from 'react';
 
 export default function AddBudget({ addModalVisibility, setAddModalVisibility }) {
     const [formState, setFormState] = useState({ date: '', amount: '', savings_goal: '' });
@@ -18,25 +17,31 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility })
 
         const { date, amount, savings_goal } = formState;
 
-        const formattedAmount = amount.replace(/[^\d.-]/g, '');
-        const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
+        const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
+        
+        const amountTest = currencyTest.test(amount);
+        const savingsTest = currencyTest.test(savings_goal);
 
-        const res = await fetch('/api/budget', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ date, amount: formattedAmount, savings_goal: formattedSavingsGoal })
-        });
-
-        if (res.ok) {
-            setFormState({
-                date: '',
-                amount: '',
-                savings_goal: '',
+        if (!amountTest || !savingsTest) {
+            alert('Please input only numbers and decimal places and try again.')
+        } else {
+            const res = await fetch('/api/budget', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ date, amount: amount, savings_goal: savings_goal })
             });
-            // Change later
-            alert('New budget created!');
+    
+            if (res.ok) {
+                setFormState({
+                    date: '',
+                    amount: '',
+                    savings_goal: '',
+                });
+                // Change later
+                alert('New budget created!');
+            }
         }
     };
 
@@ -66,11 +71,8 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility })
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Amount: </label>
-                                <CurrencyInput
+                                <input
                                     name="amount"
-                                    prefix="$"
-                                    defaultValue={0}
-                                    decimalsLimit={2}
                                     onChange={handleChange}
                                     className="form-line-right"
                                 />
@@ -78,11 +80,8 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility })
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Savings Goal: </label>
-                                <CurrencyInput
+                                <input
                                     name="savings_goal"
-                                    prefix="$"
-                                    defaultValue={0}
-                                    decimalsLimit={2}
                                     onChange={handleChange}
                                     className="form-line-right"
                                 />
