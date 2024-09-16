@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import CurrencyInput from 'react-currency-input-field';
 
 export default function AddExpense({ addModalVisibility, setAddModalVisibility, fetchExpense }) {
     const [formState, setFormState] = useState({ description: '', date: '', amount: '', category_id: '' });
@@ -37,25 +36,31 @@ export default function AddExpense({ addModalVisibility, setAddModalVisibility, 
 
         const { description, date, amount, category_id } = formState;
 
-        const formattedAmount = amount.replace(/[^\d.-]/g, '');
+        const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
 
-        const res = await fetch('/api/expenses', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ description, date, amount: formattedAmount, category_id })
-        });
+        const amountTest = currencyTest.test(amount);
 
-        if (res.ok) {
-            setFormState({
-                description: '',
-                date: '',
-                amount: '',
-                category_id: ''
+        if (!amountTest) {
+            alert('Please input only numbers and decimal places for Amount and try again.')
+        } else {
+            const res = await fetch('/api/expenses', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ description, date, amount: amount, category_id })
             });
-            fetchExpense();
-            closeModal();
+
+            if (res.ok) {
+                setFormState({
+                    description: '',
+                    date: '',
+                    amount: '',
+                    category_id: ''
+                });
+                fetchExpense();
+                closeModal();
+            }
         }
     };
 
@@ -83,6 +88,7 @@ export default function AddExpense({ addModalVisibility, setAddModalVisibility, 
                                     value={formState.description}
                                     onChange={handleChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
@@ -103,18 +109,24 @@ export default function AddExpense({ addModalVisibility, setAddModalVisibility, 
                             
                             <div className="modal-form-line">
                                 <label className="form-line-left">Date:</label>
-                                <input type="date" className="form-line-right" onChange={(event) => handleChange(event)} name="date"/>
+                                <input 
+                                    type="date" 
+                                    className="form-line-right" 
+                                    onChange={handleChange} 
+                                    name="date"
+                                    value={formState.date}
+                                    required
+                                />
                             </div>
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Amount: </label>
-                                <CurrencyInput
+                                <input
                                     name="amount"
-                                    prefix="$"
-                                    defaultValue={0}
-                                    decimalsLimit={2}
                                     onChange={handleChange}
+                                    value={formState.amount}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
