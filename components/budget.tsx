@@ -18,67 +18,67 @@ export default function Budget({ month, year }: BudgetProps) {
     const [editModalVisibility, setEditModalVisibility] = useState<string>('hidden');
     const [incomeVisibility, setIncomeVisibility] = useState<string>('hidden');
 
+    const fetchExpenses = async () => {
+        try {
+            const res = await fetch(`/api/expenses?month=${month}&year=${year}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            if (!res.ok) {
+                throw new Error('Failed to fetch expenses data');
+            };
+
+            const fetchedExpensesData = await res.json();
+            // console.log(fetchedExpensesData)
+            setExpensesData(fetchedExpensesData);
+        } catch (err) {
+            console.error('Error making GET request:', err);
+        };
+    };
+
+    const fetchBudget = async () => {
+        try {
+            const res = await fetch(`/api/budget?month=${month}&year=${year}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            if (!res.ok) {
+                throw new Error('Failed to fetch budget data');
+            };
+
+            const fetchedBudgetData = await res.json();
+            // console.log(fetchedBudgetData);
+            setBudgetData(fetchedBudgetData);
+        } catch (err) {
+            console.error('Error making GET request:', err);
+        };
+    };
+
+    const fetchIncome = async () => {
+        try {
+            const res = await fetch(`/api/income?month=${month}&year=${year}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            if (!res.ok) {
+                throw new Error('Failed to fetch income data');
+            };
+
+            const fetchedIncomeData = await res.json();
+            // console.log(fetchedIncomeData);
+            setIncomeData(fetchedIncomeData);
+        } catch (err) {
+            console.error('Error making GET request:', err);
+        };
+    };
+
     useEffect(() => {
-        const fetchExpenses = async () => {
-            try {
-                const res = await fetch(`/api/expenses?month=${month}&year=${year}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                if (!res.ok) {
-                    throw new Error('Failed to fetch expenses data');
-                };
-
-                const fetchedExpensesData = await res.json();
-                // console.log(fetchedExpensesData)
-                setExpensesData(fetchedExpensesData);
-            } catch (err) {
-                console.error('Error making GET request:', err);
-            };
-        };
-
-        const fetchBudget = async () => {
-            try {
-                const res = await fetch(`/api/budget?month=${month}&year=${year}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                if (!res.ok) {
-                    throw new Error('Failed to fetch budget data');
-                };
-
-                const fetchedBudgetData = await res.json();
-                // console.log(fetchedBudgetData);
-                setBudgetData(fetchedBudgetData);
-            } catch (err) {
-                console.error('Error making GET request:', err);
-            };
-        };
-
-        const fetchIncome = async () => {
-            try {
-                const res = await fetch(`/api/income?month=${month}&year=${year}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                if (!res.ok) {
-                    throw new Error('Failed to fetch income data');
-                };
-
-                const fetchedIncomeData = await res.json();
-                // console.log(fetchedIncomeData);
-                setIncomeData(fetchedIncomeData);
-            } catch (err) {
-                console.error('Error making GET request:', err);
-            };
-        };
-
         fetchExpenses();
         fetchBudget();
         fetchIncome();
@@ -105,7 +105,7 @@ export default function Budget({ month, year }: BudgetProps) {
         <section id="budget">
             <AddBudget addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} />
             <EditBudget editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} budgetData={budgetData} />
-            <AddIncome incomeVisibility={incomeVisibility} setIncomeVisibility={setIncomeVisibility} />
+            <AddIncome incomeVisibility={incomeVisibility} setIncomeVisibility={setIncomeVisibility} fetchIncome={fetchIncome} />
             <div className="card-header">
                 <h2>Budget</h2>
                 { budgetData.length ? (
