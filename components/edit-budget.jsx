@@ -97,6 +97,7 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
                                     value={formState.amount}
                                     onChange={handleChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
@@ -107,6 +108,7 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
                                     value={formState.savings_goal}
                                     onChange={handleChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
                         </div>

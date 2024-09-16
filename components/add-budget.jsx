@@ -66,6 +66,7 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility })
                                     type="month" 
                                     name="date" 
                                     onChange={(event) => handleChange(event)}
+                                    required
                                 />
                             </div>
 
@@ -75,6 +76,7 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility })
                                     name="amount"
                                     onChange={handleChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
@@ -84,6 +86,7 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility })
                                     name="savings_goal"
                                     onChange={handleChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
                         </div>
