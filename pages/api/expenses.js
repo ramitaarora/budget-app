@@ -95,19 +95,41 @@ export async function createExpense(req, res) {
     }
 }
 
+// export async function updateExpense(req, res) {
+//     try {
+//         const { id } = req.query;
+//         const updateData = req.body;
+//         const result = await Expenses.update(updateData, {
+//             where: { id: id }
+//         });
+//         res.status(200).json(result);
+//     } catch (error) {
+//         console.error('Failed to update expense:', error);
+//         res.status(500).json({ message: 'Failed to update expense.' });
+//     }
+// }
+
 export async function updateExpense(req, res) {
+    const updates = Array.isArray(req.body) ? req.body : [req.body];
+
     try {
-        const { id } = req.query;
-        const updateData = req.body;
-        const result = await Expenses.update(updateData, {
-            where: { id: id }
-        });
-        res.status(200).json(result);
+        const results = await Promise.all(updates.map(update => {
+            const { id, ...updateData } = update;
+            if (!id) {
+                throw new Error("Missing ID in update data");
+            }
+            return Expenses.update(updateData, {
+                where: { id }
+            }).then(result => ({ id, updated: result[0] > 0 }));
+        }));
+        
+        res.status(200).json(results);
     } catch (error) {
-        console.error('Failed to update expense:', error);
-        res.status(500).json({ message: 'Failed to update expense.' });
+        console.error('Failed to update expenses:', error);
+        res.status(500).json({ message: 'Failed to update expenses.', error: error.message });
     }
 }
+
 
 export async function deleteExpense(req, res) {
     try {
