@@ -55,7 +55,7 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
         }
     }
 
-    const submitForm = async () => {
+    const submitForm = async (event) => {
         event.preventDefault();
 
         const { description, amount, category_id, date } = formState;
