@@ -114,9 +114,9 @@ export default function Expenses() {
         });
     };
 
-    useEffect(() => {
-        console.log(selectedExpenses);
-    }, [selectedExpenses]);
+    const clearSelectedExpenses = () => {
+        setSelectedExpenses([]);
+    };
 
     return (
         <section>
@@ -143,6 +143,7 @@ export default function Expenses() {
                 bulkEditModalVisibility={bulkEditModalVisibility}
                 setBulkEditModalVisibility={setBulkEditModalVisibility}
                 selectedExpenses={selectedExpenses}
+                clearSelectedExpenses={clearSelectedExpenses}
             />
             <div id="income">
                 <div className="w-full flex justify-between items-center">
