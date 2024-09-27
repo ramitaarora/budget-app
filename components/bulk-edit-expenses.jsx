@@ -61,36 +61,6 @@ export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditM
         }
     }
 
-    // const submitForm = async (event) => {
-    //     event.preventDefault();
-
-    //     const updates = selectedExpenses.map(id => ({
-    //         id,
-    //         ...formState
-    //     }));
-
-    //     try {
-    //         const response = await fetch('/api/expenses', {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify(updates)
-    //         });
-
-    //         if (response.ok) {
-    //             alert('Bulk expense update successful!');
-    //             fetchExpense();
-    //             closeModal();
-    //         } else {
-    //             throw new Error('Bulk update failed');
-    //         }
-    //     } catch (err) {
-    //         console.error('Error updating expenses:', err);
-    //         alert('Failed to update expenses.');
-    //     }
-    // };
-
     const submitForm = async (event) => {
         event.preventDefault();
 
