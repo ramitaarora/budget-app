@@ -51,18 +51,7 @@ export async function getExpenses(req, res) {
 
     // if (userID) query.where.user_id = userID;
     if (id) query.where.id = id;
-    // if (month && year) {
-    //     const integerMonth = Number(month);
-    //     const integerYear = Number(year);
-    //     const startDate = new Date(integerYear, integerMonth - 1, 1);
-    //     const endDate = new Date(integerYear, integerMonth, 0);
-    //     query.where.date = {
-    //         [Op.gte]: startDate,
-    //         [Op.lte]: endDate
-    //     };
-    // }
     if (month && year) {
-        // console.log(month, year);
         query.where = {
             ...query.where,
             date: {
