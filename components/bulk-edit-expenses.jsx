@@ -33,7 +33,7 @@ export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditM
 
             if (response.ok) {
                 alert('Bulk expense update successful!');
-                fetchExpense();  // Re-fetch expenses to show updated data
+                fetchExpense();
                 closeModal();
             } else {
                 throw new Error('Bulk update failed');
@@ -51,7 +51,7 @@ export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditM
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={closeModal} className="exit">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8 l-2.647 2.646 a.5.5 0 0 0 .708 .708 L8 8.707 l2.646 2.647 a.5.5 0 0 0 .708-.708 L8.707 8 l2.647-2.646 a.5.5 0 0 0-.708-.708 L8 7.293z" />
                     </svg>
-                    <form onSubmit={submitBulkUpdate}>
+                    {/* <form onSubmit={submitBulkUpdate}>
                         <h2>Edit Multiple Expenses</h2>
                         <div className="modal-form">
                             <div className="modal-form-line">
@@ -84,7 +84,7 @@ export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditM
                             </div>
                             <button type="submit">Save Changes</button>
                         </div>
-                    </form>
+                    </form> */}
                 </div>
             </div>
         </div>
