@@ -13,6 +13,7 @@ export default function Expenses() {
     const [addModalVisibility, setAddModalVisibility] = useState('hidden');
     const [editID, setEditID] = useState();
     const [selectedExpenses, setSelectedExpenses] = useState([]);
+    const [categoryNames, setCategoryNames] = useState([]);
 
     useEffect(() => {
         const today = new Date();
@@ -65,6 +66,27 @@ export default function Expenses() {
             console.error('Error making GET request:', err);
         };
     };
+
+    const getCategoryName = (inputID) => {
+        const category = categoryNames.find(category => category.id === inputID);
+        return category ? category.name : 'Unknown Category';
+    };
+
+    const fetchCategories = async () => {
+        try {
+            const response = await fetch(`api/category`);
+            if (response.ok) {
+                const data = await response.json();
+                setCategoryNames(data);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
     useEffect(() => {
         fetchExpense();
@@ -159,6 +181,7 @@ export default function Expenses() {
                             <thead>
                                 <tr>
                                     <th>Select</th>
+                                    <th>Category</th>
                                     <th>Date</th>
                                     <th>Description</th>
                                     <th>Amount</th>
@@ -176,6 +199,7 @@ export default function Expenses() {
                                                 onChange={() => handleSelectExpense(expense.id)}
                                             />
                                         </td>
+                                        <td>{getCategoryName(expense.category_id)}</td>
                                         <td>{formatDate(expense.date)}</td>
                                         <td>{expense.description}</td>
                                         <td>${expense.amount}</td>

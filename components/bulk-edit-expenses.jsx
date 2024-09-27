@@ -8,11 +8,11 @@ export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditM
 
     useEffect(() => {
         if (selectedExpenses) {
-            getCategories();
+            fetchCategories();
         }
-    }, [])
+    }, []);
 
-    const getCategories = async () => {
+    const fetchCategories = async () => {
         try {
             const response = await fetch(`api/category`);
             if (response.ok) {
@@ -22,11 +22,11 @@ export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditM
         } catch (err) {
             console.error(err);
         }
-    }
+    };
 
     const closeModal = () => {
         setBulkEditModalVisibility('hidden');
-    }
+    };
 
     const handleFormChange = (event) => {
         const { name, value } = event.target;
@@ -59,7 +59,7 @@ export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditM
                 [name]: value
             })
         }
-    }
+    };
 
     const submitForm = async (event) => {
         event.preventDefault();
