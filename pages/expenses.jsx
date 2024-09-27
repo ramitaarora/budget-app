@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import AddExpense from '../components/add-expense';
 import EditExpense from '../components/edit-expense';
+import BulkEditExpenses from '../components/bulk-edit-expenses';
 
 export default function Expenses() {
     const [fullDate, setFullDate] = useState();
@@ -8,8 +9,10 @@ export default function Expenses() {
     const [selectedYear, setSelectedYear] = useState();
     const [expenseData, setExpenseData] = useState([]);
     const [editModalVisibility, setEditModalVisibility] = useState('hidden');
+    const [bulkEditModalVisibility, setBulkEditModalVisibility] = useState('hidden');
     const [addModalVisibility, setAddModalVisibility] = useState('hidden');
     const [editID, setEditID] = useState();
+    const [selectedExpenses, setSelectedExpenses] = useState([]);
 
     useEffect(() => {
         const today = new Date();
@@ -70,11 +73,15 @@ export default function Expenses() {
     const openEditModal = (event) => {
         setEditID(event.target.id);
         setEditModalVisibility('visible');
-    }
+    };
+
+    const openBulkEditModal = () => {
+        setBulkEditModalVisibility('visible');
+    };
 
     const openAddModal = () => {
         setAddModalVisibility('visible');
-    }
+    };
 
     const deleteExpense = async (expenseID) => {
         try {
@@ -92,6 +99,20 @@ export default function Expenses() {
             console.error('Error making DELETE request:', err);
         };
     };
+
+    const handleSelectExpense = (id) => {
+        setSelectedExpenses(prev => {
+            if (prev.includes(id)) {
+                return prev.filter(item => item !== id);
+            } else {
+                return [...prev, id];
+            }
+        });
+    };
+
+    useEffect(() => {
+        console.log(selectedExpenses);
+    }, [selectedExpenses]);
 
     return (
         <section>
@@ -114,6 +135,11 @@ export default function Expenses() {
                 setEditModalVisibility={setEditModalVisibility}
                 editID={editID}
             />
+            <BulkEditExpenses
+                bulkEditModalVisibility={bulkEditModalVisibility}
+                setBulkEditModalVisibility={setBulkEditModalVisibility}
+                selectedExpenses={selectedExpenses}
+            />
             <div id="income">
                 <div className="w-full flex justify-between items-center">
                     <h3 onClick={openAddModal} className="cursor-pointer">Expenses: </h3>
@@ -126,6 +152,7 @@ export default function Expenses() {
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Select</th>
                                     <th>Date</th>
                                     <th>Description</th>
                                     <th>Amount</th>
@@ -136,6 +163,13 @@ export default function Expenses() {
                             <tbody>
                                 {expenseData.map((expense, index) => (
                                     <tr key={index}>
+                                        <td>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedExpenses.includes(expense.id)}
+                                                onChange={() => handleSelectExpense(expense.id)}
+                                            />
+                                        </td>
                                         <td>{formatDate(expense.date)}</td>
                                         <td>{expense.description}</td>
                                         <td>${expense.amount}</td>
