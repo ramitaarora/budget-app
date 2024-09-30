@@ -10,6 +10,7 @@ interface CategoriesProps {
 export default function Categories({ month, year }: CategoriesProps) {
     const [categoryData, setCategoryData] = useState<any[]>([]);
     const [expensesData, setExpensesData] = useState<any[]>([]);
+    const [budgetData, setBudgetData] = useState<any[]>([]);
     const [parentCategory, setParentCategory] = useState<any[]>([]);
     const [childCategory, setChildCategory] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -84,9 +85,35 @@ export default function Categories({ month, year }: CategoriesProps) {
         return total;
     }
 
-    const openModal = () => {
-        setAddModalVisibility('visible');
-    }
+    // const openModal = () => {
+    //     setAddModalVisibility('visible');
+    // }
+
+    const openModal = async () => {
+        try {
+            const res = await fetch(`/api/budget?month=${month}&year=${year}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if (res.ok) {
+                const budgetData = await res.json();
+                setBudgetData(budgetData);
+                setAddModalVisibility('visible');
+            } else {
+                throw new Error('Failed to fetch budget data');
+            }
+        } catch (error) {
+            console.error('Error fetching budget data:', error);
+            alert('Failed to load budget data.');
+        }
+    };
+
+    useEffect(() => {
+        console.log(budgetData);
+    }, [budgetData]);
+
 
     const openEditModal = (event: any) => {
         setEditID(event.target.id);
@@ -106,8 +133,17 @@ export default function Categories({ month, year }: CategoriesProps) {
 
     return (
         <section id="categories">
-            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} />
-            <EditCategory editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} categoryData={categoryData}/>
+            <AddCategory
+                addModalVisibility={addModalVisibility}
+                setAddModalVisibility={setAddModalVisibility}
+                budgetData={budgetData}
+            />
+            <EditCategory
+                editModalVisibility={editModalVisibility}
+                setEditModalVisibility={setEditModalVisibility}
+                editID={editID}
+                categoryData={categoryData}
+            />
             <div className="card-header">
                 <h2>Categories</h2>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openModal}>
@@ -127,7 +163,7 @@ export default function Categories({ month, year }: CategoriesProps) {
                                             <div className="bg-blue-900 h-2.5 rounded-full" style={{ "width": `${(getParentExpenses(parentItem.id) / parentItem.budget) * 100}%` }}></div>
                                         </div>
                                         <p>${parentItem.budget}</p>
-                                        <img src="./edit.svg" alt="edit" onClick={openEditModal} id={parentItem.id}/>
+                                        <img src="./edit.svg" alt="edit" onClick={openEditModal} id={parentItem.id} />
                                         <img src="./delete.svg" alt="delete" onClick={deleteCategory} id={parentItem.id} />
                                     </div>
                                 </div>
@@ -142,7 +178,7 @@ export default function Categories({ month, year }: CategoriesProps) {
                                                     <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget) * 100}%` }}></div>
                                                 </div>
                                                 <p>${filteredChildCategory.budget}</p>
-                                                <img src="./edit.svg" alt="edit" onClick={openEditModal} id={filteredChildCategory.id}/>
+                                                <img src="./edit.svg" alt="edit" onClick={openEditModal} id={filteredChildCategory.id} />
                                                 <img src="./delete.svg" alt="delete" onClick={deleteCategory} id={filteredChildCategory.id} />
                                             </div>
                                         </div>
