@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function EditBudget({ editModalVisibility, setEditModalVisibility, budgetData }) {
+export default function EditBudget({ editModalVisibility, setEditModalVisibility, budgetData, fetchBudget }) {
     const [formState, setFormState] = useState({ date: '', amount: '', savings_goal: '', id: '' });
 
     useEffect(() => {
@@ -48,9 +48,11 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
             });
     
             if (res.ok) {
-                resetForm();
-                // Change later
-                alert('Budget edited.');
+                setFormState({
+                    amount: '',
+                    savings_goal: '',
+                });
+                fetchBudget();
                 closeModal()
             }
         }
@@ -67,7 +69,11 @@ export default function EditBudget({ editModalVisibility, setEditModalVisibility
             })
             if (response.ok) {
                 alert('Budget deleted.');
-                resetForm();
+                setFormState({
+                    amount: '',
+                    savings_goal: '',
+                });
+                fetchBudget();
                 closeModal();
             }
         } catch(err) {

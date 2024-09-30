@@ -103,8 +103,8 @@ export default function Budget({ month, year }: BudgetProps) {
 
     return (
         <section id="budget">
-            <AddBudget addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} />
-            <EditBudget editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} budgetData={budgetData} />
+            <AddBudget addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} fetchBudget={fetchBudget}/>
+            <EditBudget editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} budgetData={budgetData} fetchBudget={fetchBudget}/>
             <AddIncome incomeVisibility={incomeVisibility} setIncomeVisibility={setIncomeVisibility} fetchIncome={fetchIncome} />
             <div className="card-header">
                 <h2>Budget</h2>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function AddBudget({ addModalVisibility, setAddModalVisibility }) {
+export default function AddBudget({ addModalVisibility, setAddModalVisibility, fetchBudget }) {
     const [formState, setFormState] = useState({ date: '', amount: '', savings_goal: '' });
 
     const handleChange = (event) => {
@@ -39,8 +39,7 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility })
                     amount: '',
                     savings_goal: '',
                 });
-                // Change later
-                alert('New budget created!');
+                fetchBudget();
                 closeModal();
             }
         }

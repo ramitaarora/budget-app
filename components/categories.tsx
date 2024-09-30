@@ -93,12 +93,15 @@ export default function Categories({ month, year }: CategoriesProps) {
         setEditModalVisibility('visible');
     }
 
-    const deleteCategory = (event: any) => {
-        console.log(event.target.id);
+    const deleteCategory = async (event: any) => {
+        // console.log(event.target.id);
         try {
-            const response = fetch(`api/category?id=${event.target.id}`, {
+            const response = await fetch(`api/category?id=${event.target.id}`, {
                 method: 'DELETE',
             })
+            if (response.ok) {
+                getData();
+            }
         } catch (err) {
             console.error(err);
         }
