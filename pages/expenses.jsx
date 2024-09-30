@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import AddExpense from '../components/add-expense';
 import EditExpense from '../components/edit-expense';
+import BulkEditExpenses from '../components/bulk-edit-expenses';
 
 export default function Expenses() {
     const [fullDate, setFullDate] = useState();
@@ -8,8 +9,11 @@ export default function Expenses() {
     const [selectedYear, setSelectedYear] = useState();
     const [expenseData, setExpenseData] = useState([]);
     const [editModalVisibility, setEditModalVisibility] = useState('hidden');
+    const [bulkEditModalVisibility, setBulkEditModalVisibility] = useState('hidden');
     const [addModalVisibility, setAddModalVisibility] = useState('hidden');
     const [editID, setEditID] = useState();
+    const [selectedExpenses, setSelectedExpenses] = useState([]);
+    const [categoryNames, setCategoryNames] = useState([]);
 
     useEffect(() => {
         const today = new Date();
@@ -63,6 +67,27 @@ export default function Expenses() {
         };
     };
 
+    const getCategoryName = (inputID) => {
+        const category = categoryNames.find(category => category.id === inputID);
+        return category ? category.name : 'Unknown Category';
+    };
+
+    const fetchCategories = async () => {
+        try {
+            const response = await fetch(`api/category`);
+            if (response.ok) {
+                const data = await response.json();
+                setCategoryNames(data);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
     useEffect(() => {
         fetchExpense();
     }, [selectedMonth, selectedYear]);
@@ -70,11 +95,19 @@ export default function Expenses() {
     const openEditModal = (event) => {
         setEditID(event.target.id);
         setEditModalVisibility('visible');
-    }
+    };
+
+    const openBulkEditModal = () => {
+        if (selectedExpenses.length > 0) {
+            setBulkEditModalVisibility('visible');
+        } else {
+            alert('No selected expenses to edit.')
+        };
+    };
 
     const openAddModal = () => {
         setAddModalVisibility('visible');
-    }
+    };
 
     const deleteExpense = async (expenseID) => {
         try {
@@ -91,6 +124,20 @@ export default function Expenses() {
         } catch (err) {
             console.error('Error making DELETE request:', err);
         };
+    };
+
+    const handleSelectExpense = (id) => {
+        setSelectedExpenses(prev => {
+            if (prev.includes(id)) {
+                return prev.filter(item => item !== id);
+            } else {
+                return [...prev, id];
+            }
+        });
+    };
+
+    const clearSelectedExpenses = () => {
+        setSelectedExpenses([]);
     };
 
     return (
@@ -113,6 +160,14 @@ export default function Expenses() {
                 editModalVisibility={editModalVisibility}
                 setEditModalVisibility={setEditModalVisibility}
                 editID={editID}
+                fetchExpense={fetchExpense}
+            />
+            <BulkEditExpenses
+                bulkEditModalVisibility={bulkEditModalVisibility}
+                setBulkEditModalVisibility={setBulkEditModalVisibility}
+                selectedExpenses={selectedExpenses}
+                clearSelectedExpenses={clearSelectedExpenses}
+                fetchExpense={fetchExpense}
             />
             <div id="income">
                 <div className="w-full flex justify-between items-center">
@@ -120,12 +175,15 @@ export default function Expenses() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openAddModal} className="cursor-pointer">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                     </svg>
+                    <button onClick={openBulkEditModal}>Bulk Edit</button>
                 </div>
                 {expenseData.length > 0 ? (
                     <>
                         <table>
                             <thead>
                                 <tr>
+                                    <th>Select</th>
+                                    <th>Category</th>
                                     <th>Date</th>
                                     <th>Description</th>
                                     <th>Amount</th>
@@ -136,6 +194,14 @@ export default function Expenses() {
                             <tbody>
                                 {expenseData.map((expense, index) => (
                                     <tr key={index}>
+                                        <td>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedExpenses.includes(expense.id)}
+                                                onChange={() => handleSelectExpense(expense.id)}
+                                            />
+                                        </td>
+                                        <td>{getCategoryName(expense.category_id)}</td>
                                         <td>{formatDate(expense.date)}</td>
                                         <td>{expense.description}</td>
                                         <td>${expense.amount}</td>
