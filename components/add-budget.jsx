@@ -13,33 +13,6 @@ export default function AddBudget({ modalVisibility, setModalVisibility, budgetD
         });
     };
 
-    // const handleFormSubmit = async (event) => {
-    //     event.preventDefault();
-
-    //     const { date, amount, savings_goal } = formState;
-
-    //     const formattedAmount = amount.replace(/[^\d.-]/g, '');
-    //     const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
-
-    //     const res = await fetch('/api/budget', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ date, amount: formattedAmount, savings_goal: formattedSavingsGoal })
-    //     });
-
-    //     if (res.ok) {
-    //         setFormState({
-    //             date: '',
-    //             amount: '',
-    //             savings_goal: '',
-    //         });
-    //         // Change later
-    //         alert('New budget created!');
-    //     }
-    // };
-
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
