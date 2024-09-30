@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function AddBudget({ modalVisibility, setModalVisibility }) {
+export default function AddBudget({ modalVisibility, setModalVisibility, budgetData }) {
     const [formState, setFormState] = useState({ date: '', amount: '', savings_goal: '' });
 
     const handleChange = (event) => {
@@ -13,30 +13,59 @@ export default function AddBudget({ modalVisibility, setModalVisibility }) {
         });
     };
 
+    // const handleFormSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     const { date, amount, savings_goal } = formState;
+
+    //     const formattedAmount = amount.replace(/[^\d.-]/g, '');
+    //     const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
+
+    //     const res = await fetch('/api/budget', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ date, amount: formattedAmount, savings_goal: formattedSavingsGoal })
+    //     });
+
+    //     if (res.ok) {
+    //         setFormState({
+    //             date: '',
+    //             amount: '',
+    //             savings_goal: '',
+    //         });
+    //         // Change later
+    //         alert('New budget created!');
+    //     }
+    // };
+
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
-        const { date, amount, savings_goal } = formState;
+        if (!budgetData || budgetData.length === 0) {
+            const { date, amount, savings_goal } = formState;
+            const formattedAmount = amount.replace(/[^\d.-]/g, '');
+            const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
 
-        const formattedAmount = amount.replace(/[^\d.-]/g, '');
-        const formattedSavingsGoal = savings_goal.replace(/[^\d.-]/g, '');
-
-        const res = await fetch('/api/budget', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ date, amount: formattedAmount, savings_goal: formattedSavingsGoal })
-        });
-
-        if (res.ok) {
-            setFormState({
-                date: '',
-                amount: '',
-                savings_goal: '',
+            const res = await fetch('/api/budget', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ date, amount: formattedAmount, savings_goal: formattedSavingsGoal })
             });
-            // Change later
-            alert('New budget created!');
+
+            if (res.ok) {
+                setFormState({
+                    date: '',
+                    amount: '',
+                    savings_goal: '',
+                });
+                alert('New budget created!');
+            }
+        } else {
+            alert('Budget data already exists.');
         }
     };
 
@@ -57,9 +86,9 @@ export default function AddBudget({ modalVisibility, setModalVisibility }) {
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Select Month: </label>
-                                <input 
-                                    type="month" 
-                                    name="date" 
+                                <input
+                                    type="month"
+                                    name="date"
                                     onChange={(event) => handleChange(event)}
                                 />
                             </div>
