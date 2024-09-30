@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditModalVisibility, selectedExpenses, clearSelectedExpenses }) {
+export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditModalVisibility, selectedExpenses, clearSelectedExpenses, fetchExpense }) {
 
     const [formState, setFormState] = useState({ category_id: '', description: '', date: '', amount: '' });
     const [categoryOptions, setCategoryOptions] = useState([]);
@@ -88,6 +88,7 @@ export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditM
             if (response.ok) {
                 alert('Bulk expense update successful!');
                 clearSelectedExpenses();
+                fetchExpense();
                 closeModal();
             } else {
                 throw new Error('Bulk update failed');

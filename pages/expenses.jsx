@@ -101,7 +101,7 @@ export default function Expenses() {
         if (selectedExpenses.length > 0) {
             setBulkEditModalVisibility('visible');
         } else {
-            throw new Error('No selected expenses to edit.')
+            alert('No selected expenses to edit.')
         };
     };
 
@@ -160,12 +160,14 @@ export default function Expenses() {
                 editModalVisibility={editModalVisibility}
                 setEditModalVisibility={setEditModalVisibility}
                 editID={editID}
+                fetchExpense={fetchExpense}
             />
             <BulkEditExpenses
                 bulkEditModalVisibility={bulkEditModalVisibility}
                 setBulkEditModalVisibility={setBulkEditModalVisibility}
                 selectedExpenses={selectedExpenses}
                 clearSelectedExpenses={clearSelectedExpenses}
+                fetchExpense={fetchExpense}
             />
             <div id="income">
                 <div className="w-full flex justify-between items-center">

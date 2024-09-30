@@ -1,7 +1,7 @@
 import CurrencyInput from "react-currency-input-field"
 import { useState, useEffect } from 'react';
 
-export default function EditExpense({ editModalVisibility, setEditModalVisibility, editID }) {
+export default function EditExpense({ editModalVisibility, setEditModalVisibility, editID, fetchExpense }) {
     const [formState, setFormState] = useState({ description: '', date: '', amount: '' });
 
     const closeModal = () => {
@@ -61,12 +61,13 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
         const { id: editID, description, amount, date } = formState;
 
         try {
-            const response = await fetch(`/api/expenses?id=${editID}`, {
+            const response = await fetch(`/api/expenses`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    id: editID,
                     description,
                     amount,
                     date
@@ -74,7 +75,9 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
             })
 
             if (response.ok) {
-                alert('Expense edit successful!')
+                alert('Expense edit successful!');
+                fetchExpense();
+                closeModal();
             }
         } catch (err) {
             console.error(err);
