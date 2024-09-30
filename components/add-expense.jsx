@@ -52,7 +52,12 @@ export default function AddExpense({ addModalVisibility, setAddModalVisibility, 
             });
 
             if (res.ok) {
-                resetForm();
+                setFormState({
+                    description: '',
+                    date: '',
+                    amount: '',
+                    category_id: ''
+                });
                 fetchExpense();
                 closeModal();
             }

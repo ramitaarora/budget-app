@@ -35,7 +35,11 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility, fetch
             });
     
             if (res.ok) {
-                resetForm();
+                setFormState({
+                    description: '',
+                    date: '',
+                    amount: ''
+                });
                 fetchIncome();
                 closeModal();
             }

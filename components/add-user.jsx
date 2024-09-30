@@ -28,8 +28,8 @@ export default function AddUser({ userModal, setUserModal }) {
         });
 
         if (res.ok) {
-            alert('New user created!')
-            resetForm();
+            // alert('New user created!')
+            setFormState({ first_name: '', last_name: '', email: '', password: '', location: '' })
             closeModal();
         }
     };

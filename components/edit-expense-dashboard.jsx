@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function EditExpense({ editModalVisibility, setEditModalVisibility, editID }) {
+export default function EditExpense({ editModalVisibility, setEditModalVisibility, editID, fetchExpense }) {
     const [formState, setFormState] = useState({ description: '', amount: '', id: '', date: '', category_id: '' });
     const [categoryOptions, setCategoryOptions] = useState([]);
 
@@ -73,7 +73,8 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
                 }) 
     
                 if (response.ok) {
-                    alert('Expense edit successful!')
+                    // alert('Expense edit successful!')
+                    fetchExpense();
                     setFormState({ description: '', amount: '', id: '', date: '', category_id: '' })
                     closeModal();
                 }
