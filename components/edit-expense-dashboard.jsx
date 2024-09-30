@@ -1,7 +1,6 @@
-import CurrencyInput from "react-currency-input-field"
 import { useState, useEffect } from 'react';
 
-export default function EditExpense({ editModalVisibility, setEditModalVisibility, editID }) {
+export default function EditExpense({ editModalVisibility, setEditModalVisibility, editID, fetchExpense }) {
     const [formState, setFormState] = useState({ description: '', amount: '', id: '', date: '', category_id: '' });
     const [categoryOptions, setCategoryOptions] = useState([]);
 
@@ -40,19 +39,11 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
 
     const handleFormChange = (event) => {
         const { name, value } = event.target;
-        console.log(name, value)
 
-        if (name === "amount") {
-            setFormState({
-                ...formState,
-                [name]: Number(value.split('$')[1]),
-            })
-        } else {
-            setFormState({
-                ...formState,
-                [name]: value
-            })
-        }
+        setFormState({
+            ...formState,
+            [name]: value
+        })
     }
 
     const submitForm = async (event) => {
@@ -60,28 +51,42 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
 
         const { description, amount, category_id, date } = formState;
 
-        try {
-            const response = await fetch(`/api/expenses?id=${editID}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    description: description,
-                    amount: amount,
-                    category_id: category_id,
-                    date: date
-                })
-            }) 
+        const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
+        
+        const amountTest = currencyTest.test(amount);
 
-            if (response.ok) {
-                alert('Expense edit successful!')
-                setFormState({ description: '', amount: '', id: '', date: '', category_id: '' });
-                closeModal();
+        if (!amountTest) {
+            alert('Please input only numbers and decimal places for Amount and try again.')
+        } else {
+            try {
+                const response = await fetch(`/api/expenses?id=${editID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        description: description,
+                        amount: amount,
+                        category_id: category_id,
+                        date: date
+                    })
+                }) 
+    
+                if (response.ok) {
+                    // alert('Expense edit successful!')
+                    fetchExpense();
+                    setFormState({ description: '', amount: '', id: '', date: '', category_id: '' })
+                    closeModal();
+                }
+            } catch(err) {
+                console.error(err)
             }
-        } catch(err) {
-            console.err(err)
         }
+    }
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        getExpense();
     }
 
     const closeModal = () => {
@@ -107,18 +112,19 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
                                     value={formState.description}
                                     onChange={handleFormChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Amount: </label>
-                                <CurrencyInput
+                                <input
                                     name="amount"
                                     type="text"
                                     value={formState.amount}
-                                    prefix="$"
                                     className="form-line-right"
                                     onChange={handleFormChange}
+                                    required
                                 />
                             </div>
 
@@ -144,11 +150,13 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
                                     className="form-line-right"
                                     value={formState.date.slice(0, 10)} 
                                     onChange={handleFormChange}
+                                    required
                                     />
                             </div>
 
                             <div>
                                 <button type="submit">Save</button>
+                                <button type="reset" onClick={resetForm}>Reset Form</button>
                             </div>
 
                         </div>
