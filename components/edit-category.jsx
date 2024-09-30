@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function EditCategory({ editModalVisibility, setEditModalVisibility, editID, categoryData }) {
+export default function EditCategory({ editModalVisibility, setEditModalVisibility, editID, categoryData, getData }) {
     const [formState, setFormState] = useState({ name: '', budget: '' });
     const [typeOptions, setTypeOptions] = useState([]);
 
@@ -66,9 +66,9 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
                 })
     
                 if (response.ok) {
-                    resetForm()
-                    getCategory();
-                    alert('Category edit successful!')
+                    setFormState({ name: '', budget: '' })
+                    getData();
+                    // alert('Category edit successful!')
                     closeModal()
                 }
             } catch(err) {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function AddCategory({ addModalVisibility, setAddModalVisibility }) {
+export default function AddCategory({ addModalVisibility, setAddModalVisibility, getData }) {
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
     const [typeOptions, setTypeOptions] = useState([]);
 
@@ -77,9 +77,14 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
             });
     
             if (res.ok) {
-                resetForm();
-                // Change later
-                alert('New category created!');
+                setFormState({
+                    name: '',
+                    parent_category: '',
+                    budget: '',
+                    flexible: false,
+                });
+                getData()
+                // alert('New category created!');
                 closeModal();
             }
         }
@@ -91,7 +96,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
             name: '',
             parent_category: '',
             budget: '',
-            flexible: ''
+            flexible: false,
         });
     }
 
