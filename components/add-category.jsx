@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 
-export default function AddCategory({ addModalVisibility, setAddModalVisibility }) {
+export default function AddCategory({ addModalVisibility, setAddModalVisibility, budgetData }) {
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
     const [typeOptions, setTypeOptions] = useState([]);
 
@@ -15,7 +15,6 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
             });
             if (response.ok) {
                 const data = await response.json();
-                // console.log(data);
                 setTypeOptions([{ name: '', id: '' }]);
 
                 for (let i = 0; i < data.length; i++) {
@@ -27,7 +26,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
                     }
                 }
             }
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         }
     }
@@ -47,41 +46,82 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
         });
     };
 
+    // const handleFormSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     const { name, parent_category, budget, flexible } = formState;
+    //     const formattedBudget = budget.replace(/[^\d.-]/g, '');
+
+    // let parent_id = null;
+    // if (parent_category.length) {
+    //     parent_id = Number(parent_category);
+    // }
+
+    //     const res = await fetch('/api/category', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ 
+    //             name, 
+    //             parent_id,
+    //             budget: formattedBudget, 
+    //             flexible 
+    //         })
+    //     });
+
+    //     if (res.ok) {
+    //         setFormState({
+    //             name: '',
+    //             parent_category: '',
+    //             budget: '',
+    //             flexible: ''
+    //         });
+    //         // Change later
+    //         alert('New category created!');
+    //     }
+    // };
+
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
         const { name, parent_category, budget, flexible } = formState;
-        const formattedBudget = budget.replace(/[^\d.-]/g, '');
 
         let parent_id = null;
         if (parent_category.length) {
             parent_id = Number(parent_category);
         }
 
-        const res = await fetch('/api/category', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                name, 
-                parent_id,
-                budget: formattedBudget, 
-                flexible 
-            })
-        });
-
-        if (res.ok) {
-            setFormState({
-                name: '',
-                parent_category: '',
-                budget: '',
-                flexible: ''
+        if (budgetData && budgetData.amount && budget <= budgetData[0].amount) {
+            const res = await fetch('/api/category', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    parent_id,
+                    budget,
+                    flexible
+                })
             });
-            // Change later
-            alert('New category created!');
+
+            if (res.ok) {
+                setFormState({
+                    name: '',
+                    parent_category: '',
+                    budget: '',
+                    flexible: ''
+                });
+                alert('New category created!');
+            } else {
+                throw new Error('Failed to create category');
+            }
+        } else {
+            alert(`Amount exceeds budget limit of $${budgetData[0].amount}. Please enter a lower value.`);
         }
     };
+
 
     const closeModal = () => {
         setAddModalVisibility('hidden');
@@ -117,9 +157,9 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility 
                                     onChange={handleChange}
                                     className="form-line-right"
                                 >
-                                {typeOptions.length && typeOptions.map((type, index) => (
-                                    <option value={type.id} key={index}>{type.name}</option>
-                                ))}
+                                    {typeOptions.length && typeOptions.map((type, index) => (
+                                        <option value={type.id} key={index}>{type.name}</option>
+                                    ))}
                                 </select>
                             </div>
 
