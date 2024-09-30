@@ -74,8 +74,8 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
 
     return (
         <section id="expenses">
-            <AddExpense addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} fetchExpense={fetchExpense}/>
-            <EditExpense editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} />
+            <AddExpense addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} fetchExpense={fetchExpense} />
+            <EditExpense editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} fetchExpense={fetchExpense} />
             <div className="card-header">
                 <h2>Latest Expenses</h2>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openAddModal}>

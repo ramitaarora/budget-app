@@ -93,12 +93,15 @@ export default function Categories({ month, year }: CategoriesProps) {
         setEditModalVisibility('visible');
     }
 
-    const deleteCategory = (event: any) => {
-        console.log(event.target.id);
+    const deleteCategory = async (event: any) => {
+        // console.log(event.target.id);
         try {
-            const response = fetch(`api/category?id=${event.target.id}`, {
+            const response = await fetch(`api/category?id=${event.target.id}`, {
                 method: 'DELETE',
             })
+            if (response.ok) {
+                getData();
+            }
         } catch (err) {
             console.error(err);
         }
@@ -106,8 +109,8 @@ export default function Categories({ month, year }: CategoriesProps) {
 
     return (
         <section id="categories">
-            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} />
-            <EditCategory editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} categoryData={categoryData}/>
+            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} getData={getData}/>
+            <EditCategory editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} categoryData={categoryData} getData={getData} />
             <div className="card-header">
                 <h2>Categories</h2>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openModal}>
