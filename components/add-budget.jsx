@@ -62,9 +62,9 @@ export default function AddBudget({ addModalVisibility, setAddModalVisibility, f
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Select Month: </label>
-                                <input 
-                                    type="month" 
-                                    name="date" 
+                                <input
+                                    type="month"
+                                    name="date"
                                     onChange={(event) => handleChange(event)}
                                     required
                                 />

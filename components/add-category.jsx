@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 
-export default function AddCategory({ addModalVisibility, setAddModalVisibility, getData }) {
+export default function AddCategory({ addModalVisibility, setAddModalVisibility, budgetData, getData }) {
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
     const [typeOptions, setTypeOptions] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
 
     const getCategories = async () => {
         try {
@@ -14,8 +15,8 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
             });
             if (response.ok) {
                 const data = await response.json();
-                // console.log(data);
                 setTypeOptions([{ name: '', id: '' }]);
+                setCategoryData(data);
 
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].parent_id === null) {
@@ -26,7 +27,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
                     }
                 }
             }
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         }
     }
@@ -57,38 +58,68 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
         }
 
         const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
-        
+
         const budgetTest = currencyTest.test(budget);
 
         if (!budgetTest) {
-            alert('Please input only numbers and decimal places for budget and try again.')
+            alert('Please input only numbers and decimal places for budget and try again.');
+            return;
+        }
+
+        if (parent_category.length === 0) {
+            // Parent category Test
+            const totalParentBudget = categoryData
+                .filter(category => category.parent_id === null)
+                .reduce((acc, category) => acc + Number(category.budget), 0);
+    
+            if (totalParentBudget + Number(budget) > Number(budgetData[0].amount)) {
+                alert('Category budget exceeds monthly budget amount.');
+                return;
+            }
         } else {
+            // Child category Test
+            const parent_id = Number(parent_category);
+            const parentCategory = categoryData.find(category => category.id === parent_id);
+            const totalChildBudget = categoryData
+                .filter(category => category.parent_id === parent_id)
+                .reduce((acc, category) => acc + Number(category.budget), 0);
+    
+            if (totalChildBudget + Number(budget) > Number(parentCategory?.budget)) {
+                alert('The total budget for child categories exceeds the available budget for the parent category.');
+                return;
+            }
+        }
+
+        try {
             const res = await fetch('/api/category', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ 
-                    name, 
+                body: JSON.stringify({
+                    name,
                     parent_id,
-                    budget: budget, 
-                    flexible 
+                    budget,
+                    flexible
                 })
             });
-    
+
             if (res.ok) {
                 setFormState({
                     name: '',
                     parent_category: '',
                     budget: '',
-                    flexible: false,
+                    flexible: false
                 });
-                getData()
-                // alert('New category created!');
+                getData();
+                alert('New category created!');
                 closeModal();
             }
+        } catch (error) {
+            console.error('Error creating category:', error);
+            alert('Failed to create category. Please try again.');
         }
-    };
+    }
 
     const resetForm = (event) => {
         event.preventDefault();
@@ -135,9 +166,9 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
                                     onChange={handleChange}
                                     className="form-line-right"
                                 >
-                                {typeOptions.length && typeOptions.map((type, index) => (
-                                    <option value={type.id} key={index}>{type.name}</option>
-                                ))}
+                                    {typeOptions.length && typeOptions.map((type, index) => (
+                                        <option value={type.id} key={index}>{type.name}</option>
+                                    ))}
                                 </select>
                             </div>
 
