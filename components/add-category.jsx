@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 export default function AddCategory({ addModalVisibility, setAddModalVisibility, budgetData, getData }) {
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
     const [typeOptions, setTypeOptions] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
 
     const getCategories = async () => {
         try {
@@ -15,6 +16,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
             if (response.ok) {
                 const data = await response.json();
                 setTypeOptions([{ name: '', id: '' }]);
+                setCategoryData(data);
 
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].parent_id === null) {
@@ -45,41 +47,9 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
         });
     };
 
-    // const handleFormSubmit = async (event) => {
-    //     event.preventDefault();
-
-    //     const { name, parent_category, budget, flexible } = formState;
-    //     const formattedBudget = budget.replace(/[^\d.-]/g, '');
-
-    // let parent_id = null;
-    // if (parent_category.length) {
-    //     parent_id = Number(parent_category);
-    // }
-
-    //     const res = await fetch('/api/category', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({ 
-    //             name, 
-    //             parent_id,
-    //             budget: formattedBudget, 
-    //             flexible 
-    //         })
-    //     });
-
-    //     if (res.ok) {
-    //         setFormState({
-    //             name: '',
-    //             parent_category: '',
-    //             budget: '',
-    //             flexible: ''
-    //         });
-    //         // Change later
-    //         alert('New category created!');
-    //     }
-    // };
+    useEffect(() => {
+        console.log(categoryData);
+    }, [categoryData]);
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -91,39 +61,68 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
             parent_id = Number(parent_category);
         }
 
-        if (budgetData && budgetData.amount && budget <= budgetData[0].amount) {
-            const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
+        const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
 
-            const budgetTest = currencyTest.test(budget);
+        const budgetTest = currencyTest.test(budget);
 
-            if (!budgetTest) {
-                alert('Please input only numbers and decimal places for budget and try again.')
-            } else {
-                const res = await fetch('/api/category', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        name,
-                        parent_id,
-                        budget: budget,
-                        flexible
-                    })
-                });
+        const numberBudgetInput = Number(budget);
 
-        if (res.ok) {
-            setFormState({
-                name: '',
-                parent_category: '',
-                budget: '',
-                flexible: ''
-            });
-            // Change later
-            alert('New category created!');
+        // Use to check against monthly budget
+        // const numberBudgetData = Number(budgetData[0].amount);
+
+        // Test if child categories total exceeds parent category budget
+
+        const filteredChildCategories = categoryData.filter(category => category.parent_id === Number(parent_category));
+        const filteredParentCategory = categoryData.filter(category => category.id === Number(parent_category));
+
+        const childCategoriesTotal = filteredChildCategories.reduce((acc, category) => {
+            return acc + Number(category.budget);
+        }, 0);
+
+        const childCategoryBudget = childCategoriesTotal + numberBudgetInput;
+        const parentCategoryBudget = Number(filteredParentCategory[0].budget);
+
+        if (!budgetTest) {
+            alert('Please input only numbers and decimal places for budget and try again.');
+            return;
         }
-    };
 
+        if (childCategoryBudget > parentCategoryBudget) {
+            // What to call child/parent categories for user
+            alert('The total budget for child categories exceeds the available budget for the parent category.');
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/category', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    parent_id,
+                    budget,
+                    flexible
+                })
+            });
+
+            if (res.ok) {
+                setFormState({
+                    name: '',
+                    parent_category: '',
+                    budget: '',
+                    flexible: false
+                });
+                getData();
+                alert('New category created!');
+                closeModal();
+            }
+        } catch (error) {
+            console.error('Error creating category:', error);
+            alert('Failed to create category. Please try again.');
+        }
+    }
 
     const resetForm = (event) => {
         event.preventDefault();

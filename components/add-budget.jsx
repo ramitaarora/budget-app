@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function AddBudget({ addModalVisibility, setAddModalVisibility, fetchBudget, budgetData }) {
+export default function AddBudget({ addModalVisibility, setAddModalVisibility, fetchBudget }) {
     const [formState, setFormState] = useState({ date: '', amount: '', savings_goal: '' });
 
     const handleChange = (event) => {

@@ -136,7 +136,7 @@ export default function Categories({ month, year }: CategoriesProps) {
 
     return (
         <section id="categories">
-            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} getData={getData}/>
+            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} getData={getData} budgetData={budgetData} />
             <EditCategory editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} categoryData={categoryData} getData={getData} />
             <div className="card-header">
                 <h2>Categories</h2>
