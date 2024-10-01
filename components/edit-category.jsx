@@ -1,7 +1,6 @@
-import CurrencyInput from "react-currency-input-field"
 import { useState, useEffect } from 'react';
 
-export default function EditCategory({ editModalVisibility, setEditModalVisibility, editID, categoryData }) {
+export default function EditCategory({ editModalVisibility, setEditModalVisibility, editID, categoryData, getData }) {
     const [formState, setFormState] = useState({ name: '', budget: '' });
     const [typeOptions, setTypeOptions] = useState([]);
 
@@ -31,25 +30,10 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
     const handleFormChange = (event) => {
         const { name, value } = event.target;
 
-        if (name === "name") {
-            setFormState({
-                ...formState,
-                name: value,
-            });
-        }
-        if (name === "budget") {
-            setFormState({
-                ...formState,
-                budget: Number(value.split('$')[1]),
-            });
-        }
-
-        if (name === "parent_id") {
-            setFormState({
-                ...formState,
-                parent_id: value
-            })
-        }
+        setFormState({
+            ...formState,
+            [name]: value,
+        });
     }
 
     const submitForm = async (event) => {
@@ -60,27 +44,43 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
         let parent_category = null;
         if (parent_id) parent_category = Number(parent_id);
 
-        try {
-            const response = await fetch(`/api/category?id=${id}&account=${account_id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    name, 
-                    parent_id: parent_category,
-                    budget, 
-                    flexible 
-                })
-            })
+        const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
+        
+        const budgetTest = currencyTest.test(budget);
 
-            if (response.ok) {
-                getCategory();
-                alert('Category edit successful!')
+        if (!budgetTest) {
+            alert('Please input only numbers and decimal places for budget and try again.')
+        } else {
+            try {
+                const response = await fetch(`/api/category?id=${id}&account=${account_id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        name, 
+                        parent_id: parent_category,
+                        budget, 
+                        flexible 
+                    })
+                })
+    
+                if (response.ok) {
+                    setFormState({ name: '', budget: '' })
+                    getData();
+                    // alert('Category edit successful!')
+                    closeModal()
+                }
+            } catch(err) {
+                console.error(err);
             }
-        } catch(err) {
-            console.error(err);
         }
+        
+    }
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        setFormState({ name: '', budget: '' })
     }
 
     useEffect(() => {
@@ -114,18 +114,18 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
                                     value={formState.name}
                                     onChange={handleFormChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Budget</label>
-                                <CurrencyInput
+                                <input
                                     name="budget"
-                                    prefix="$"
-                                    defaultValue={0}
-                                    value={formState.budget ? formState.budget : 0}
+                                    value={formState.budget}
                                     onChange={handleFormChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
@@ -145,6 +145,7 @@ export default function EditCategory({ editModalVisibility, setEditModalVisibili
 
                             <div>
                                 <button type="submit">Save</button>
+                                <button type="reset" onClick={resetForm}>Reset Form</button>
                             </div>
 
                         </div>

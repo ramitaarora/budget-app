@@ -15,31 +15,45 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility, fetch
     };
 
     const handleFormSubmit = async (event) => {
-
         event.preventDefault();
 
         const { description, date, amount } = formState;
 
-        const formattedAmount = amount.replace(/[^\d.-]/g, '');
+        const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
+        
+        const amountTest = currencyTest.test(amount);
 
-        const res = await fetch('/api/income', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ description, date, amount: formattedAmount })
-        });
-
-        if (res.ok) {
-            setFormState({
-                description: '',
-                date: '',
-                amount: ''
+        if (!amountTest) {
+            alert('Please input only numbers and decimal places for Amount and try again.')
+        } else {
+            const res = await fetch('/api/income', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ description, date, amount: amount })
             });
-            fetchIncome();
-            closeModal();
+    
+            if (res.ok) {
+                setFormState({
+                    description: '',
+                    date: '',
+                    amount: ''
+                });
+                fetchIncome();
+                closeModal();
+            }
         }
     };
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        setFormState({
+            description: '',
+            date: '',
+            amount: ''
+        });
+    }
 
     const closeModal = () => {
         setIncomeVisibility('hidden');
@@ -64,6 +78,7 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility, fetch
                                     value={formState.description}
                                     onChange={handleChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
@@ -72,25 +87,27 @@ export default function AddIncome({ incomeVisibility, setIncomeVisibility, fetch
                                 <input 
                                     type="date" 
                                     name="date"
+                                    value={formState.date}
                                     onChange={handleChange} 
-                                    className="form-line-right" 
+                                    className="form-line-right"
+                                    required 
                                 />
                             </div>
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Amount: </label>
-                                <CurrencyInput
+                                <input
                                     name="amount"
-                                    prefix="$"
-                                    defaultValue={0}
-                                    decimalsLimit={2}
                                     onChange={handleChange}
+                                    value={formState.amount}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
                         </div>
                         <button type="submit">Save</button>
+                        <button type="reset" onClick={resetForm}>Reset Form</button>
                     </form>
                 </div>
             </div>

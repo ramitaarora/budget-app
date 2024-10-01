@@ -59,7 +59,7 @@ export async function getIncome(req, res) {
                 ]
             }
         };
-    }
+    };
 
     try {
         const expenses = await Income.findAll(query);

@@ -1,31 +1,32 @@
-import CurrencyInput from "react-currency-input-field"
 import { useState, useEffect } from 'react';
+import CurrencyInput from 'react-currency-input-field';
 
-export default function EditExpense({ editModalVisibility, setEditModalVisibility, editID, fetchExpense }) {
-    const [formState, setFormState] = useState({ description: '', date: '', amount: '' });
+export default function BulkEditExpenses({ bulkEditModalVisibility, setBulkEditModalVisibility, selectedExpenses, clearSelectedExpenses, fetchExpense }) {
 
-    const closeModal = () => {
-        setEditModalVisibility('hidden')
-    }
+    const [formState, setFormState] = useState({ category_id: '', description: '', date: '', amount: '' });
+    const [categoryOptions, setCategoryOptions] = useState([]);
 
-    const getExpense = async () => {
+    useEffect(() => {
+        if (selectedExpenses) {
+            fetchCategories();
+        }
+    }, []);
+
+    const fetchCategories = async () => {
         try {
-            const response = await fetch(`/api/expenses?id=${editID}`);
+            const response = await fetch(`api/category`);
             if (response.ok) {
                 const data = await response.json();
-                // console.log(...data);
-                setFormState(...data);
+                setCategoryOptions(data);
             }
         } catch (err) {
             console.error(err);
         }
-    }
+    };
 
-    useEffect(() => {
-        if (editID) {
-            getExpense();
-        }
-    }, [editID])
+    const closeModal = () => {
+        setBulkEditModalVisibility('hidden');
+    };
 
     const handleFormChange = (event) => {
         const { name, value } = event.target;
@@ -46,54 +47,82 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
                 date: updatedDate.toISOString().split('T')[0]
             });
         }
-
         if (name === "amount") {
             setFormState({
                 ...formState,
                 amount: Number(value.split('$')[1])
             })
         }
-    }
+        else {
+            setFormState({
+                ...formState,
+                [name]: value
+            })
+        }
+    };
 
     const submitForm = async (event) => {
         event.preventDefault();
 
-        const { id: editID, description, amount, date } = formState;
+        const updateData = Object.keys(formState).reduce((acc, key) => {
+            if (formState[key] !== '') {
+                acc[key] = formState[key];
+            }
+            return acc;
+        }, {});
+
+        const updates = selectedExpenses.map(id => ({
+            id,
+            ...updateData
+        }));
 
         try {
-            const response = await fetch(`/api/expenses`, {
+            const response = await fetch('/api/expenses', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    id: editID,
-                    description,
-                    amount,
-                    date
-                })
-            })
+                body: JSON.stringify(updates)
+            });
 
             if (response.ok) {
-                alert('Expense edit successful!');
+                alert('Bulk expense update successful!');
+                clearSelectedExpenses();
                 fetchExpense();
                 closeModal();
+            } else {
+                throw new Error('Bulk update failed');
             }
         } catch (err) {
-            console.error(err);
+            console.error('Error updating expenses:', err);
+            alert('Failed to update expenses.');
         }
-    }
+    };
 
     return (
-        <div className={"modal-background " + editModalVisibility}>
+        <div className={"modal-background " + bulkEditModalVisibility}>
             <div className="modal">
                 <div className="modal-content">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={closeModal} className="exit">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8 l-2.647 2.646 a.5.5 0 0 0 .708 .708 L8 8.707 l2.646 2.647 a.5.5 0 0 0 .708-.708 L8.707 8 l2.647-2.646 a.5.5 0 0 0-.708-.708 L8 7.293z" />
                     </svg>
                     <form onSubmit={submitForm}>
-                        <h2>Edit Expense</h2>
+                        <h2>Edit Expenses</h2>
                         <div className="modal-form">
+
+                            <div className="modal-form-line">
+                                <label className="form-line-left">Category: </label>
+                                <select
+                                    name="category_id"
+                                    className="form-line-right"
+                                    value={formState.category_id}
+                                    onChange={handleFormChange}
+                                >
+                                    {categoryOptions.length && categoryOptions.map((category, index) => (
+                                        <option value={category.id} key={index}>{category.name}</option>
+                                    ))}
+                                </select>
+                            </div>
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Description</label>
@@ -140,5 +169,5 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
                 </div>
             </div>
         </div>
-    )
+    );
 }

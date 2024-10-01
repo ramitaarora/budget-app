@@ -94,7 +94,7 @@ export default function Dashboard() {
                             <Budget month={selectedMonth} year={selectedYear} />
                             <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
                         </div>
-                        <SpendingChart month={selectedMonth} year={selectedYear}/>
+                        {/*<SpendingChart month={selectedMonth} year={selectedYear}/>*/}
                     </main>
                 </div>
             )}

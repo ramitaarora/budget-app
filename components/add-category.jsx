@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import CurrencyInput from 'react-currency-input-field';
 
-export default function AddCategory({ addModalVisibility, setAddModalVisibility, budgetData }) {
+export default function AddCategory({ addModalVisibility, setAddModalVisibility, budgetData, getData }) {
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
     const [typeOptions, setTypeOptions] = useState([]);
 
@@ -93,35 +92,48 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
         }
 
         if (budgetData && budgetData.amount && budget <= budgetData[0].amount) {
-            const res = await fetch('/api/category', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name,
-                    parent_id,
-                    budget,
-                    flexible
-                })
-            });
+            const currencyTest = new RegExp('^\\d+(\\.\\d{2})?$');
 
-            if (res.ok) {
-                setFormState({
-                    name: '',
-                    parent_category: '',
-                    budget: '',
-                    flexible: ''
-                });
-                alert('New category created!');
+            const budgetTest = currencyTest.test(budget);
+
+            if (!budgetTest) {
+                alert('Please input only numbers and decimal places for budget and try again.')
             } else {
-                throw new Error('Failed to create category');
-            }
-        } else {
-            alert(`Amount exceeds budget limit of $${budgetData[0].amount}. Please enter a lower value.`);
+                const res = await fetch('/api/category', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name,
+                        parent_id,
+                        budget: budget,
+                        flexible
+                    })
+                });
+
+        if (res.ok) {
+            setFormState({
+                name: '',
+                parent_category: '',
+                budget: '',
+                flexible: ''
+            });
+            // Change later
+            alert('New category created!');
         }
     };
 
+
+    const resetForm = (event) => {
+        event.preventDefault();
+        setFormState({
+            name: '',
+            parent_category: '',
+            budget: '',
+            flexible: false,
+        });
+    }
 
     const closeModal = () => {
         setAddModalVisibility('hidden');
@@ -147,6 +159,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
                                     value={formState.name}
                                     onChange={handleChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
                             <div className="modal-form-line">
@@ -165,13 +178,11 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
 
                             <div className="modal-form-line">
                                 <label className="form-line-left">Budget: </label>
-                                <CurrencyInput
+                                <input
                                     name="budget"
-                                    prefix="$"
-                                    defaultValue={0}
-                                    decimalsLimit={2}
                                     onChange={handleChange}
                                     className="form-line-right"
+                                    required
                                 />
                             </div>
 
@@ -203,6 +214,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
                         </div>
                         <div>
                             <button type="submit">Save</button>
+                            <button type="reset" onClick={resetForm}>Reset Form</button>
                         </div>
                     </form>
                 </div>
