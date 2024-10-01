@@ -47,10 +47,6 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
         });
     };
 
-    useEffect(() => {
-        console.log(categoryData);
-    }, [categoryData]);
-
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
@@ -65,32 +61,33 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
 
         const budgetTest = currencyTest.test(budget);
 
-        const numberBudgetInput = Number(budget);
-
-        // Use to check against monthly budget
-        // const numberBudgetData = Number(budgetData[0].amount);
-
-        // Test if child categories total exceeds parent category budget
-
-        const filteredChildCategories = categoryData.filter(category => category.parent_id === Number(parent_category));
-        const filteredParentCategory = categoryData.filter(category => category.id === Number(parent_category));
-
-        const childCategoriesTotal = filteredChildCategories.reduce((acc, category) => {
-            return acc + Number(category.budget);
-        }, 0);
-
-        const childCategoryBudget = childCategoriesTotal + numberBudgetInput;
-        const parentCategoryBudget = Number(filteredParentCategory[0].budget);
-
         if (!budgetTest) {
             alert('Please input only numbers and decimal places for budget and try again.');
             return;
         }
 
-        if (childCategoryBudget > parentCategoryBudget) {
-            // What to call child/parent categories for user
-            alert('The total budget for child categories exceeds the available budget for the parent category.');
-            return;
+        if (parent_category.length === 0) {
+            // Parent category Test
+            const totalParentBudget = categoryData
+                .filter(category => category.parent_id === null)
+                .reduce((acc, category) => acc + Number(category.budget), 0);
+    
+            if (totalParentBudget + Number(budget) > Number(budgetData[0].amount)) {
+                alert('Category budget exceeds monthly budget amount.');
+                return;
+            }
+        } else {
+            // Child category Test
+            const parent_id = Number(parent_category);
+            const parentCategory = categoryData.find(category => category.id === parent_id);
+            const totalChildBudget = categoryData
+                .filter(category => category.parent_id === parent_id)
+                .reduce((acc, category) => acc + Number(category.budget), 0);
+    
+            if (totalChildBudget + Number(budget) > Number(parentCategory?.budget)) {
+                alert('The total budget for child categories exceeds the available budget for the parent category.');
+                return;
+            }
         }
 
         try {
