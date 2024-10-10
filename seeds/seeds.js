@@ -1,11 +1,12 @@
 const sequelize = require('../config/connection');
-const { Category, Expenses, Account, User, Budget } = require('../models');
+const { Category, Expenses, Account, User, Budget, Income } = require('../models');
 const parentCategoryData = require('./parentCategoryData.json');
 const childCategoryData = require('./childCategoryData.json');
 const expensesData = require('./expensesData.json');
 const accountData = require('./accountData.json');
 const userData = require('./userData.json');
 const budgetData = require('./budgetData.json');
+const incomeData = require('./incomeData.json');
 
 const seedCategories = async () => {
     await sequelize.sync({ force: true });
@@ -27,6 +28,11 @@ const seedCategories = async () => {
         }))
 
         const budget = await Budget.bulkCreate(newBudgetData, {
+            individualHooks: true,
+            returning: true,
+        })
+
+        const income = await Income.bulkCreate(incomeData, {
             individualHooks: true,
             returning: true,
         })

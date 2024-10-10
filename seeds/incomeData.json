@@ -1,0 +1,51 @@
+[
+    {
+        "account_id": 1,
+        "user_id": 1,
+        "amount": 12000,
+        "date": "05-01-2024",
+        "description": "Job"
+    },
+    {
+        "account_id": 1,
+        "user_id": 1,
+        "amount": 12000,
+        "date": "06-01-2024",
+        "description": "Job"
+    },
+    {
+        "account_id": 1,
+        "user_id": 1,
+        "amount": 12000,
+        "date": "07-01-2024",
+        "description": "Job"
+    },
+    {
+        "account_id": 1,
+        "user_id": 1,
+        "amount": 12000,
+        "date": "08-01-2024",
+        "description": "Job"
+    },
+    {
+        "account_id": 1,
+        "user_id": 1,
+        "amount": 12000,
+        "date": "09-01-2024",
+        "description": "Job"
+    },
+    {
+        "account_id": 1,
+        "user_id": 1,
+        "amount": 12000,
+        "date": "10-01-2024",
+        "description": "Job"
+    },
+    {
+        "account_id": 1,
+        "user_id": 1,
+        "amount": 12000,
+        "date": "11-01-2024",
+        "description": "Job"
+    }
+]
