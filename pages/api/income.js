@@ -41,13 +41,13 @@ export default async function income(req, res) {
 export async function getIncome(req, res) {
 
     const { id, month, year} = req.query;
-    const userID = req.user.user_id;
+    const accountID = req.user.account_id;
     let query = {
         where: {},
         order: [['date', 'DESC']]
     };
 
-    if (userID) query.where.user_id = userID;
+    if (accountID) query.where.account_id = accountID;
     if (id) query.where.id = id;
     if (month && year) {
         query.where = {

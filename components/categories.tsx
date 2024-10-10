@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import AddCategory from './add-category';
 import EditCategory from './edit-category';
+import { resolveObjectURL } from 'buffer';
 
 interface CategoriesProps {
     month: number,
@@ -21,30 +22,72 @@ export default function Categories({ month, year }: CategoriesProps) {
     const getData = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`/api/category`, {
+            const response = await fetch(`/api/category?month=${month}&year=${year}`, {
                 method: 'GET'
             });
             if (response.ok) {
                 const data = await response.json();
                 // console.log(data);
-                setCategoryData(data);
-                try {
-                    const response = await fetch(`/api/expenses?month=${month}&year=${year}`, {
+
+                if (data.length) {
+                    setCategoryData(data);
+                    try {
+                        const response = await fetch(`/api/expenses?month=${month}&year=${year}`, {
+                            method: 'GET'
+                        });
+                        if (response.ok) {
+                            const data = await response.json();
+                            // console.log(data);
+                            setExpensesData(data);
+                            setLoading(false);
+                        }
+                    } catch (err) {
+                        console.error(err);
+                    }
+                } else {
+                    const response = await fetch(`api/category?recurring=true`, {
                         method: 'GET'
                     });
+
                     if (response.ok) {
                         const data = await response.json();
                         // console.log(data);
-                        setExpensesData(data);
-                        setLoading(false);
+                        
+                        if (data.length) {
+                            for (let i = 0; i < data.length; i++) {
+                                const { name, parent_id, budget } = data[i];
+                                try {
+                                    const response = await fetch(`api/category`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({
+                                            name,
+                                            parent_id,
+                                            budget,
+                                            recurring: false,
+                                            date: `${year}-${month}-01`
+                                        })
+                                    })
+                                } catch(err) {
+                                    console.error(err);
+                                }
+                            }
+
+                            getData();
+                        }
                     }
-                } catch (err) {
-                    console.error(err);
                 }
+                
             }
         } catch (err) {
             console.error(err);
         }
+    }
+
+    const fetchExpenses = async () => {
+        
     }
 
     useEffect(() => {
@@ -110,11 +153,6 @@ export default function Categories({ month, year }: CategoriesProps) {
         }
     };
 
-    useEffect(() => {
-        console.log(budgetData);
-    }, [budgetData]);
-
-
     const openEditModal = (event: any) => {
         setEditID(event.target.id);
         setEditModalVisibility('visible');
@@ -136,7 +174,7 @@ export default function Categories({ month, year }: CategoriesProps) {
 
     return (
         <section id="categories">
-            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} getData={getData} budgetData={budgetData} />
+            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} getData={getData} budgetData={budgetData} month={month} year={year} />
             <EditCategory editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} categoryData={categoryData} getData={getData} />
             <div className="card-header">
                 <h2>Categories</h2>

@@ -6,7 +6,7 @@ import Chat from '../../components/chat';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
 import AddUser from '../../components/add-user';
-import { useRouter } from 'next/router';
+import DashboardNav from '../../components/dashboard-nav';
 
 export async function getServerSideProps(context) {
     return authenticate(context.req)
@@ -15,7 +15,7 @@ export async function getServerSideProps(context) {
 export default function Dashboard() {
     const [fullDate, setFullDate] = useState('');
     const [userModal, setUserModal] = useState('hidden');
-    const router = useRouter();
+    
     const [selectedMonth, setSelectedMonth] = useState();
     const [selectedYear, setSelectedYear] = useState();
     const [timezone, setTimezon] = useState('America/Los_Angeles')
@@ -46,37 +46,10 @@ export default function Dashboard() {
         setSelectedYear(newYear);
     };
 
-    const navigate = async (event) => {
-        if (event.target.id === "add-user") {
-            setUserModal('visible');
-        }
-
-        if (event.target.id === "logout") {
-            const response = await fetch('/api/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-
-            if (response.ok) {
-                router.push('/login');
-            }
-            else {
-                alert('Logout failed.');
-            }
-        }
-    }
-
     return (
         <div>
             <AddUser userModal={userModal} setUserModal={setUserModal} />
-            <nav>
-                <ul>
-                    <li id="add-user" onClick={(event) => navigate(event)}>Add Additional User</li>
-                    <li id="logout" onClick={(event) => navigate(event)}>Logout</li>
-                </ul>
-            </nav>
+            <DashboardNav setUserModal={setUserModal} />
             {selectedMonth && selectedYear && (
                 <div>
                     <header className="text-center">
@@ -94,7 +67,7 @@ export default function Dashboard() {
                             <Budget month={selectedMonth} year={selectedYear} />
                             <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
                         </div>
-                        {/*<SpendingChart month={selectedMonth} year={selectedYear}/>*/}
+                        <SpendingChart month={selectedMonth} year={selectedYear}/>
                     </main>
                 </div>
             )}

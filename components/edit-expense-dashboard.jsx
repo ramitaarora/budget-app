@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function EditExpense({ editModalVisibility, setEditModalVisibility, editID, fetchExpense }) {
+export default function EditExpense({ editModalVisibility, setEditModalVisibility, editID, fetchExpense, month, year }) {
     const [formState, setFormState] = useState({ description: '', amount: '', id: '', date: '', category_id: '' });
     const [categoryOptions, setCategoryOptions] = useState([]);
 
@@ -26,7 +26,7 @@ export default function EditExpense({ editModalVisibility, setEditModalVisibilit
 
     const getCategories = async () => {
         try {
-            const response = await fetch(`api/category`);
+            const response = await fetch(`api/category?month=${month}&year=${year}`);
             if (response.ok) {
                 const data = await response.json();
                 // console.log(data);
