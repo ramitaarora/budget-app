@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('../config/connection');
 
 class Category extends Model { }
@@ -15,10 +15,15 @@ Category.init(
             type: DataTypes.STRING,
             allowNull: false
         },
-        flexible: {
+        date: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: Sequelize.NOW,
+        },
+        recurring: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: false
+            defaultValue: true
         },
         budget: {
             type: DataTypes.DECIMAL,

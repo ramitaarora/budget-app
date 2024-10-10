@@ -3,119 +3,119 @@
         "user_id": 1,
         "category_id": 2,
         "description": "Trader Joe's",
-        "date": "07-20-2024",
+        "date": "10-20-2024",
         "amount": 50.75
     },
     {
         "user_id": 1,
         "category_id": 2,
         "description": "Whole Foods",
-        "date": "07-10-2024",
+        "date": "10-10-2024",
         "amount": 103.99
     },
     {
         "user_id": 1,
         "category_id": 3,
         "description": "Taco Bell",
-        "date": "07-04-2024",
+        "date": "10-04-2024",
         "amount": 12.50
     },
     {
         "user_id": 1,
         "category_id": 3,
         "description": "Cheesecake Factory",
-        "date": "07-14-2024",
+        "date": "10-14-2024",
         "amount": 112.30
     },
     {
         "user_id": 1,
         "category_id": 4,
         "description": "Rent",
-        "date": "07-01-2024",
+        "date": "10-01-2024",
         "amount": 2500
     },
     {
         "user_id": 1,
         "category_id": 5,
         "description": "Phone",
-        "date": "07-01-2024",
+        "date": "10-01-2024",
         "amount": 50
     },
     {
         "user_id": 1,
         "category_id": 5,
         "description": "Gas",
-        "date": "07-01-2024",
+        "date": "10-01-2024",
         "amount": 20
     },
     {
         "user_id": 1,
         "category_id": 5,
         "description": "Electricity",
-        "date": "07-01-2024",
+        "date": "10-01-2024",
         "amount": 200
     },
     {
         "user_id": 1,
         "category_id": 5,
         "description": "Internet",
-        "date": "07-01-2024",
+        "date": "10-01-2024",
         "amount": 80
     },
     {
         "user_id": 1,
         "category_id": 7,
         "description": "Gas",
-        "date": "07-01-2024",
+        "date": "10-01-2024",
         "amount": 30.01
     },
     {
         "user_id": 1,
         "category_id": 7,
         "description": "Gas",
-        "date": "07-15-2024",
+        "date": "10-15-2024",
         "amount": 42.60
     },
     {
         "user_id": 1,
         "category_id": 7,
         "description": "Gas",
-        "date": "07-25-2024",
+        "date": "10-25-2024",
         "amount": 33.33
     },
     {
         "user_id": 1,
         "category_id": 8,
         "description": "Car Payment",
-        "date": "07-01-2024",
+        "date": "10-01-2024",
         "amount": 400
     },
     {
         "user_id": 1,
         "category_id": 9,
         "description": "Jacket",
-        "date": "07-27-2024",
+        "date": "10-27-2024",
         "amount": 80
     },
     {
         "user_id": 1,
         "category_id": 9,
         "description": "Shoes",
-        "date": "07-27-2024",
+        "date": "10-27-2024",
         "amount": 50
     },
     {
         "user_id": 1,
         "category_id": 10,
         "description": "Netflix",
-        "date": "07-01-2024",
+        "date": "10-01-2024",
         "amount": 20
     },
     {
         "user_id": 1,
         "category_id": 10,
         "description": "Spotify",
-        "date": "07-01-2024",
+        "date": "10-01-2024",
         "amount": 20
     }
 ]

@@ -21,35 +21,35 @@ const seedCategories = async () => {
             returning: true,
         })
 
-        // const newBudgetData = budgetData.map((budget) => ({
-        //     ...budget,
-        //     date: new Date(budget.date)
-        // }))
+        const newBudgetData = budgetData.map((budget) => ({
+            ...budget,
+            date: new Date(budget.date)
+        }))
 
-        // const budget = await Budget.bulkCreate(newBudgetData, {
-        //     individualHooks: true,
-        //     returning: true,
-        // })
+        const budget = await Budget.bulkCreate(newBudgetData, {
+            individualHooks: true,
+            returning: true,
+        })
 
-        // const parentCategories = await Category.bulkCreate(parentCategoryData, {
-        //     individualHooks: true,
-        //     returning: true,
-        // })
+        const parentCategories = await Category.bulkCreate(parentCategoryData, {
+            individualHooks: true,
+            returning: true,
+        })
         
-        // const childCategories = await Category.bulkCreate(childCategoryData, {
-        //     individualHooks: true,
-        //     returning: true,
-        // })
+        const childCategories = await Category.bulkCreate(childCategoryData, {
+            individualHooks: true,
+            returning: true,
+        })
 
-        // const newExpensesData = expensesData.map((expense) => ({
-        //     ...expense,
-        //     date: new Date(expense.date)
-        // }));
+        const newExpensesData = expensesData.map((expense) => ({
+            ...expense,
+            date: new Date(expense.date)
+        }));
 
-        // const expenses = await Expenses.bulkCreate(newExpensesData, {
-        //     individualHooks: true,
-        //     returning: true,
-        // });
+        const expenses = await Expenses.bulkCreate(newExpensesData, {
+            individualHooks: true,
+            returning: true,
+        });
 
     } catch(error) {
         console.log(error);

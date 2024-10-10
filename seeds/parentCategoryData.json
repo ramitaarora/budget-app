@@ -3,81 +3,72 @@
         "id": 1,
         "name": "Food",
         "parent_id": null,
-        "flexible": true,
+        "rucurring": true,
         "budget": 1000,
-        "date": "05-2024",
         "account_id": 1
     },
     {
         "id": 4,
         "name": "Rent",
         "parent_id": null,
-        "flexible": false,
+        "rucurring": false,
         "budget": 2500,
-        "date": "05-2024",
         "account_id": 1
     },
     {
         "id": 5,
         "name": "Bills",
         "parent_id": null,
-        "flexible": true,
+        "rucurring": true,
         "budget": 500,
-        "date": "05-2024",
         "account_id": 1
     },
     {
         "id": 6,
         "name": "Transportation",
         "parent_id": null,
-        "flexible": true,
+        "rucurring": true,
         "budget": 700,
-        "date": "05-2024",
         "account_id": 1
     },
     {
         "id": 9,
         "name": "Necessities",
         "parent_id": null,
-        "flexible": true,
+        "rucurring": true,
         "budget": 500,
-        "date": "05-2024",
         "account_id": 1
     },
     {
         "id": 10,
         "name": "Entertainment",
         "parent_id": null,
-        "flexible": true,
+        "rucurring": true,
         "budget": 100,
-        "date": "05-2024",
         "account_id": 1
     },
     {
         "id": 11,
         "name": "Holidays/Gifts",
         "parent_id": null,
-        "flexible": true,
+        "rucurring": true,
         "budget": 300,
-        "date": "05-2024",
         "account_id": 1
     },
     {
         "id": 12,
         "name": "Medical",
         "parent_id": null,
-        "flexible": true,
+        "rucurring": true,
         "budget": 100,
-        "date": "05-2024",
         "account_id": 1
     },
     {
         "id": 13,
         "name": "Misc",
         "parent_id": null,
-        "flexible": true,
+        "rucurring": true,
         "budget": 100,
-        "date": "05-2024",
         "account_id": 1
     }
 ]
