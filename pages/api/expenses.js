@@ -41,7 +41,7 @@ export default async function expenses(req, res) {
 export async function getExpenses(req, res) {
 
     const { id, date, month, year, category_id, limit } = req.query;
-    // const userID = req.user.user_id;
+    const accountID = req.user.account_id;
     let query = {
         where: {},
         order: [['date', 'DESC']]
@@ -49,7 +49,7 @@ export async function getExpenses(req, res) {
 
     if (limit) query.limit = parseInt(limit);
 
-    // if (userID) query.where.user_id = userID;
+    if (accountID) query.where.account_id = accountID;
     if (id) query.where.id = id;
     if (month && year) {
         query.where = {

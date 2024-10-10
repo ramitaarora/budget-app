@@ -4,118 +4,135 @@
         "category_id": 2,
         "description": "Trader Joe's",
         "date": "10-20-2024",
-        "amount": 50.75
+        "amount": 50.75,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 2,
         "description": "Whole Foods",
         "date": "10-10-2024",
-        "amount": 103.99
+        "amount": 103.99,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 3,
         "description": "Taco Bell",
         "date": "10-04-2024",
-        "amount": 12.50
+        "amount": 12.50,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 3,
         "description": "Cheesecake Factory",
         "date": "10-14-2024",
-        "amount": 112.30
+        "amount": 112.30,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 4,
         "description": "Rent",
         "date": "10-01-2024",
-        "amount": 2500
+        "amount": 2500,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 5,
         "description": "Phone",
         "date": "10-01-2024",
-        "amount": 50
+        "amount": 50,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 5,
         "description": "Gas",
         "date": "10-01-2024",
-        "amount": 20
+        "amount": 20,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 5,
         "description": "Electricity",
         "date": "10-01-2024",
-        "amount": 200
+        "amount": 200,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 5,
         "description": "Internet",
         "date": "10-01-2024",
-        "amount": 80
+        "amount": 80,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 7,
         "description": "Gas",
         "date": "10-01-2024",
-        "amount": 30.01
+        "amount": 30.01,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 7,
         "description": "Gas",
         "date": "10-15-2024",
-        "amount": 42.60
+        "amount": 42.60,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 7,
         "description": "Gas",
         "date": "10-25-2024",
-        "amount": 33.33
+        "amount": 33.33,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 8,
         "description": "Car Payment",
         "date": "10-01-2024",
-        "amount": 400
+        "amount": 400,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 9,
         "description": "Jacket",
         "date": "10-27-2024",
-        "amount": 80
+        "amount": 80,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 9,
         "description": "Shoes",
         "date": "10-27-2024",
-        "amount": 50
+        "amount": 50,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 10,
         "description": "Netflix",
         "date": "10-01-2024",
-        "amount": 20
+        "amount": 20,
+        "account_id": 1
     },
     {
         "user_id": 1,
         "category_id": 10,
         "description": "Spotify",
         "date": "10-01-2024",
-        "amount": 20
+        "amount": 20,
+        "account_id": 1
     }
 ]
