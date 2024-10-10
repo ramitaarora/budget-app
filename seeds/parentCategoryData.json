@@ -3,7 +3,7 @@
         "id": 1,
         "name": "Food",
         "parent_id": null,
-        "rucurring": true,
+        "recurring": true,
         "budget": 1000,
         "account_id": 1
     },
@@ -11,7 +11,7 @@
         "id": 4,
         "name": "Rent",
         "parent_id": null,
-        "rucurring": false,
+        "recurring": true,
         "budget": 2500,
         "account_id": 1
     },
@@ -19,7 +19,7 @@
         "id": 5,
         "name": "Bills",
         "parent_id": null,
-        "rucurring": true,
+        "recurring": true,
         "budget": 500,
         "account_id": 1
     },
@@ -27,7 +27,7 @@
         "id": 6,
         "name": "Transportation",
         "parent_id": null,
-        "rucurring": true,
+        "recurring": true,
         "budget": 700,
         "account_id": 1
     },
@@ -35,7 +35,7 @@
         "id": 9,
         "name": "Necessities",
         "parent_id": null,
-        "rucurring": true,
+        "recurring": true,
         "budget": 500,
         "account_id": 1
     },
@@ -43,7 +43,7 @@
         "id": 10,
         "name": "Entertainment",
         "parent_id": null,
-        "rucurring": true,
+        "recurring": true,
         "budget": 100,
         "account_id": 1
     },
@@ -51,7 +51,7 @@
         "id": 11,
         "name": "Holidays/Gifts",
         "parent_id": null,
-        "rucurring": true,
+        "recurring": false,
         "budget": 300,
         "account_id": 1
     },
@@ -59,7 +59,7 @@
         "id": 12,
         "name": "Medical",
         "parent_id": null,
-        "rucurring": true,
+        "recurring": false,
         "budget": 100,
         "account_id": 1
     },
@@ -67,7 +67,7 @@
         "id": 13,
         "name": "Misc",
         "parent_id": null,
-        "rucurring": true,
+        "recurring": true,
         "budget": 100,
         "account_id": 1
     }

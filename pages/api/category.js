@@ -39,13 +39,13 @@ export default async function category(req, res) {
 // }
 
 export async function getCategories(req, res) {
-
-    const { id, month, year } = req.query;
+    const { id, month, year, recurring } = req.query;
     const accountID = req.user.account_id;
     let query = { where: {} };
 
     if (accountID) query.where.account_id = accountID;
     if (id) query.where.id = id;
+    if (recurring) query.where.recurring = Boolean(recurring).valueOf();
     if (month && year) {
         query.where = {
             ...query.where,
@@ -76,10 +76,10 @@ export async function createCategory(req, res) {
         const newCategory = await Category.create({
             name: req.body.name,
             parent_id: req.body.parent_id,
-            color: req.body.color,
-            flexible: req.body.flexible,
+            recurring: req.body.recurring,
             budget: req.body.budget,
-            account_id: req.user.account_id
+            account_id: req.user.account_id,
+            date: req.body.date,
         });
         res.status(201).json(newCategory);
     } catch (error) {
@@ -102,6 +102,22 @@ export async function updateCategory(req, res) {
     } catch (error) {
         console.error('Failed to update category:', error);
         res.status(500).json({ message: 'Failed to update category.' });
+    }
+}
+
+export async function generateCategory(req, res) {
+    const accountID = req.user.account_id;
+    let query = { where: {} };
+    if (accountID) query.where.account_id = accountID;
+    query.where.recurring = true;
+
+    try {
+        const allCategories = await Category.findAll(query);
+        if (allCategories) console.log(allCategories)
+
+    } catch(error) {
+        console.error('Failed to generate categories:', error);
+        res.status(500).json({ message: 'Failed to generate categories.' })
     }
 }
 

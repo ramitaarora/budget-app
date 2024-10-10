@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function AddCategory({ addModalVisibility, setAddModalVisibility, budgetData, getData, month, year }) {
-    const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
+    const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', recurring: true });
     const [typeOptions, setTypeOptions] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
 
@@ -50,7 +50,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
     const handleFormSubmit = async (event) => {
         event.preventDefault();
 
-        const { name, parent_category, budget, flexible } = formState;
+        const { name, parent_category, budget, recurring } = formState;
 
         let parent_id = null;
         if (parent_category.length) {
@@ -100,7 +100,8 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
                     name,
                     parent_id,
                     budget,
-                    flexible
+                    recurring,
+                    date: `${year}-${month}-01`
                 })
             });
 
@@ -109,10 +110,10 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
                     name: '',
                     parent_category: '',
                     budget: '',
-                    flexible: false
+                    recurring: true
                 });
                 getData();
-                alert('New category created!');
+                // alert('New category created!');
                 closeModal();
             }
         } catch (error) {
@@ -127,7 +128,7 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
             name: '',
             parent_category: '',
             budget: '',
-            flexible: false,
+            recurring: true,
         });
     }
 
@@ -183,25 +184,25 @@ export default function AddCategory({ addModalVisibility, setAddModalVisibility,
                             </div>
 
                             <div className="modal-form-line">
-                                <label className="form-line-left">Flexible?</label>
+                                <label className="form-line-left">Recurring?</label>
                                 <div id="radio-buttons" className="form-line-right">
                                     <label className="flex items-center justify-center">
                                         <input
                                             type="radio"
-                                            name="flexible"
+                                            name="recurring"
                                             value="true"
                                             onChange={handleChange}
-                                            checked={formState.flexible === true}
+                                            checked={formState.recurring === true}
                                         />
                                         True
                                     </label>
                                     <label className="flex items-center justify-center">
                                         <input
                                             type="radio"
-                                            name="flexible"
+                                            name="recurring"
                                             value="false"
                                             onChange={handleChange}
-                                            checked={formState.flexible === false}
+                                            checked={formState.recurring === false}
                                         />
                                         False
                                     </label>
