@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 
-export default function AddCategory({ addModalVisibility, setAddModalVisibility, budgetData, getData }) {
+export default function AddCategory({ addModalVisibility, setAddModalVisibility, budgetData, getData, month, year }) {
     const [formState, setFormState] = useState({ name: '', parent_category: '', budget: '', flexible: false });
     const [typeOptions, setTypeOptions] = useState([]);
     const [categoryData, setCategoryData] = useState([]);
 
     const getCategories = async () => {
         try {
-            const response = await fetch('/api/category', {
+            const response = await fetch(`/api/category?month=${month}&year=${year}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

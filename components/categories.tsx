@@ -21,7 +21,7 @@ export default function Categories({ month, year }: CategoriesProps) {
     const getData = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`/api/category`, {
+            const response = await fetch(`/api/category?month=${month}&year=${year}`, {
                 method: 'GET'
             });
             if (response.ok) {
@@ -110,11 +110,6 @@ export default function Categories({ month, year }: CategoriesProps) {
         }
     };
 
-    useEffect(() => {
-        console.log(budgetData);
-    }, [budgetData]);
-
-
     const openEditModal = (event: any) => {
         setEditID(event.target.id);
         setEditModalVisibility('visible');
@@ -136,7 +131,7 @@ export default function Categories({ month, year }: CategoriesProps) {
 
     return (
         <section id="categories">
-            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} getData={getData} budgetData={budgetData} />
+            <AddCategory addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} getData={getData} budgetData={budgetData} month={month} year={year} />
             <EditCategory editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} categoryData={categoryData} getData={getData} />
             <div className="card-header">
                 <h2>Categories</h2>

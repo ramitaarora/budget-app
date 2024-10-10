@@ -1,5 +1,6 @@
 import Category from '../../models/Category';
 import { apiAuthenticate } from '../../middleware/auth';
+import { Op, literal } from 'sequelize';
 
 // USE IN PRODUCTION TO PROTECT API ROUTES
 
@@ -39,12 +40,23 @@ export default async function category(req, res) {
 
 export async function getCategories(req, res) {
 
-    const { id } = req.query;
+    const { id, month, year } = req.query;
     const accountID = req.user.account_id;
     let query = { where: {} };
 
     if (accountID) query.where.account_id = accountID;
     if (id) query.where.id = id;
+    if (month && year) {
+        query.where = {
+            ...query.where,
+            date: {
+                [Op.and]: [
+                    literal(`YEAR(date) = ${year}`),
+                    literal(`MONTH(date) = ${month}`)
+                ]
+            }
+        };
+    }
 
     try {
         const category = await Category.findAll(query);
