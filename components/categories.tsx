@@ -207,7 +207,7 @@ export default function Categories({ month, year }: CategoriesProps) {
                                             <div className="w-full flex items-center justify-center">
                                                 <p>${getChildExpenses(filteredChildCategory.id)}</p>
                                                 <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-300">
-                                                    <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${(getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget) * 100}%` }}></div>
+                                                    <div className="bg-blue-500 h-2.5 rounded-full" style={{ "width": `${ ((getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget) * 100) > 100 ? 100 : ((getChildExpenses(filteredChildCategory.id) / filteredChildCategory.budget) * 100)}%` }}></div>
                                                 </div>
                                                 <p>${filteredChildCategory.budget}</p>
                                                 <img src="./edit.svg" alt="edit" onClick={openEditModal} id={filteredChildCategory.id} />
