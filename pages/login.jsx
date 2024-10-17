@@ -50,6 +50,28 @@ export default function Login() {
         };
     };
 
+    const demoLogin = async () => {
+        try {
+            const response = await fetch('/api/login-demo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            if (response.ok) {
+                router.push('/dashboard');
+            } else if (!response.ok) {
+                setFormState({
+                    ...formState,
+                    password: ''
+                });
+                alert('Failed to login to demo. Please try again later.');
+            };
+        } catch(err) {
+            console.error(err)
+        }
+    }
+
     return (
         <main className="h-screen flex flex-col items-center justify-center">
             <form id="login-form" onSubmit={handleFormSubmit} className="w-1/2 border border-zinc-500 rounded-md p-5 flex flex-col items-center justify-center shadow-md">
@@ -72,7 +94,7 @@ export default function Login() {
                 </div>
                 <button type="submit" className="user-submit">Submit</button>
             </form>
-            <button>Demo Dashboard</button>
+            <button onClick={demoLogin}>Login to Demo Dashboard</button>
         </main>
     )
 }
