@@ -1,7 +1,10 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
-import User from '../../models/User';
+import { Category, Expenses, Account, User, Budget, Income } from '../../models';
+import parentCategoryData from '../../seeds/parentCategoryData.json';
+import childCategoryData from '../../seeds/childCategoryData.json';
+import expensesData from '../../seeds/expensesData.json';
 
 export default async function loginDemo(req, res) {
     if (req.method !== 'POST') {
@@ -10,6 +13,73 @@ export default async function loginDemo(req, res) {
 
     const email = 'test@example.com';
     const password = 'password12345!';
+
+    try {
+        // Reset user data
+        const deleteBudget = await Budget.destroy({ where: { account_id: 1 } });
+        const deleteIncome = await Income.destroy({ where: { account_id: 1 } });
+        const deleteCategories = await Category.destroy({ where: { account_id: 1 } });
+        const deleteExpenses = await Expenses.destroy({ where: { account_id: 1 } });
+
+        const year = new Date().getFullYear();
+        const month = new Date().getMonth() + 1;
+        const day = new Date().getDate();
+        const todaysDate = `${year}-${month}-${day}`;
+
+        const budget = await Budget.create({
+            account_id: 1,
+            amount: 6000,
+            savings_goal: 1000,
+            date: `${year}-${month}-01`
+        }, {
+            individualHooks: true,
+            returning: true,
+        })
+
+        const income = await Income.create({
+            account_id: 1,
+            user_id: 1,
+            amount: 12000,
+            description: "Job",
+            date: todaysDate
+        }, {
+            individualHooks: true,
+            returning: true,
+        })
+
+        for (let i = 0; i < parentCategoryData.length; i++) {
+            const parentCategories = await Category.create({
+                ...parentCategoryData[i],
+                date: todaysDate
+            }, {
+                individualHooks: true,
+                returning: true,
+            })
+        }
+        
+        for (let i = 0; i < childCategoryData.length; i++) {
+            const childCategories = await Category.create({
+                ...childCategoryData[i],
+                date: todaysDate
+            }, {
+                individualHooks: true,
+                returning: true,
+            })
+        }
+
+        for (let i = 0; i < expensesData.length; i++) {
+            const expenses = await Expenses.create({
+                ...expensesData[i],
+                date: `${year}-${month}-${Math.floor(Math.random() * 30) + 1}`
+            }, {
+                individualHooks: true,
+                returning: true,
+            })
+        }
+
+    } catch(err) {
+        console.error(err);
+    }
 
     try {
         const user = await User.findOne({ where: { email } });
