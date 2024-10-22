@@ -14,10 +14,15 @@ export default function Expenses() {
     const [editID, setEditID] = useState();
     const [selectedExpenses, setSelectedExpenses] = useState([]);
     const [categoryNames, setCategoryNames] = useState([]);
+    const [changeMonth, setChangeMonth] = useState(false);
     const [bulkEdit, setBulkEdit] = useState(false);
 
     const chooseBulkEdit = () => {
         setBulkEdit(prevBulkEdit => !prevBulkEdit);
+    };
+
+    const chooseChangeMonth = () => {
+        setChangeMonth(prevChangeMonth => !prevChangeMonth);
     };
 
     useEffect(() => {
@@ -151,9 +156,17 @@ export default function Expenses() {
                 <h1 className="text-xl">Expenses Page</h1>
                 <h1>{fullDate}</h1>
                 <div>
-                    <p>Change Month: </p>
-                    {/* <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} /> */}
-                    <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                    {
+                        !changeMonth &&
+                        <>
+                            <button onClick={chooseChangeMonth}>Change Month?</button>
+                            <br />
+                        </>
+                    }
+                    {
+                        changeMonth &&
+                        <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                    }
                 </div>
             </header>
             <AddExpense
