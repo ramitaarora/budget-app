@@ -334,3 +334,26 @@ nav ul {
   cursor: pointer;
   transform: scale(1.2);
 }
+
+/* Expenses Page Styles */
+
+#expense-table {
+  display: flex;
+  justify-content: center;
+}
+
+#expense-table table {
+  border-collapse: separate;
+  border-spacing: 10px 10px;
+  width: 100%;
+  padding-left: 2%;
+}
+
+#expense-table th, #expense-table td {
+  padding: 5px;
+  text-align: left;
+}
+
+#expense-nav svg, #expense-nav button {
+  margin: 10px;
+}
