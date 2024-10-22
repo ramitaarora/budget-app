@@ -247,12 +247,20 @@ export default function Expenses() {
                                                     />
                                                 </td>
                                             }
-                                            <td>{getCategoryName(expense.category_id)}</td>
-                                            <td>{formatDate(expense.date)}</td>
-                                            <td>{expense.description}</td>
-                                            <td>${expense.amount}</td>
+                                            <td onClick={(event) => openEditModal(event)} id={expense.id}>
+                                                {getCategoryName(expense.category_id)}
+                                            </td>
+                                            <td onClick={(event) => openEditModal(event)} id={expense.id}>
+                                                {formatDate(expense.date)}
+                                            </td>
+                                            <td onClick={(event) => openEditModal(event)} id={expense.id}>
+                                                {expense.description}
+                                            </td>
+                                            <td onClick={(event) => openEditModal(event)} id={expense.id}>
+                                                ${expense.amount}
+                                            </td>
                                             <td>
-                                                <button onClick={(event) => openEditModal(event)} id={expense.id} >
+                                                <button onClick={(event) => openEditModal(event)} id={expense.id}>
                                                     <img
                                                         src="./edit-button.png"
                                                         alt="Edit Button"
@@ -261,7 +269,7 @@ export default function Expenses() {
                                                 </button>
                                             </td>
                                             <td>
-                                                <button onClick={() => deleteExpense(expense.id)} >
+                                                <button onClick={() => deleteExpense(expense.id)}>
                                                     <img
                                                         src="./trash-button.png"
                                                         alt="Delete Button"

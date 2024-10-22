@@ -171,9 +171,15 @@ export default function Income() {
                                 <tbody>
                                     {incomeData.map((income, index) => (
                                         <tr key={index}>
-                                            <td>{formatDate(income.date)}</td>
-                                            <td>{income.description}</td>
-                                            <td>${income.amount}</td>
+                                            <td onClick={(event) => openEditModal(event)} id={income.id}>
+                                                {formatDate(income.date)}
+                                            </td>
+                                            <td onClick={(event) => openEditModal(event)} id={income.id}>
+                                                {income.description}
+                                            </td>
+                                            <td onClick={(event) => openEditModal(event)} id={income.id}>
+                                                ${income.amount}
+                                            </td>
                                             <td>
                                                 <button onClick={(event) => openEditModal(event)} id={income.id}>
                                                     <img
