@@ -11,6 +11,11 @@ export default function Income() {
     const [editModalVisibility, setEditModalVisibility] = useState('hidden');
     const [incomeVisibility, setIncomeVisibility] = useState('hidden');
     const [editID, setEditID] = useState();
+    const [changeMonth, setChangeMonth] = useState(false);
+
+    const chooseChangeMonth = () => {
+        setChangeMonth(prevChangeMonth => !prevChangeMonth);
+    };
 
     useEffect(() => {
         const today = new Date();
@@ -101,13 +106,20 @@ export default function Income() {
     return (
         <section>
             <header className="text-center">
-                <h1 className="text-xl">Income Page</h1>
-                <h1>{fullDate}</h1>
-                <div>
-                    <p>Change Month: </p>
-                    {/* <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} /> */}
-                    <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                <h1 className="text-xl">Income</h1>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                    <button onClick={chooseChangeMonth}>
+                        <img src="./left-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
+                    </button>
+                    <h1>{fullDate}</h1>
+                    <button onClick={chooseChangeMonth}>
+                        <img src="./right-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
+                    </button>
                 </div>
+                {
+                    changeMonth &&
+                    <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                }
             </header>
             <AddIncome
                 incomeVisibility={incomeVisibility}
@@ -120,49 +132,56 @@ export default function Income() {
                 editID={editID}
             />
             <div id="income">
-                <div className="w-full flex justify-between items-center">
-                    <h3 onClick={openIncomeModal} className="cursor-pointer">Total Monthly Income:</h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openIncomeModal} className="cursor-pointer">
+                <div id="expense-income-nav" className="w-full flex justify-end items-center" style={{ paddingRight: "4%" }} >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="auto" fill="currentColor" viewBox="0 0 16 16" onClick={openIncomeModal} className="cursor-pointer">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                     </svg>
                 </div>
-                {incomeData.length > 0 ? (
-                    <>
-                        <p>${totalIncome}</p>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Amount</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {incomeData.map((income, index) => (
-                                    <tr key={index}>
-                                        <td>{formatDate(income.date)}</td>
-                                        <td>{income.description}</td>
-                                        <td>${income.amount}</td>
-                                        <td>
-                                            <button onClick={(event) => openEditModal(event)} id={income.id}>
-                                                e
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => deleteIncome(income.id)}>
-                                                x
-                                            </button>
-                                        </td>
+                <div id="expense-income-table">
+                    {incomeData.length > 0 ? (
+                        <>
+                            <p>Total This Month: ${totalIncome}</p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </>
-                ) : (
-                    <p>No income data.</p>
-                )}
+                                </thead>
+                                <tbody>
+                                    {incomeData.map((income, index) => (
+                                        <tr key={index}>
+                                            <td>{formatDate(income.date)}</td>
+                                            <td>{income.description}</td>
+                                            <td>${income.amount}</td>
+                                            <td>
+                                                <button onClick={(event) => openEditModal(event)} id={income.id}>
+                                                    <img
+                                                        src="./edit-button.png"
+                                                        alt="Edit Button"
+                                                        style={{ width: "18px", height: "auto" }}
+                                                    />
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button onClick={() => deleteExpense(income.id)} >
+                                                    <img
+                                                        src="./trash-button.png"
+                                                        alt="Delete Button"
+                                                        style={{ width: "18px", height: "auto" }}
+                                                    />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </>
+                    ) : (
+                        <p>No income data.</p>
+                    )}
+                </div>
             </div>
         </section>
     );
