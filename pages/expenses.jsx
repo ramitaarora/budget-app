@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import AddExpense from '../components/add-expense';
 import EditExpense from '../components/edit-expense';
 import BulkEditExpenses from '../components/bulk-edit-expenses';
@@ -16,6 +17,13 @@ export default function Expenses() {
     const [categoryNames, setCategoryNames] = useState([]);
     const [changeMonth, setChangeMonth] = useState(false);
     const [bulkEdit, setBulkEdit] = useState(false);
+    const router = useRouter();
+
+    const navigate = async (event) => {
+        if (event.target.id === "dashboard") {
+            router.push('/dashboard')
+        }
+    }
 
     const chooseBulkEdit = () => {
         setBulkEdit(prevBulkEdit => !prevBulkEdit);
@@ -153,7 +161,16 @@ export default function Expenses() {
     return (
         <section>
             <header className="text-center">
-                <h1 className="text-xl">Expenses</h1>
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <h1 className="text-xl">Expenses</h1>
+                    <img
+                        id="dashboard"
+                        src="./back-button.png"
+                        alt="Home Button"
+                        style={{ width: "15px", height: "15px", marginLeft: "10px" }}
+                        onClick={(event) => navigate(event)}
+                    />
+                </div>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                     <button onClick={chooseChangeMonth}>
                         <img src="./left-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />

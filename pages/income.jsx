@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import AddIncome from '../components/add-income';
 import EditIncome from '../components/edit-income';
 
@@ -12,6 +13,13 @@ export default function Income() {
     const [incomeVisibility, setIncomeVisibility] = useState('hidden');
     const [editID, setEditID] = useState();
     const [changeMonth, setChangeMonth] = useState(false);
+    const router = useRouter();
+
+    const navigate = async (event) => {
+        if (event.target.id === "dashboard") {
+            router.push('/dashboard')
+        }
+    }
 
     const chooseChangeMonth = () => {
         setChangeMonth(prevChangeMonth => !prevChangeMonth);
@@ -106,20 +114,31 @@ export default function Income() {
     return (
         <section>
             <header className="text-center">
-                <h1 className="text-xl">Income</h1>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
-                    <button onClick={chooseChangeMonth}>
-                        <img src="./left-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
-                    </button>
-                    <h1>{fullDate}</h1>
-                    <button onClick={chooseChangeMonth}>
-                        <img src="./right-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
-                    </button>
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <h1 className="text-xl">Income</h1>
+                    <img
+                        id="dashboard"
+                        src="./back-button.png"
+                        alt="Home Button"
+                        style={{ width: "15px", height: "15px", marginLeft: "10px" }}
+                        onClick={(event) => navigate(event)}
+                    />
                 </div>
-                {
-                    changeMonth &&
-                    <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
-                }
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", }}>
+                    <div style={{ display: "flex" }}>
+                        <button onClick={chooseChangeMonth}>
+                            <img src="./left-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
+                        </button>
+                        <h1>{fullDate}</h1>
+                        <button onClick={chooseChangeMonth}>
+                            <img src="./right-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
+                        </button>
+                    </div>
+                    {
+                        changeMonth &&
+                        <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                    }
+                </div>
             </header>
             <AddIncome
                 incomeVisibility={incomeVisibility}
@@ -165,7 +184,7 @@ export default function Income() {
                                                 </button>
                                             </td>
                                             <td>
-                                                <button onClick={() => deleteExpense(income.id)} >
+                                                <button onClick={() => deleteIncome(income.id)} >
                                                     <img
                                                         src="./trash-button.png"
                                                         alt="Delete Button"
