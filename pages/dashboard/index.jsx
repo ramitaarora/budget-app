@@ -15,13 +15,16 @@ export async function getServerSideProps(context) {
 export default function Dashboard() {
     const [fullDate, setFullDate] = useState('');
     const [userModal, setUserModal] = useState('hidden');
-    
     const [selectedMonth, setSelectedMonth] = useState();
     const [selectedYear, setSelectedYear] = useState();
-    const [timezone, setTimezon] = useState('America/Los_Angeles')
-
+    const [timezone, setTimezone] = useState('America/Los_Angeles')
     const [chatVisibility, setChatVisibility] = useState(false);
     const toggleChat = () => setChatVisibility(!chatVisibility);
+    const [changeMonth, setChangeMonth] = useState(false);
+
+    const chooseChangeMonth = () => {
+        setChangeMonth(prevChangeMonth => !prevChangeMonth);
+    };
 
     useEffect(() => {
         const today = new Date();
@@ -54,12 +57,19 @@ export default function Dashboard() {
                 <div>
                     <header className="text-center">
                         <h1 className="text-xl">Your Budget</h1>
-                        <h1>{fullDate}</h1>
-                        <div>
-                            <p>Change Month: </p>
-                            {/* <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} /> */}
-                            <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                            <button onClick={chooseChangeMonth}>
+                                <img src="./left-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
+                            </button>
+                            <h1>{fullDate}</h1>
+                            <button onClick={chooseChangeMonth}>
+                                <img src="./right-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
+                            </button>
                         </div>
+                        {
+                            changeMonth &&
+                            <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                        }
                     </header>
                     <main className="flex w-screen flex-wrap justify-center align-center">
                         <Categories month={selectedMonth} year={selectedYear} />
@@ -67,7 +77,7 @@ export default function Dashboard() {
                             <Budget month={selectedMonth} year={selectedYear} />
                             <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
                         </div>
-                        <SpendingChart month={selectedMonth} year={selectedYear}/>
+                        <SpendingChart month={selectedMonth} year={selectedYear} />
                     </main>
                 </div>
             )}
