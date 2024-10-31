@@ -28,13 +28,12 @@ export default function HomepageHeader() {
             </div>
 
             <div className="w-3/4 flex justify-evenly items-center">
-                <ul className="w-1/2 flex justify-evenly items-center">
-                    <li>About</li>
-                    <li>Github</li>
-                </ul>
+                <div className="w-1/2">
+                    <a href="https://github.com/ramitaarora/budget-app" target="_blank"><img src="./github.svg" alt="github" className="m-auto cursor-pointer homepage-hover"/></a>
+                </div>
                 <ul className="w-1/4 flex justify-evenly items-center">
-                    <li><button onClick={loginPage} className="border rounded px-3">Login</button></li>
-                    <li><button onClick={signupPage} className="border rounded px-3">Sign Up</button></li>
+                    <li><button onClick={loginPage} className="border rounded px-3 hover:bg-sky-800">Login</button></li>
+                    <li><button onClick={signupPage} className="border rounded px-3 hover:bg-sky-800">Sign Up</button></li>
                 </ul>
             </div>
         </header>
