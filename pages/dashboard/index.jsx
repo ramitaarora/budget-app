@@ -2,11 +2,13 @@ import Budget from '../../components/budget';
 import Categories from '../../components/categories';
 import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
+import Stat from '../../components/stat';
 import Chat from '../../components/chat';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
 import AddUser from '../../components/add-user';
 import DashboardNav from '../../components/dashboard-nav';
+import Footer from '../../components/footer';
 
 export async function getServerSideProps(context) {
     return authenticate(context.req)
@@ -71,14 +73,34 @@ export default function Dashboard() {
                             <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
                         }
                     </header>
-                    <main className="flex w-screen flex-wrap justify-center align-center">
-                        <Categories month={selectedMonth} year={selectedYear} />
-                        <div className="flex flex-col align-center justify-evenly">
-                            <Budget month={selectedMonth} year={selectedYear} />
-                            <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
+                    <main className="h-screen">
+                        <div className="flex w-screen h-1/2 flex-wrap justify-center items-center">
+                            <div className="w-1/2 flex justify-center items-center">
+                                <Categories month={selectedMonth} year={selectedYear} />
+                            </div>
+                            <div className="w-1/2 flex justify-center items-center">
+                                <SpendingChart month={selectedMonth} year={selectedYear} />
+                            </div>
                         </div>
-                        <SpendingChart month={selectedMonth} year={selectedYear} />
+
+                        <div className="flex h-1/2 w-screen flex-wrap justify-center items-center">
+                            <div className="w-1/2 h-full flex flex-col items-center justify-center">
+                                <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
+                            </div>
+
+                            <div className="w-1/2 h-full flex flex-wrap justify-center items-center">
+                                <Stat />
+                                <Stat />
+                                <Stat />
+                                <Stat />
+                            </div>
+
+                        </div>
+
+
+
                     </main>
+                    <Footer />
                 </div>
             )}
             {chatVisibility && <Chat month={selectedMonth} year={selectedYear} />}

@@ -24,7 +24,7 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
 
     const fetchExpense = async () => {
         try {
-            const res = await fetch(`/api/expenses?month=${month}&year=${year}&limit=5`, {
+            const res = await fetch(`/api/expenses?month=${month}&year=${year}&limit=12`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,8 +86,7 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
             <EditExpense editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} fetchExpense={fetchExpense} month={month} year={year} />
             <div className="card-header">
                 <div>
-                    <h1 id="expenses-page" onClick={(event) => navigate(event)}>Expenses</h1>
-                    <h2>Latest:</h2>
+                    <h1 id="expenses-page" onClick={(event) => navigate(event)}>Latest Expenses</h1>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openAddModal}>
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
@@ -96,11 +95,11 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
             <div id="recent-expenses">
                 {expensesData.length > 0 ? (
                     expensesData.map((expense, index) => (
-                        <div key={index} className="w-full flex justify-between ">
-                            <p className="w-1/6">{formatDate(expense.date)}</p>
+                        <div key={index} className="w-full flex justify-between leading-7 items-center">
+                            <p className="w-1/6 mr-2">{formatDate(expense.date)}</p>
                             <p className="w-1/6">${expense.amount}</p>
                             <p className="w-3/6">{expense.description}</p>
-                            <div className="w-1/6 flex justify-evenly cursor-pointer">
+                            <div className="w-1/6 flex justify-end cursor-pointer items-center h-4">
                                 <img src="./edit.svg" alt="edit" id={expense.id} onClick={(event) => openEditModal(event)} />
                                 <img src="./delete.svg" alt="delete" id={expense.id} onClick={(event) => deleteExpense(event)} />
                             </div>
