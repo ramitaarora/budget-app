@@ -29,7 +29,7 @@ export default function DashboardNav( { setUserModal }:DashboardNavProps) {
             })
 
             if (response.ok) {
-                router.push('/login');
+                router.push('/');
             }
             else {
                 alert('Logout failed.');

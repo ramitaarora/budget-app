@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.homepage-hover:hover {
+  position: relative;
+  top: -5px;
+}
+
 #categories,
 #budget,
 #expenses,
