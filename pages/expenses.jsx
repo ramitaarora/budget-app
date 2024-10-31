@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import AddExpense from '../components/add-expense';
 import EditExpense from '../components/edit-expense';
 import BulkEditExpenses from '../components/bulk-edit-expenses';
@@ -14,6 +15,23 @@ export default function Expenses() {
     const [editID, setEditID] = useState();
     const [selectedExpenses, setSelectedExpenses] = useState([]);
     const [categoryNames, setCategoryNames] = useState([]);
+    const [changeMonth, setChangeMonth] = useState(false);
+    const [bulkEdit, setBulkEdit] = useState(false);
+    const router = useRouter();
+
+    const navigate = async (event) => {
+        if (event.target.id === "dashboard") {
+            router.push('/dashboard')
+        }
+    }
+
+    const chooseBulkEdit = () => {
+        setBulkEdit(prevBulkEdit => !prevBulkEdit);
+    };
+
+    const chooseChangeMonth = () => {
+        setChangeMonth(prevChangeMonth => !prevChangeMonth);
+    };
 
     useEffect(() => {
         const today = new Date();
@@ -143,13 +161,29 @@ export default function Expenses() {
     return (
         <section>
             <header className="text-center">
-                <h1 className="text-xl">Expenses Page</h1>
-                <h1>{fullDate}</h1>
-                <div>
-                    <p>Change Month: </p>
-                    {/* <input type="month" name="date" value={`${selectedYear}-${selectedMonth}`} onChange={(event) => setMonthYear(event)} /> */}
-                    <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <h1 className="text-xl">Expenses</h1>
+                    <img
+                        id="dashboard"
+                        src="./back-button.png"
+                        alt="Home Button"
+                        style={{ width: "15px", height: "15px", marginLeft: "10px" }}
+                        onClick={(event) => navigate(event)}
+                    />
                 </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
+                    <button onClick={chooseChangeMonth}>
+                        <img src="./left-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
+                    </button>
+                    <h1>{fullDate}</h1>
+                    <button onClick={chooseChangeMonth}>
+                        <img src="./right-button.png" alt="Change Arrow Icon" style={{ width: "18px", height: "auto", margin: "5px" }} />
+                    </button>
+                </div>
+                {
+                    changeMonth &&
+                    <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
+                }
             </header>
             <AddExpense
                 addModalVisibility={addModalVisibility}
@@ -170,59 +204,88 @@ export default function Expenses() {
                 fetchExpense={fetchExpense}
             />
             <div id="income">
-                <div className="w-full flex justify-between items-center">
-                    <h3 onClick={openAddModal} className="cursor-pointer">Expenses: </h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openAddModal} className="cursor-pointer">
+                <div id="expense-income-nav" className="w-full flex justify-end items-center" style={{ paddingRight: "4%" }} >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="auto" fill="currentColor" viewBox="0 0 16 16" onClick={openAddModal} className="cursor-pointer">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                     </svg>
-                    <button onClick={openBulkEditModal}>Bulk Edit</button>
+                    {
+                        !bulkEdit &&
+                        <button onClick={chooseBulkEdit}>
+                            <img src="./add-multiple.png" alt="Bulk Edit Button" style={{ width: "25px", height: "auto", margin: "5px" }} />
+                        </button>
+                    }
+                    {
+                        bulkEdit &&
+                        <button onClick={openBulkEditModal}>
+                            <img src="./check-box.png" alt="Bulk Edit Button" style={{ width: "22px", height: "auto", margin: "5px" }} />
+                        </button>
+                    }
                 </div>
-                {expenseData.length > 0 ? (
-                    <>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Select</th>
-                                    <th>Category</th>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Amount</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {expenseData.map((expense, index) => (
-                                    <tr key={index}>
-                                        <td>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedExpenses.includes(expense.id)}
-                                                onChange={() => handleSelectExpense(expense.id)}
-                                            />
-                                        </td>
-                                        <td>{getCategoryName(expense.category_id)}</td>
-                                        <td>{formatDate(expense.date)}</td>
-                                        <td>{expense.description}</td>
-                                        <td>${expense.amount}</td>
-                                        <td>
-                                            <button onClick={(event) => openEditModal(event)} id={expense.id}>
-                                                e
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onClick={() => deleteExpense(expense.id)}>
-                                                x
-                                            </button>
-                                        </td>
+                <div id="expense-income-table">
+                    {expenseData.length > 0 ? (
+                        <>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        {bulkEdit && <th>Select</th>}
+                                        <th>Category</th>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </>
-                ) : (
-                    <p>No expense data.</p>
-                )}
+                                </thead>
+                                <tbody>
+                                    {expenseData.map((expense, index) => (
+                                        <tr key={index}>
+                                            {
+                                                bulkEdit &&
+                                                <td>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedExpenses.includes(expense.id)}
+                                                        onChange={() => handleSelectExpense(expense.id)}
+                                                    />
+                                                </td>
+                                            }
+                                            <td onClick={(event) => openEditModal(event)} id={expense.id}>
+                                                {getCategoryName(expense.category_id)}
+                                            </td>
+                                            <td onClick={(event) => openEditModal(event)} id={expense.id}>
+                                                {formatDate(expense.date)}
+                                            </td>
+                                            <td onClick={(event) => openEditModal(event)} id={expense.id}>
+                                                {expense.description}
+                                            </td>
+                                            <td onClick={(event) => openEditModal(event)} id={expense.id}>
+                                                ${expense.amount}
+                                            </td>
+                                            <td>
+                                                <button onClick={(event) => openEditModal(event)} id={expense.id}>
+                                                    <img
+                                                        src="./edit-button.png"
+                                                        alt="Edit Button"
+                                                        style={{ width: "18px", height: "auto" }}
+                                                    />
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button onClick={() => deleteExpense(expense.id)}>
+                                                    <img
+                                                        src="./trash-button.png"
+                                                        alt="Delete Button"
+                                                        style={{ width: "18px", height: "auto" }}
+                                                    />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </>
+                    ) : (
+                        <p>No expense data.</p>
+                    )}
+                </div>
             </div>
         </section>
     );

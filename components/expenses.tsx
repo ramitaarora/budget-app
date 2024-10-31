@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import AddExpense from './add-expense';
 import EditExpense from './edit-expense-dashboard';
 
@@ -13,6 +14,13 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
     const [addModalVisibility, setAddModalVisibility] = useState<string>('hidden');
     const [editModalVisibility, setEditModalVisibility] = useState<string>('hidden');
     const [editID, setEditID] = useState<number>();
+    const router = useRouter();
+
+    const navigate = async (event:any) => {
+        if (event.target.id === "expenses-page") {
+            router.push('/expenses')
+        }
+    }
 
     const fetchExpense = async () => {
         try {
@@ -77,7 +85,10 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
             <AddExpense addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} fetchExpense={fetchExpense} month={month} year={year} />
             <EditExpense editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} editID={editID} fetchExpense={fetchExpense} month={month} year={year} />
             <div className="card-header">
-                <h2>Latest Expenses</h2>
+                <div>
+                    <h1 id="expenses-page" onClick={(event) => navigate(event)}>Expenses</h1>
+                    <h2>Latest:</h2>
+                </div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openAddModal}>
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                 </svg>
