@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import HomepageHeader from '../components/homepage-header';
+import Footer from '../components/footer';
 import { Exo_2 } from 'next/font/google';
 const exo_2 = Exo_2({
     weight: '800',
@@ -59,9 +60,7 @@ export default function Home() {
                 </div>
 
             </main>
-            <footer>
-                <p className="bg-sky-700 text-white w-full text-center p-4">© 2024 The Budget App</p>
-            </footer>
+        <Footer />
         </div>
     )
 }

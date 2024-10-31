@@ -14,13 +14,17 @@ export default function HomepageHeader() {
     }
 
     const signupPage = () => {
-        router.push('/signup')
+        router.push('/signup');
+    }
+
+    const home = () => {
+        router.push('/');
     }
 
     return (
         <header className="bg-sky-700 text-white w-full flex justify-between items-center p-6">
-            <div className={exo_2.className}>
-                <h1 className="text-2xl">The Budget Dashboard</h1>
+            <div className={exo_2.className} onClick={home}>
+                <h1 className="text-2xl cursor-pointer">The Budget Dashboard</h1>
             </div>
 
             <div className="w-3/4 flex justify-evenly items-center">
