@@ -159,7 +159,7 @@ export default function Expenses() {
     };
 
     return (
-        <section>
+        <section className="fade-in">
             <header className="text-center">
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1 className="text-xl">Expenses</h1>

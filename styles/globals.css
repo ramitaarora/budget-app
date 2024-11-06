@@ -2,9 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-.homepage-hover:hover {
-  position: relative;
-  top: -5px;
+.fade-in {
+  animation: fadeInAnimation ease 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 #categories,
@@ -372,11 +383,13 @@ nav ul {
   width: 100%;
 }
 
-#expense-income-table th, #expense-income-table td {
+#expense-income-table th,
+#expense-income-table td {
   padding: 5px;
   text-align: left;
 }
 
-#expense-income-nav svg, #expense-income-nav button {
+#expense-income-nav svg,
+#expense-income-nav button {
   margin: 10px;
 }

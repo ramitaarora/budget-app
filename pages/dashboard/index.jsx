@@ -75,16 +75,16 @@ export default function Dashboard() {
                     </header>
                     <main className="h-screen">
                         <div className="flex w-screen h-1/2 flex-wrap justify-center items-center">
-                            <div className="w-1/2 flex justify-center items-center">
+                            <div className="w-1/2 flex justify-center items-center fade-in">
                                 <Categories month={selectedMonth} year={selectedYear} />
                             </div>
-                            <div className="w-1/2 flex justify-center items-center">
+                            <div className="w-1/2 flex justify-center items-center fade-in">
                                 <SpendingChart month={selectedMonth} year={selectedYear} />
                             </div>
                         </div>
 
                         <div className="flex h-1/2 w-screen flex-wrap justify-center items-center">
-                            <div className="w-1/2 h-full flex flex-col items-center justify-center">
+                            <div className="w-1/2 h-full flex flex-col items-center justify-center fade-in">
                                 <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
                             </div>
                             
