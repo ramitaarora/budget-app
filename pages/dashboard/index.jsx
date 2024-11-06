@@ -57,7 +57,7 @@ export default function Dashboard() {
             <DashboardNav setUserModal={setUserModal} />
             {selectedMonth && selectedYear && (
                 <div>
-                    <header className="text-center">
+                    <header className="text-center fade-in">
                         <h1 className="text-xl">Your Budget</h1>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                             <button onClick={chooseChangeMonth}>

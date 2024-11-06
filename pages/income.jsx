@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AddIncome from '../components/add-income';
 import EditIncome from '../components/edit-income';
+import DashboardNav from '../components/dashboard-nav';
 
 export default function Income() {
     const [fullDate, setFullDate] = useState();
@@ -113,6 +114,7 @@ export default function Income() {
 
     return (
         <section className="fade-in">
+            <DashboardNav />
             <header className="text-center">
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1 className="text-xl">Income</h1>

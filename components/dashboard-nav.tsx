@@ -8,16 +8,20 @@ export default function DashboardNav( { setUserModal }:DashboardNavProps) {
     const router = useRouter();
     
     const navigate = async (event:any) => {
+        if (event.target.id === "dashboard") {
+            router.push('/dashboard');
+        }
+
         if (event.target.id === "add-user") {
             setUserModal('visible');
         }
 
         if (event.target.id === "income-page") {
-            router.push('/income')
+            router.push('/income');
         }
 
         if (event.target.id === "expenses-page") {
-            router.push('/expenses')
+            router.push('/expenses');
         }
 
         if (event.target.id === "logout") {
@@ -40,9 +44,10 @@ export default function DashboardNav( { setUserModal }:DashboardNavProps) {
     return (
         <nav>
             <ul>
+                {window.location.pathname === '/dashboard' ? null : <li id="dashboard" onClick={(event) => navigate(event)}>Dashboard</li> }
+                {window.location.pathname === '/dashboard' ? <li id="add-user" onClick={(event) => navigate(event)}>Add Additional User</li> : null }
                 <li id="income-page" onClick={(event) => navigate(event)}>Income</li>
                 <li id="expenses-page" onClick={(event) => navigate(event)}>Expenses</li>
-                <li id="add-user" onClick={(event) => navigate(event)}>Add Additional User</li>
                 <li id="logout" onClick={(event) => navigate(event)}>Logout</li>
             </ul>
         </nav>

@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import AddExpense from '../components/add-expense';
 import EditExpense from '../components/edit-expense';
 import BulkEditExpenses from '../components/bulk-edit-expenses';
+import DashboardNav from '../components/dashboard-nav';
 
 export default function Expenses() {
     const [fullDate, setFullDate] = useState();
@@ -160,6 +161,7 @@ export default function Expenses() {
 
     return (
         <section className="fade-in">
+            <DashboardNav />
             <header className="text-center">
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <h1 className="text-xl">Expenses</h1>
