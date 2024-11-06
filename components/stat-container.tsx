@@ -87,7 +87,7 @@ export default function StatContainer({ month, year }: BudgetProps) {
             <StatCurrent />
             <StatBudget />
             <StatIncome incomeData={incomeData} setIncomeData={setIncomeData} fetchIncome={fetchIncome} />
-            <StatSavings />
+            <StatSavings budgetData={budgetData} setBudgetData={setBudgetData} fetchBudget={fetchBudget} />
         </div>
     )
 }
