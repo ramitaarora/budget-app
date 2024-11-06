@@ -2,13 +2,13 @@ import Budget from '../../components/budget';
 import Categories from '../../components/categories';
 import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
-import Stat from '../../components/stat';
 import Chat from '../../components/chat';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
 import AddUser from '../../components/add-user';
 import DashboardNav from '../../components/dashboard-nav';
 import Footer from '../../components/footer';
+import StatContainer from '../../components/stat-container';
 
 export async function getServerSideProps(context) {
     return authenticate(context.req)
@@ -87,14 +87,8 @@ export default function Dashboard() {
                             <div className="w-1/2 h-full flex flex-col items-center justify-center">
                                 <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
                             </div>
-
-                            <div className="w-1/2 h-full flex flex-wrap justify-center items-center">
-                                <Stat />
-                                <Stat />
-                                <Stat />
-                                <Stat />
-                            </div>
-
+                            
+                            <StatContainer month={selectedMonth} year={selectedYear}/>
                         </div>
 
 
