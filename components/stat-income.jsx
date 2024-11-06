@@ -16,7 +16,7 @@ export default function StatIncome( { incomeData, setIncomeData, fetchIncome }) 
     return (
         <div className="stat">
             <AddIncome incomeVisibility={incomeVisibility} setIncomeVisibility={setIncomeVisibility} fetchIncome={fetchIncome} />
-            <div className="h-full flex flex-col justify-between">
+            <div className="h-full flex flex-col">
                 <div className="w-full flex justify-between items-center">
                     <h3 onClick={openIncomeModal} className="cursor-pointer">You have made</h3>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" onClick={openIncomeModal} className="cursor-pointer">
@@ -28,7 +28,6 @@ export default function StatIncome( { incomeData, setIncomeData, fetchIncome }) 
                 ) : (
                     <p>$0</p>
                 )}
-                <p className="self-end">this month</p>
             </div>
         </div>
     )

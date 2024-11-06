@@ -13,7 +13,6 @@ export default function StatContainer({ month, year }: BudgetProps) {
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [budgetData, setBudgetData] = useState<any[]>([]);
     const [incomeData, setIncomeData] = useState<any[]>([]);
-    const [totalExpenses, setTotalExpenses] = useState<number>(0);
 
     const fetchExpenses = async () => {
         try {
@@ -78,14 +77,10 @@ export default function StatContainer({ month, year }: BudgetProps) {
         fetchIncome();
     }, [month, year]);
 
-    useEffect(() => {
-        setTotalExpenses(expensesData.reduce((acc, obj) => acc + Number(obj.amount), 0));
-    }, [expensesData]);
-
     return (
         <div className="w-1/2 h-full flex flex-wrap justify-center items-center">
             <StatCurrent />
-            <StatBudget />
+            <StatBudget budgetData={budgetData} setBudgetData={setBudgetData} expensesData={expensesData} fetchBudget={fetchBudget} />
             <StatIncome incomeData={incomeData} setIncomeData={setIncomeData} fetchIncome={fetchIncome} />
             <StatSavings budgetData={budgetData} setBudgetData={setBudgetData} fetchBudget={fetchBudget} />
         </div>
