@@ -23,7 +23,7 @@ export default function StatBudget({ budgetData, setBudgetData, expensesData, fe
         <div className="stat">
             <AddBudget addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} fetchBudget={fetchBudget} />
             <EditBudget editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} budgetData={budgetData} fetchBudget={fetchBudget} />
-            <div className="h-full flex flex-col">
+            <div className="h-full flex flex-col justify-between">
                 <div className="w-full flex justify-between items-center">
                     <h3>Your budget</h3>
                     {budgetData.length ? (
@@ -42,6 +42,8 @@ export default function StatBudget({ budgetData, setBudgetData, expensesData, fe
                 ) : (
                     <p>$0</p>
                 )}
+
+                <p className="self-end">this month</p>
             </div>
         </div>
     )
