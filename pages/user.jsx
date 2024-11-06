@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 export default function User() {
     const [userData, setUserData] = useState(null);
+    const [accountData, setAccountData] = useState(null);
     const [formState, setFormState] = useState({
         first_name: '',
         last_name: '',
@@ -51,6 +52,34 @@ export default function User() {
             });
         }
     }, [userData]);
+
+    const fetchAccountUsers = async () => {
+        try {
+            const res = await fetch(`/api/account`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            if (!res.ok) {
+                throw new Error('Failed to fetch account data');
+            }
+
+            const fetchedAccountData = await res.json();
+            setAccountData(fetchedAccountData);
+        } catch (err) {
+            console.error('Error fetching acount data:', err);
+        }
+    };
+
+    useEffect(() => {
+        fetchAccountUsers();
+    }, []);
+
+    useEffect(() => {
+        console.log(accountData);
+    }, [accountData]);
 
     const toggleNewUserForm = () => {
         setShowNewUserForm((prev) => {
@@ -151,7 +180,6 @@ export default function User() {
                                 className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                             />
                         </div>
-
                         <div className="flex flex-col">
                             <label className="mb-1 text-gray-700">Last Name: </label>
                             <input
@@ -162,7 +190,6 @@ export default function User() {
                                 className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                             />
                         </div>
-
                         <div className="flex flex-col">
                             <label className="mb-1 text-gray-700">Email: </label>
                             <input
@@ -173,7 +200,6 @@ export default function User() {
                                 className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                             />
                         </div>
-
                         <div className="flex flex-col">
                             <label className="mb-1 text-gray-700">Location: </label>
                             <input
@@ -184,21 +210,30 @@ export default function User() {
                                 className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                             />
                         </div>
-
-                        <button type="submit" className="w-full mt-4 bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+                        <button type="submit" className="w-full mt-4 text-black py-2 rounded hover:bg-blue-400">
                             Save
                         </button>
+                        {accountData && accountData.accountInfo && (
+                            <div className="mt-6">
+                                <h3 className="text-xl font-semibold mb-2">Account Users</h3>
+                                <ul className="space-y-2">
+                                    {accountData.accountInfo.map((user, index) => (
+                                        <li key={index} className="flex flex-col">
+                                            <span>{user.first_name} {user.last_name}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
                 </form>
             </div>
-
             <button
                 onClick={toggleNewUserForm}
-                className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+                className="text-black py-2 px-4 rounded hover:bg-green-400"
             >
                 {showNewUserForm ? "Cancel" : "Add User to Account"}
             </button>
-
             {showNewUserForm && (
                 <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md mt-4">
                     <h2 className="text-xl font-semibold mb-4 text-center">Add New User</h2>
@@ -214,7 +249,6 @@ export default function User() {
                                     className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                                 />
                             </div>
-
                             <div className="flex flex-col">
                                 <label className="mb-1 text-gray-700">Last Name: </label>
                                 <input
@@ -225,7 +259,6 @@ export default function User() {
                                     className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                                 />
                             </div>
-
                             <div className="flex flex-col">
                                 <label className="mb-1 text-gray-700">Email: </label>
                                 <input
@@ -236,7 +269,6 @@ export default function User() {
                                     className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                                 />
                             </div>
-
                             <div className="flex flex-col">
                                 <label className="mb-1 text-gray-700">Location: </label>
                                 <input
@@ -247,7 +279,6 @@ export default function User() {
                                     className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                                 />
                             </div>
-
                             <div className="flex flex-col">
                                 <label className="mb-1 text-gray-700">Password: </label>
                                 <input
@@ -258,8 +289,7 @@ export default function User() {
                                     className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                                 />
                             </div>
-
-                            <button type="submit" className="w-full mt-4 bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+                            <button type="submit" className="w-full mt-4 text-black py-2 rounded hover:bg-blue-400">
                                 Add User
                             </button>
                         </div>
