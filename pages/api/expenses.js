@@ -130,7 +130,6 @@ export async function updateExpense(req, res) {
     }
 }
 
-
 export async function deleteExpense(req, res) {
     try {
         const { id } = req.query;
