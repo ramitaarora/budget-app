@@ -155,7 +155,7 @@ export default function SpendingChart({ month, year }: SpendingChartProps) {
                     <div id="chart" className="overflow-hidden">
                         <Chart
                             chartType="PieChart"
-                            width="350px"
+                            width="500px"
                             height="300px"
                             data={[
                                 [data.columns[0].label, data.columns[1].label],

@@ -24,7 +24,7 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
 
     const fetchExpense = async () => {
         try {
-            const res = await fetch(`/api/expenses?month=${month}&year=${year}&limit=12`, {
+            const res = await fetch(`/api/expenses?month=${month}&year=${year}&limit=10`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

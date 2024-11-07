@@ -8,6 +8,10 @@ export default function DashboardNav( { setUserModal }:DashboardNavProps) {
     const router = useRouter();
     
     const navigate = async (event:any) => {
+        if (event.target.id === "dashboard") {
+            router.push('/dashboard');
+        }
+
         if (event.target.id === "user-page") {
             router.push('/user');
         }
@@ -40,6 +44,8 @@ export default function DashboardNav( { setUserModal }:DashboardNavProps) {
     return (
         <nav>
             <ul>
+                {window.location.pathname === '/dashboard' ? null : <li id="dashboard" onClick={(event) => navigate(event)}>Dashboard</li> }
+                {window.location.pathname === '/dashboard' ? <li id="add-user" onClick={(event) => navigate(event)}>Add Additional User</li> : null }
                 <li id="income-page" onClick={(event) => navigate(event)}>Income</li>
                 <li id="expenses-page" onClick={(event) => navigate(event)}>Expenses</li>
                 <li id="user-page" onClick={(event) => navigate(event)}>Account</li>

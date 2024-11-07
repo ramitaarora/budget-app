@@ -77,7 +77,7 @@ export default function Login() {
     return (
         <>
         <HomepageHeader />
-        <main className="h-screen flex flex-col items-center justify-center">
+        <main className="h-screen flex flex-col items-center justify-center fade-in">
             <form id="login-form" onSubmit={handleFormSubmit} className="w-1/2 border border-zinc-500 rounded-md p-5 flex flex-col items-center justify-center shadow-md">
                 <p className="text-center text-xl">Log In</p>
                 <div className="user-form">
@@ -98,7 +98,7 @@ export default function Login() {
                 </div>
                 <button type="submit" className="user-submit">Submit</button>
             </form>
-            <button onClick={demoLogin}>Login to Demo Dashboard</button>
+            <button onClick={demoLogin} className="p-3 border rounded-md m-3 hover:border-black">Login to Demo Dashboard</button>
         </main>
         <Footer />
         </>

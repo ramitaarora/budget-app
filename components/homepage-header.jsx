@@ -23,19 +23,19 @@ export default function HomepageHeader() {
 
     return (
         <header className="bg-sky-700 text-white w-full flex justify-between items-center p-6">
-            <div className={exo_2.className} onClick={home}>
-                <h1 className="text-2xl cursor-pointer">The Budget Dashboard</h1>
+            <div className="w-1/4">
+                <div className={exo_2.className} onClick={home}>
+                    <h1 className="text-2xl cursor-pointer">The Budget Dashboard</h1>
+                </div>
             </div>
 
-            <div className="w-3/4 flex justify-evenly items-center">
                 <div className="w-1/2">
-                    <a href="https://github.com/ramitaarora/budget-app" target="_blank"><img src="./github.svg" alt="github" className="m-auto cursor-pointer homepage-hover"/></a>
+                    <a href="https://github.com/ramitaarora/budget-app" target="_blank"><img src="./github.svg" alt="github" className="m-auto cursor-pointer" /></a>
                 </div>
-                <ul className="w-1/4 flex justify-evenly items-center">
+                <ul className="w-1/4 flex flex-wrap justify-evenly items-center">
                     <li><button onClick={loginPage} className="border rounded px-3 hover:bg-sky-800">Login</button></li>
                     <li><button onClick={signupPage} className="border rounded px-3 hover:bg-sky-800">Sign Up</button></li>
                 </ul>
-            </div>
         </header>
     )
 }

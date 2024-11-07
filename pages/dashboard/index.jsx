@@ -2,13 +2,13 @@ import Budget from '../../components/budget';
 import Categories from '../../components/categories';
 import Expenses from '../../components/expenses';
 import SpendingChart from '../../components/spending-chart';
-import Stat from '../../components/stat';
 import Chat from '../../components/chat';
 import { authenticate } from '../../middleware/auth';
 import { useEffect, useState } from 'react';
 import AddUser from '../../components/add-user';
 import DashboardNav from '../../components/dashboard-nav';
 import Footer from '../../components/footer';
+import StatContainer from '../../components/stat-container';
 
 export async function getServerSideProps(context) {
     return authenticate(context.req)
@@ -57,7 +57,7 @@ export default function Dashboard() {
             <DashboardNav setUserModal={setUserModal} />
             {selectedMonth && selectedYear && (
                 <div>
-                    <header className="text-center">
+                    <header className="text-center fade-in">
                         <h1 className="text-xl">Your Budget</h1>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", }}>
                             <button onClick={chooseChangeMonth}>
@@ -75,26 +75,20 @@ export default function Dashboard() {
                     </header>
                     <main className="h-screen">
                         <div className="flex w-screen h-1/2 flex-wrap justify-center items-center">
-                            <div className="w-1/2 flex justify-center items-center">
+                            <div className="w-1/2 flex justify-center items-center fade-in">
                                 <Categories month={selectedMonth} year={selectedYear} />
                             </div>
-                            <div className="w-1/2 flex justify-center items-center">
+                            <div className="w-1/2 flex justify-center items-center fade-in">
                                 <SpendingChart month={selectedMonth} year={selectedYear} />
                             </div>
                         </div>
 
                         <div className="flex h-1/2 w-screen flex-wrap justify-center items-center">
-                            <div className="w-1/2 h-full flex flex-col items-center justify-center">
+                            <div className="w-1/2 h-full flex flex-col items-center justify-center fade-in">
                                 <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
                             </div>
-
-                            <div className="w-1/2 h-full flex flex-wrap justify-center items-center">
-                                <Stat />
-                                <Stat />
-                                <Stat />
-                                <Stat />
-                            </div>
-
+                            
+                            <StatContainer month={selectedMonth} year={selectedYear}/>
                         </div>
 
 
