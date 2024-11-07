@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import DashboardNav from '../components/dashboard-nav';
 
 export default function User() {
     const [userData, setUserData] = useState(null);
@@ -166,7 +167,9 @@ export default function User() {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center h-screen w-full bg-gray-100">
+        <div>
+        <DashboardNav />
+        <div className="flex flex-col justify-center items-center w-full bg-gray-100 fade-in">
             <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md mb-4">
                 <h2 className="text-2xl font-semibold mb-6 text-center">Account Info</h2>
                 {
@@ -271,7 +274,7 @@ export default function User() {
                 {showNewUserForm ? "Cancel" : "Add User to Account"}
             </button>
             {showNewUserForm && (
-                <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md mt-4">
+                <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md mt-4 fade-in">
                     <h2 className="text-xl font-semibold mb-4 text-center">Add New User</h2>
                     <form onSubmit={submitNewUserForm}>
                         <div className="space-y-4">
@@ -332,6 +335,7 @@ export default function User() {
                     </form>
                 </div>
             )}
+        </div>
         </div>
     );
 }
