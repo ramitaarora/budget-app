@@ -79,12 +79,16 @@ export default function Chat({ month, year }) {
             prompt: "Please analyze my spending habits based on this data of my expenses this month. Suggest ways that I can save and better spend my money. Don't re-list my expenses in your response; I have this data available to me already. If no data is provided here, please let me know that there is no data to work. Let me know that I need to select a month that contains saved expenses.",
             fetch: "Expenses"
         },
-        // {
-        //     id: 2,
-        //     text: "Analyze Spending Habits",
-        //     prompt: "Please analyze my spending habits based on this data of my expenses this month. Suggest ways that I can save and better spend my money. Don't re-list my expenses in your response; I have this data available to me already. If no data is provided here, please let me know that there is no data to work. Let me know that I need to select a month that contains saved expenses.",
-        //     fetch: "Expenses"
-        // }
+        {
+            id: 2,
+            text: "Help Me Set Financial Goals",
+            prompt: "Based on my current financial situation, please help me set achievable short-term and long-term financial goals. Offer specific suggestions for goals I can focus on, like emergency funds, debt repayment, or savings for specific life events. Please don't just generalize but tailor the advice based on the usual income and expenses that users might have."
+        },
+        {
+            id: 3,
+            text: "Optimize My Budget",
+            prompt: "Given my income and expenses, please suggest ways to optimize my budget. Focus on areas where I might be overspending and propose actionable strategies to help me maximize savings. Consider both necessary and discretionary expenses, and aim to provide practical tips to balance my spending."
+        }
     ];
 
     const fetchExpenses = async () => {
@@ -111,9 +115,12 @@ export default function Chat({ month, year }) {
         const prompt = option.prompt;
 
         let data;
-        switch (option.fetch) {
-            case 'Expenses':
-                data = await fetchExpenses();
+
+        if (option.fetch) {
+            switch (option.fetch) {
+                case 'Expenses':
+                    data = await fetchExpenses();
+            }
         }
 
         const input = prompt + 'Data: ' + JSON.stringify(data);
