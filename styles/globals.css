@@ -32,6 +32,16 @@
   height: 45vh;
 }
 
+@media only screen and (max-width: 1000px) {
+
+  #categories,
+  #budget,
+  #expenses,
+  #spending-chart {
+    width: 100vw;
+  }
+}
+
 .stat {
   width: 22vw;
   border: 1px solid lightgrey;

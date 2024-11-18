@@ -78,7 +78,7 @@ export default function StatContainer({ month, year }: BudgetProps) {
     }, [month, year]);
 
     return (
-        <div className="w-1/2 h-full flex flex-wrap justify-center items-center fade-in">
+        <div className="lg:w-1/2 md:w-screen lg:h-1/2 md:h-auto flex flex-wrap justify-center items-center fade-in">
             <StatCurrent budgetData={budgetData} setBudgetData={setBudgetData} expensesData={expensesData} />
             <StatBudget budgetData={budgetData} setBudgetData={setBudgetData} expensesData={expensesData} fetchBudget={fetchBudget} />
             <StatIncome incomeData={incomeData} setIncomeData={setIncomeData} fetchIncome={fetchIncome} />

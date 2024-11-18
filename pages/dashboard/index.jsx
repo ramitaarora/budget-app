@@ -73,18 +73,18 @@ export default function Dashboard() {
                             <input type="month" name="date" onChange={(event) => setMonthYear(event)} />
                         }
                     </header>
-                    <main className="h-screen">
-                        <div className="flex w-screen h-1/2 flex-wrap justify-center items-center">
-                            <div className="w-1/2 flex justify-center items-center fade-in">
+                    <main className="">
+                        <div className="flex w-screen flex-wrap justify-center items-center">
+                            <div className="lg:w-1/2 md:w-full lg:h-1/2 sm:h-auto flex justify-center items-center fade-in">
                                 <Categories month={selectedMonth} year={selectedYear} />
                             </div>
-                            <div className="w-1/2 flex justify-center items-center fade-in">
+                            <div className="lg:w-1/2 md:w-full lg:h-1/2 sm:h-auto flex justify-center items-center fade-in">
                                 <SpendingChart month={selectedMonth} year={selectedYear} />
                             </div>
                         </div>
 
-                        <div className="flex h-1/2 w-screen flex-wrap justify-center items-center">
-                            <div className="w-1/2 h-full flex flex-col items-center justify-center fade-in">
+                        <div className="flex w-screen flex-wrap justify-center items-center">
+                            <div className="lg:w-1/2 md:w-full lg:h-1/2 sm:h-auto flex flex-col items-center justify-center fade-in">
                                 <Expenses month={selectedMonth} year={selectedYear} timezone={timezone} />
                             </div>
                             
