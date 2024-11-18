@@ -18,6 +18,10 @@
   }
 }
 
+#dashboard-image {
+  height: 500px;
+}
+
 #categories,
 #budget,
 #expenses,

@@ -18,13 +18,13 @@ export default function Home() {
 
             <main>
 
-                <div className="w-full flex justify-evenly items-center m-3 p-6 m-auto relative top-14 max-sm:flex-col">
+                <div className="w-full flex justify-evenly items-center m-3 p-6 m-auto relative top-16 max-sm:flex-col">
                     <div className="w-1/2 text-2xl text-right p-6 max-sm:w-full max-sm:m-auto max-sm:text-center">
                         <p className="text-xl">Try out</p>
                         <h2 className={exo_2.className}>The Budget Dashboard</h2>
                     </div>
                     <div className='w-1/2 max-sm:w-full'>
-                        <img src="./images/homepage/budget-dashboard-mobile.png" alt="budget-dashboard" className="h-96 border rounded-lg shadow-md fade-in max-sm:m-auto max-sm:h-auto"/>
+                        <img id="dashboard-image" src="./images/homepage/budget-dashboard-mobile.png" alt="budget-dashboard" className="p-2 bg-white border rounded-lg shadow-md fade-in max-sm:m-auto max-sm:h-auto"/>
                     </div>
                 </div>
 
