@@ -34,7 +34,7 @@ export default function HomepageHeader() {
                 </div>
                 <ul className="w-1/4 flex flex-wrap justify-evenly items-center">
                     <li><button onClick={loginPage} className="border rounded px-3 hover:bg-sky-800">Login</button></li>
-                    <li><button onClick={signupPage} className="border rounded px-3 hover:bg-sky-800">Sign Up</button></li>
+                    <li><button onClick={signupPage} className="border rounded px-3 hover:bg-sky-800 max-sm:my-2">Sign Up</button></li>
                 </ul>
         </header>
     )
