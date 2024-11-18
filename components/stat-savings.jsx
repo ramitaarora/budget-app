@@ -20,7 +20,7 @@ export default function StatSavings({ budgetData, setBudgetData, fetchBudget }) 
             <EditBudget editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} budgetData={budgetData} fetchBudget={fetchBudget} />
             <div className="h-full flex flex-col justify-between">
                 <div className="w-full flex justify-between items-center">
-                    <h3>Your savings goal</h3>
+                    <h3 className="max-sm:text-sm">Your savings goal</h3>
                     {budgetData.length ? (
                         <img src="./edit.svg" alt="edit" onClick={openEditModal} />
                     ) : (
@@ -31,12 +31,12 @@ export default function StatSavings({ budgetData, setBudgetData, fetchBudget }) 
                 </div>
 
                 {budgetData.length ? (
-                    <p className="text-6xl self-center">${budgetData[0]?.savings_goal}</p>
+                    <p className="text-6xl self-center max-sm:text-4xl">${budgetData[0]?.savings_goal}</p>
                 ) : (
                     <p>$0</p>
                 )}
 
-                <p className="self-end">this month</p>
+                <p className="self-end max-sm:text-sm">this month</p>
             </div>
         </div>
     )
