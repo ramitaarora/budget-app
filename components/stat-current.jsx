@@ -22,17 +22,17 @@ export default function StatCurrent({ budgetData, setBudgetData, expensesData })
     return (
         <div className="stat">
             <div className="h-full flex flex-col justify-between">
-                <h3>Your are</h3>
+                <h3 className="max-sm:text-sm">Your are</h3>
 
                 {budgetData.length ? (
-                    <p className="text-6xl self-center" style={{ color: totalExpenses > budgetData[0]?.amount ? 'red' : 'black' }}>
+                    <p className="text-6xl self-center max-sm:text-4xl" style={{ color: totalExpenses > budgetData[0]?.amount ? 'red' : 'black' }}>
                         ${stat}
                     </p>
                 ) : (
                     <p>${stat}</p>
                 )}
 
-                <p className="self-end">{totalExpenses > budgetData[0]?.amount ? "over" : "under"} budget</p>
+                <p className="self-end max-sm:text-sm">{totalExpenses > budgetData[0]?.amount ? "over" : "under"} budget</p>
             </div>
         </div>
     )

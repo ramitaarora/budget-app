@@ -44,8 +44,8 @@ export default function Signup() {
     return (
         <>
         <HomepageHeader />
-        <main className="h-screen flex flex-col items-center justify-center fade-in">
-            <form onSubmit={handleFormSubmit} className="w-1/2 border border-zinc-500 rounded-md p-5 flex flex-col items-center justify-center shadow-md">
+        <main className="h-screen flex flex-col items-center justify-center fade-in max-sm:justify-start">
+            <form onSubmit={handleFormSubmit} className="w-1/2 border border-zinc-500 rounded-md p-5 flex flex-col items-center justify-center shadow-md max-sm:w-full max-sm:border-none max-sm:shadow-none">
                 <p className="text-center text-xl">Create New Account</p>
                 <div className="user-form + flex-col">
                     <input

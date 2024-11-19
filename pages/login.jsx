@@ -52,33 +52,11 @@ export default function Login() {
         };
     };
 
-    const demoLogin = async () => {
-        try {
-            const response = await fetch('/api/login-demo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            if (response.ok) {
-                router.push('/dashboard');
-            } else if (!response.ok) {
-                setFormState({
-                    ...formState,
-                    password: ''
-                });
-                alert('Failed to login to demo. Please try again later.');
-            };
-        } catch(err) {
-            console.error(err)
-        }
-    }
-
     return (
         <>
         <HomepageHeader />
-        <main className="h-screen flex flex-col items-center justify-center fade-in">
-            <form id="login-form" onSubmit={handleFormSubmit} className="w-1/2 border border-zinc-500 rounded-md p-5 flex flex-col items-center justify-center shadow-md">
+        <main className="h-screen flex flex-col items-center justify-center fade-in max-sm:justify-start">
+            <form id="login-form" onSubmit={handleFormSubmit} className="w-1/2 border border-zinc-500 rounded-md p-5 flex flex-col items-center justify-center shadow-md max-sm:w-full max-sm:border-none max-sm:shadow-none">
                 <p className="text-center text-xl">Log In</p>
                 <div className="user-form">
                     <input
@@ -98,7 +76,6 @@ export default function Login() {
                 </div>
                 <button type="submit" className="user-submit">Submit</button>
             </form>
-            <button onClick={demoLogin} className="p-3 border rounded-md m-3 hover:border-black">Login to Demo Dashboard</button>
         </main>
         <Footer />
         </>

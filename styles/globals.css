@@ -18,6 +18,10 @@
   }
 }
 
+#dashboard-image {
+  height: 500px;
+}
+
 #categories,
 #budget,
 #expenses,
@@ -30,16 +34,6 @@
   box-shadow: 2px 2px 2px lightgrey;
   overflow: overlay;
   height: 45vh;
-}
-
-@media only screen and (max-width: 1000px) {
-
-  #categories,
-  #budget,
-  #expenses,
-  #spending-chart {
-    width: 100vw;
-  }
 }
 
 .stat {
@@ -402,4 +396,33 @@ nav ul {
 #expense-income-nav svg,
 #expense-income-nav button {
   margin: 10px;
+}
+
+/* Mobile Styling */
+
+@media only screen and (max-width: 1000px) {
+
+  #categories,
+  #budget,
+  #expenses,
+  #spending-chart {
+    width: 100vw;
+  }
+}
+
+@media only screen and (max-width: 786px) {
+  .stat {
+    width: 40vw;
+  }
+
+  nav ul {
+    justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .modal {
+    width: 100%;
+  }
+  
 }
