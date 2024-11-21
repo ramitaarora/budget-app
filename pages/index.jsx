@@ -35,9 +35,18 @@ export default function Home() {
                 <div className="text-center p-10">
                     <h3 className="text-xl">Track Your Spending</h3>
                     <div className="flex justify-evenly items-center flex-wrap p-5 max-sm:p-1">
-                        <img src="./images/homepage/budget.png" alt="budget" className="h-52 border rounded-lg shadow-md p-4 m-2 fade-in max-sm:h-full"/>
-                        <img src="./images/homepage/income.png" alt="income" className="h-52 border rounded-lg shadow-md p-4 m-2 fade-in max-sm:h-full" />
-                        <img src="./images/homepage/expenses.png" alt="expenses" className="h-52 border rounded-lg shadow-md p-4 m-2 fade-in max-sm:h-full"/>
+                        <div>
+                            <img src="./images/homepage/budget.svg" alt="budget" className="h-36 p-4 m-2 fade-in" />
+                            <p>Budget</p>
+                        </div>
+                        <div>
+                            <img src="./images/homepage/save-money.svg" alt="income" className="h-36 p-4 m-2 fade-in" />
+                            <p>Save</p>
+                        </div>
+                        <div>
+                            <img src="./images/homepage/graph.svg" alt="expenses" className="h-36 p-4 m-2 fade-in" />
+                            <p>Track</p>
+                        </div>
                     </div>
                 </div>
 
