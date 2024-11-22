@@ -387,6 +387,10 @@ nav ul {
   width: 100%;
 }
 
+#expense-income-table td {
+  cursor: pointer;
+}
+
 #expense-income-table th,
 #expense-income-table td {
   padding: 5px;

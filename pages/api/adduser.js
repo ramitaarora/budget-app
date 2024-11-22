@@ -29,7 +29,8 @@ export default async function addUser(req, res) {
                 email: email,
                 password: hashedPassword,
                 location: location,
-                account_id: accountID
+                account_id: accountID,
+                profile_picture: "/images/profile-pics/blank.png",
             });
 
             res.status(201).json({ message: 'User added successfully', userId: newUser.id });
