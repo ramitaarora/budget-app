@@ -49,6 +49,7 @@ export default function User() {
 
     useEffect(() => {
         if (userData) {
+            console.log(userData);
             setFormState({
                 first_name: userData.first_name || '',
                 last_name: userData.last_name || '',
@@ -197,10 +198,10 @@ export default function User() {
                     <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md mb-4">
                         <h2 className="text-2xl font-semibold mb-6 text-center">Account Info</h2>
                         <div className="space-y-4">
-                            <div className="flex w-full justify-center">
-                                {formState.profile_picture ? (
+                            {/* <div className="flex w-full justify-center">
+                                {userData.profile_picture ? (
                                     <img
-                                        src={formState.profile_picture}
+                                        src={userData.profile_picture}
                                         alt="Profile"
                                         className="w-24 h-24 rounded-full border"
                                     />
@@ -209,18 +210,18 @@ export default function User() {
                                         No Image
                                     </div>
                                 )}
-                            </div>
+                            </div> */}
                             <div className="flex flex-col">
                                 <label className="mb-1 text-gray-700">Name: </label>
-                                <label className="mb-1 text-gray-700">{formState.first_name} {formState.last_name}</label>
+                                <label className="mb-1 text-gray-700">{userData?.first_name} {userData?.last_name}</label>
                             </div>
                             <div className="flex flex-col">
                                 <label className="mb-1 text-gray-700">Email: </label>
-                                <label className="mb-1 text-gray-700">{formState.email}</label>
+                                <label className="mb-1 text-gray-700">{userData?.email}</label>
                             </div>
                             <div className="flex flex-col">
                                 <label className="mb-1 text-gray-700">Location: </label>
-                                <label className="mb-1 text-gray-700">{formState.location}</label>
+                                <label className="mb-1 text-gray-700">{userData?.location}</label>
                             </div>
                             {accountData && accountData.accountInfo && (
                                 <div className="mt-6">
@@ -234,9 +235,11 @@ export default function User() {
                                     </ul>
                                 </div>
                             )}
-                            <button onClick={() => setShowForm(true)} className="w-full mt-4 text-black py-2 rounded hover:bg-blue-400 hover:text-white">
-                                Edit
-                            </button>
+                            <div className="flex justify-center">
+                                <button onClick={() => setShowForm(true)} className="px-8 mt-4 text-black py-2 rounded hover:bg-blue-400 hover:text-white">
+                                    Edit
+                                </button>
+                            </div>
                         </div>
                     </div>
                 }
@@ -319,10 +322,10 @@ export default function User() {
                                     </div>
                                 )}
                                 <div className="flex flex-col items-center">
-                                    <button type="submit" className="text-black py-2 px-4 mt-4 rounded hover:bg-blue-400 hover:text-white">
+                                    <button type="submit" className="text-black py-2 w-[100px] mt-4 rounded hover:bg-blue-400 hover:text-white">
                                         Save
                                     </button>
-                                    <button onClick={() => setShowForm(false)} className="text-black py-2 px-4 mt-2 rounded hover:bg-red-400 hover:text-white">
+                                    <button onClick={() => setShowForm(false)} className="text-black py-2 w-[100px] mt-2 rounded hover:bg-red-400 hover:text-white">
                                         Cancel
                                     </button>
                                 </div>
@@ -330,12 +333,15 @@ export default function User() {
                         </form>
                     </div>
                 }
-                <button
-                    onClick={toggleNewUserForm}
-                    className="text-black py-2 px-4 rounded hover:bg-green-400 hover:text-white"
-                >
-                    {showNewUserForm ? null : "Add User to Account"}
-                </button>
+                {
+                    !showNewUserForm &&
+                    <button
+                        onClick={toggleNewUserForm}
+                        className="text-black py-2 px-4 rounded hover:bg-green-400 hover:text-white"
+                    >
+                        {showNewUserForm ? null : "Add User to Account"}
+                    </button>
+                }
                 {showNewUserForm && (
                     <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md mt-4 fade-in">
                         <h2 className="text-xl font-semibold mb-4 text-center">Add Additional User</h2>
@@ -391,19 +397,24 @@ export default function User() {
                                         className="border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-300"
                                     />
                                 </div>
-                                <button type="submit" className="w-full mt-4 text-black py-2 rounded hover:bg-blue-400 hover:text-white">
-                                    Add User
-                                </button>
+                                <div className="flex justify-center">
+                                    <button type="submit" className="w-[100px] mt-4 text-black py-2 rounded hover:bg-blue-400 hover:text-white">
+                                        Add User
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>
                 )}
-                <button
-                    onClick={toggleNewUserForm}
-                    className="text-black py-2 px-4 mt-4 rounded hover:bg-green-400 hover:text-white"
-                >
-                    {showNewUserForm ? "Cancel" : null}
-                </button>
+                {
+                    showNewUserForm &&
+                    <button
+                        onClick={toggleNewUserForm}
+                        className="text-black py-2 w-[100px] mt-4 rounded hover:bg-green-400 hover:text-white"
+                    >
+                        {showNewUserForm ? "Cancel" : null}
+                    </button>
+                }
             </div>
         </div>
     );
