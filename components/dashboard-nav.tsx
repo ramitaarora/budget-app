@@ -44,7 +44,7 @@ export default function DashboardNav( { setUserModal }:DashboardNavProps) {
     return (
         <nav>
             <ul>
-                {/* {typeof window !== "undefined" && window.location.pathname === '/dashboard' ? null : <li id="dashboard" onClick={(event) => navigate(event)}>Dashboard</li> } */}
+                {typeof window !== "undefined" && window.location.pathname === '/dashboard' ? null : <li id="dashboard" onClick={(event) => navigate(event)}>Dashboard</li> }
                 <li id="income-page" onClick={(event) => navigate(event)}>Income</li>
                 <li id="expenses-page" onClick={(event) => navigate(event)}>Expenses</li>
                 <li id="user-page" onClick={(event) => navigate(event)}>Account</li>
