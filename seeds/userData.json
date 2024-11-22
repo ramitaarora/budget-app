@@ -6,6 +6,7 @@
         "email": "test@example.com",
         "password": "password12345!",
         "location": "Glendale",
+        "profile_picture": "/images/profile-pics/blank.png",
         "account_id": 1
     }
 ]
