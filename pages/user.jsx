@@ -198,10 +198,10 @@ export default function User() {
                     <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md mb-4">
                         <h2 className="text-2xl font-semibold mb-6 text-center">Account Info</h2>
                         <div className="space-y-4">
-                            {/* <div className="flex w-full justify-center">
-                                {userData.profile_picture ? (
+                            <div className="flex w-full justify-center">
+                                {userData?.profile_picture ? (
                                     <img
-                                        src={userData.profile_picture}
+                                        src={userData?.profile_picture}
                                         alt="Profile"
                                         className="w-24 h-24 rounded-full border"
                                     />
@@ -210,7 +210,7 @@ export default function User() {
                                         No Image
                                     </div>
                                 )}
-                            </div> */}
+                            </div>
                             <div className="flex flex-col">
                                 <label className="mb-1 text-gray-700">Name: </label>
                                 <label className="mb-1 text-gray-700">{userData?.first_name} {userData?.last_name}</label>

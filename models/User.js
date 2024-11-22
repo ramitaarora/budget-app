@@ -65,10 +65,10 @@ User.init(
             },
             allowNull: true
         },
-        // profile_picture: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true
-        // }
+        profile_picture: {
+            type: DataTypes.STRING,
+            allowNull: true
+        }
     },
     {
         hooks: {
