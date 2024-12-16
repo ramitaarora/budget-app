@@ -47,7 +47,10 @@ export default function HomepageHeader() {
         <header className="bg-sky-700 text-white w-full flex justify-between items-center p-6">
             <div className="w-1/3">
                 <div className={exo_2.className} onClick={home}>
-                    <h1 className="text-2xl cursor-pointer">The Budget Dashboard</h1>
+                    <div className="flex items-center flex-wrap">
+                        <img src="./images/logo.svg" alt="logo" className="h-16 cursor-pointer mr-2" />
+                        <h1 className="text-2xl cursor-pointer max-sm:hidden">The Budget Dashboard</h1>
+                    </div>
                 </div>
             </div>
 

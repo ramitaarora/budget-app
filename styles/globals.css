@@ -206,13 +206,17 @@
 
 /* Nav Styles */
 
-nav ul {
+nav {
+  display: flex;
+
+  ul {
   display: flex;
   flex-wrap: wrap;
   width: 100vw;
   padding: 10px;
   justify-content: end;
   align-items: center;
+  }
 
   li {
     margin: 0 10px;
