@@ -264,6 +264,7 @@ nav ul {
   color: var(--text);
   transition: all 500ms linear;
   animation: fadeIn 400ms;
+  z-index: 10000;
 }
 
 .modal-content {
