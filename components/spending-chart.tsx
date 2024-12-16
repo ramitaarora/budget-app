@@ -151,22 +151,25 @@ export default function SpendingChart({ month, year }: SpendingChartProps) {
                 <div className="card-header">
                     <h2>Spending Chart</h2>
                 </div>
-                {loading ? <p>Loading...</p> : (
-                    <div id="chart" className="overflow-hidden">
-                        <Chart
-                            chartType="PieChart"
-                            width="500px"
-                            height="300px"
-                            data={[
-                                [data.columns[0].label, data.columns[1].label],
-                                ...data.data,
-                            ]}
-                            options={{
-                                title: data.title,
-                            }}
-                        />
-                    </div>
-                )}
+                {loading ?
+                    <div className="loading-circle">
+                        <img src="./loading-circle.gif" alt="loading" />
+                    </div> : (
+                        <div id="chart" className="overflow-hidden">
+                            <Chart
+                                chartType="PieChart"
+                                width="500px"
+                                height="300px"
+                                data={[
+                                    [data.columns[0].label, data.columns[1].label],
+                                    ...data.data,
+                                ]}
+                                options={{
+                                    title: data.title,
+                                }}
+                            />
+                        </div>
+                    )}
             </section>
 
         </div>

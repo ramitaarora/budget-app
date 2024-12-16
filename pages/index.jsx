@@ -17,7 +17,6 @@ export default function Home() {
             <HomepageHeader />
 
             <main>
-
                 <div className="w-full flex justify-evenly items-center m-3 p-6 m-auto relative top-16 max-sm:flex-col">
                     <div className="w-1/2 text-2xl text-right p-6 max-sm:w-full max-sm:m-auto max-sm:text-center">
                         <p className="text-xl">Try out</p>

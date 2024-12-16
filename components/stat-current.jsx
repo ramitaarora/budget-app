@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function StatCurrent({ budgetData, setBudgetData, expensesData }) {
+export default function StatCurrent({ budgetData, setBudgetData, expensesData, loading }) {
     const [totalExpenses, setTotalExpenses] = useState(0);
     const [stat, setStat] = useState(0)
 
@@ -21,19 +21,25 @@ export default function StatCurrent({ budgetData, setBudgetData, expensesData })
 
     return (
         <div className="stat">
-            <div className="h-full flex flex-col justify-between">
-                <h3 className="max-sm:text-sm">Your are</h3>
+            {loading ? (
+                <div className="loading-circle">
+                    <img src="./loading-circle.gif" alt="loading" />
+                </div>
+            ) : (
+                <div className="h-full flex flex-col justify-between">
+                    <h3 className="max-sm:text-sm">Your are</h3>
 
-                {budgetData.length ? (
-                    <p className="text-6xl self-center max-sm:text-4xl" style={{ color: totalExpenses > budgetData[0]?.amount ? 'red' : 'black' }}>
-                        ${stat}
-                    </p>
-                ) : (
-                    <p>${stat}</p>
-                )}
+                    {budgetData.length ? (
+                        <p className="text-6xl self-center max-sm:text-4xl" style={{ color: totalExpenses > budgetData[0]?.amount ? 'red' : 'black' }}>
+                            ${stat}
+                        </p>
+                    ) : (
+                        <p>${stat}</p>
+                    )}
 
-                <p className="self-end max-sm:text-sm">{totalExpenses > budgetData[0]?.amount ? "over" : "under"} budget</p>
-            </div>
+                    <p className="self-end max-sm:text-sm">{totalExpenses > budgetData[0]?.amount ? "over" : "under"} budget</p>
+                </div>
+            )}
         </div>
     )
 }

@@ -13,6 +13,7 @@ export default function StatContainer({ month, year }: BudgetProps) {
     const [expensesData, setExpensesData] = useState<any[]>([]);
     const [budgetData, setBudgetData] = useState<any[]>([]);
     const [incomeData, setIncomeData] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const fetchExpenses = async () => {
         try {
@@ -72,17 +73,19 @@ export default function StatContainer({ month, year }: BudgetProps) {
     };
 
     useEffect(() => {
+        setLoading(true);
         fetchExpenses();
         fetchBudget();
         fetchIncome();
+        setLoading(false);
     }, [month, year]);
 
     return (
         <div className="lg:w-1/2 md:w-screen lg:h-1/2 md:h-auto flex flex-wrap justify-center items-center fade-in">
-            <StatCurrent budgetData={budgetData} setBudgetData={setBudgetData} expensesData={expensesData} />
-            <StatBudget budgetData={budgetData} setBudgetData={setBudgetData} expensesData={expensesData} fetchBudget={fetchBudget} />
-            <StatIncome incomeData={incomeData} setIncomeData={setIncomeData} fetchIncome={fetchIncome} />
-            <StatSavings budgetData={budgetData} setBudgetData={setBudgetData} fetchBudget={fetchBudget} />
+            <StatCurrent budgetData={budgetData} setBudgetData={setBudgetData} expensesData={expensesData} loading={loading} />
+            <StatBudget budgetData={budgetData} setBudgetData={setBudgetData} expensesData={expensesData} fetchBudget={fetchBudget} loading={loading} />
+            <StatIncome incomeData={incomeData} setIncomeData={setIncomeData} fetchIncome={fetchIncome} loading={loading} />
+            <StatSavings budgetData={budgetData} setBudgetData={setBudgetData} fetchBudget={fetchBudget} loading={loading} />
         </div>
     )
 }
