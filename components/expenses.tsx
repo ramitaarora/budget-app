@@ -16,7 +16,7 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
     const [editID, setEditID] = useState<number>();
     const router = useRouter();
 
-    const navigate = async (event:any) => {
+    const navigate = async (event: any) => {
         if (event.target.id === "expenses-page") {
             router.push('/expenses')
         }
@@ -100,8 +100,20 @@ export default function Expenses({ month, year, timezone }: ExpensesProps) {
                             <p className="w-1/6">${expense.amount}</p>
                             <p className="w-3/6">{expense.description}</p>
                             <div className="w-1/6 flex justify-end cursor-pointer items-center h-4">
-                                <img src="./edit.svg" alt="edit" id={expense.id} onClick={(event) => openEditModal(event)} />
-                                <img src="./delete.svg" alt="delete" id={expense.id} onClick={(event) => deleteExpense(event)} />
+                                <img
+                                    src="./edit.svg"
+                                    alt="edit"
+                                    id={expense.id}
+                                    className="w-6 h-6 flex-shrink-0"
+                                    onClick={(event) => openEditModal(event)}
+                                />
+                                <img
+                                    src="./delete.svg"
+                                    alt="delete"
+                                    id={expense.id}
+                                    className="w-6 h-6 flex-shrink-0"
+                                    onClick={(event) => deleteExpense(event)}
+                                />
                             </div>
                         </div>
                     ))
