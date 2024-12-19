@@ -17,7 +17,7 @@ Technologies used in this application include:
 
 # Usage
 
-This application has been deployed at:
+This application has been deployed at: https://the-budget-dashboard.onrender.com
 
 <img src="./public/images/budget-dashboard-preview-1.png" alt="preview-dashboard-1" />
 <img src="./public/images/budget-dashboard-preview-2.png" alt="preview-dashboard-2" />

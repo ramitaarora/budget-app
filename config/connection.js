@@ -5,7 +5,10 @@ let sequelize;
 
 if (process.env.NODE_ENV === 'production') {
   sequelize = new Sequelize(
-    process.env.DEPLOYMENT_URL
+    process.env.DEPLOYMENT_URL, 
+    {
+      dialect: 'mysql'
+    }
   );
 } else {
   sequelize = new Sequelize(
