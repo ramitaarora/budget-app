@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "npm run sync && npm run seed && next start",
+    "start": "next start",
     "lint": "next lint",
     "sync": "node sync.js",
     "seed": "node seeds/seeds.js"
