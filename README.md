@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# The Budget Dashboard
 
-## Getting Started
+Track your spending, budgets and savings goals.
 
-First, run the development server:
+# Description
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project is a full-stack application that allows users to track their spending, organize their expenses, easily work with their budgets and create goals for savings. They will be able to login, switch between months and chat with an AI to get spending advice and more.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Technologies used in this application include:
+- NextJS
+- React
+- MySQL
+- Sequelize
+- Tailwind
+- JWT Token
+- ChatGPT API
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This application has been deployed at:
 
-## Learn More
+<img src="./public/images/budget-dashboard-preview-1.png" alt="preview-dashboard-1" />
+<img src="./public/images/budget-dashboard-preview-2.png" alt="preview-dashboard-2" />
 
-To learn more about Next.js, take a look at the following resources:
+# Credits
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project was created by Justin Chun and Ramita Indurkhya.

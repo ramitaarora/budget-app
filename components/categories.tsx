@@ -220,7 +220,10 @@ export default function Categories({ month, year }: CategoriesProps) {
                         )) : <p>Add categories and expenses to get started!</p>}
                     </div>
                 ) : null
-            ) : <p>Loading...</p>}
+            ) : <div className="loading-circle">
+                    <img src="./loading-circle.gif" alt="loading" />
+                </div>
+            }
         </section>
     );
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import EditBudget from './edit-budget';
 import AddBudget from './add-budget';
 
-export default function StatBudget({ budgetData, setBudgetData, expensesData, fetchBudget }) {
+export default function StatBudget({ budgetData, setBudgetData, expensesData, fetchBudget, loading }) {
     const [addModalVisibility, setAddModalVisibility] = useState('hidden');
     const [editModalVisibility, setEditModalVisibility] = useState('hidden');
     const [totalExpenses, setTotalExpenses] = useState(0);
@@ -23,6 +23,11 @@ export default function StatBudget({ budgetData, setBudgetData, expensesData, fe
         <div className="stat">
             <AddBudget addModalVisibility={addModalVisibility} setAddModalVisibility={setAddModalVisibility} fetchBudget={fetchBudget} />
             <EditBudget editModalVisibility={editModalVisibility} setEditModalVisibility={setEditModalVisibility} budgetData={budgetData} fetchBudget={fetchBudget} />
+            { loading ? (
+                <div className="loading-circle">
+                    <img src="./loading-circle.gif" alt="loading" />
+                </div>
+            ): (
             <div className="h-full flex flex-col justify-between">
                 <div className="w-full flex justify-between items-center">
                     <h3 className="max-sm:text-sm">Your budget</h3>
@@ -44,7 +49,8 @@ export default function StatBudget({ budgetData, setBudgetData, expensesData, fe
                 )}
 
                 <p className="self-end max-sm:text-sm">this month</p>
-            </div>
+            </div>            
+        )}
         </div>
     )
 }
