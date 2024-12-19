@@ -5,15 +5,7 @@ let sequelize;
 
 if (process.env.NODE_ENV === 'production') {
   sequelize = new Sequelize(
-    process.env.DEPLOYMENT_URL,
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASS,
-    {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      dialect: 'mysql',
-    }
+    process.env.DEPLOYMENT_URL
   );
 } else {
   sequelize = new Sequelize(
