@@ -10,6 +10,10 @@ if (process.env.NODE_ENV === 'production') {
       dialect: 'mysql'
     }
   );
+   // Test the connection in production
+   sequelize.authenticate()
+   .then(() => console.log('Connection has been established successfully.'))
+   .catch((err) => console.error('Unable to connect to the database:', err));
 } else {
   sequelize = new Sequelize(
     process.env.DB_NAME,
