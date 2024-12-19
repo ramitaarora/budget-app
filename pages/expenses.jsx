@@ -128,21 +128,22 @@ export default function Expenses() {
         setAddModalVisibility('visible');
     };
 
-    const deleteExpense = async (expenseID) => {
+    const deleteExpense = async (selectedExpenses) => {
         try {
-            const res = await fetch(`/api/expenses?id=${expenseID}`, {
+            const res = await fetch('/api/expenses', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                }
-            })
+                },
+                body: JSON.stringify({ ids: selectedExpenses }),
+            });
             if (!res.ok) {
-                throw new Error('Failed to fetch expense data');
-            };
-            fetchExpense();
+                throw new Error('Failed to delete expense(s).');
+            }
+            await fetchExpense();
         } catch (err) {
             console.error('Error making DELETE request:', err);
-        };
+        }
     };
 
     const handleSelectExpense = (id) => {
@@ -213,7 +214,20 @@ export default function Expenses() {
                     {
                         !bulkEdit &&
                         <button onClick={chooseBulkEdit}>
-                            <img src="./add-multiple.png" alt="Bulk Edit Button" style={{ width: "25px", height: "auto", margin: "5px" }} />
+                            <img src="./edit-button.png" alt="Bulk Edit Button" style={{ width: "25px", height: "auto", margin: "5px" }} />
+                        </button>
+                    }
+                    {
+                        bulkEdit &&
+                        <button
+                            className="w-[20] h-[20]"
+                            onClick={() => deleteExpense(selectedExpenses)}
+                        >
+                            <img
+                                src="./trash-button.png"
+                                alt="Delete Button"
+                                style={{ width: "18px", height: "18px" }}
+                            />
                         </button>
                     }
                     {
@@ -236,7 +250,7 @@ export default function Expenses() {
                                         <th>Amount</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="expenses-table">
                                     {expenseData.map((expense, index) => (
                                         <tr key={index}>
                                             {
@@ -261,7 +275,7 @@ export default function Expenses() {
                                             <td onClick={(event) => openEditModal(event)} id={expense.id}>
                                                 ${expense.amount}
                                             </td>
-                                            <td>
+                                            {/* <td>
                                                 <button onClick={(event) => openEditModal(event)} id={expense.id}>
                                                     <img
                                                         src="./edit-button.png"
@@ -269,16 +283,19 @@ export default function Expenses() {
                                                         style={{ width: "18px", height: "auto" }}
                                                     />
                                                 </button>
-                                            </td>
-                                            <td>
-                                                <button onClick={() => deleteExpense(expense.id)}>
+                                            </td> */}
+                                            {/* <td>
+                                                <button
+                                                    className="w-[20] h-[20]"
+                                                    onClick={() => deleteExpense(expense.id)}
+                                                >
                                                     <img
                                                         src="./trash-button.png"
                                                         alt="Delete Button"
-                                                        style={{ width: "18px", height: "auto" }}
+                                                        style={{ width: "18px", height: "18px" }}
                                                     />
                                                 </button>
-                                            </td>
+                                            </td> */}
                                         </tr>
                                     ))}
                                 </tbody>

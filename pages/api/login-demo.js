@@ -97,7 +97,7 @@ export default async function loginDemo(req, res) {
             }
 
             const token = jwt.sign(
-                { user_id: user.id, first_name: user.first_name, last_name: user.last_name, email: user.email, location: user.location, account_id: user.account_id },
+                { user_id: user.id, first_name: user.first_name, last_name: user.last_name, email: user.email, location: user.location, account_id: user.account_id, profile_picture: user.profile_picture },
                 process.env.JWT_SECRET,
                 { expiresIn: '1h' }
             );
@@ -115,5 +115,6 @@ export default async function loginDemo(req, res) {
 
     } catch (err) {
         res.status(500).json(err);
+        console.log(err);
     }
 }

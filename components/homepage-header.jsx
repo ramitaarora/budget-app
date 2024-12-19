@@ -32,10 +32,6 @@ export default function HomepageHeader() {
             if (response.ok) {
                 router.push('/dashboard');
             } else if (!response.ok) {
-                setFormState({
-                    ...formState,
-                    password: ''
-                });
                 alert('Failed to login to demo. Please try again later.');
             };
         } catch(err) {
