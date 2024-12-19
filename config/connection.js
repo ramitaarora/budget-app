@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
     process.env.DB_PASSWORD,
     {
       host: process.env.DB_HOST,
-      port: process.env.DATABASE_PORT,
+      port: process.env.DB_PORT,
       dialect: 'mysql',
     }
   );
